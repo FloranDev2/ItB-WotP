@@ -2,7 +2,7 @@ local this = {}
 local path = mod_loader.mods[modApi.currentMod].scriptPath
 local resources = mod_loader.mods[modApi.currentMod].resourcePath
 
-local fmw = require(path.."fmw/api") 
+local fmw = require(path .."fmw/api") 
 
 --Icons
 modApi:appendAsset("img/shells/icon_standard_shell.png", resources .. "img/shells/icon_standard_shell.png")
@@ -43,7 +43,7 @@ function truelch_ShellStd:targeting(point)
 
 			points[#points+1] = curr
 
-			if Board:IsBlocked(curr,PATH_PROJECTILE) then
+			if Board:IsBlocked(curr, PATH_PROJECTILE) then
 				break
 			end
 		end

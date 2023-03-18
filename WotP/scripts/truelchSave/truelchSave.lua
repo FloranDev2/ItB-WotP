@@ -1,5 +1,5 @@
 local mod = mod_loader.mods[modApi.currentMod]
-local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
+--local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
 --LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
 local utils = require(path .."libs/utils")

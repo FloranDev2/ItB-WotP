@@ -1,11 +1,9 @@
 local mod = {
 	id = "truelch_WotP",
 	name = "Weapons of the Past",
-	--fmw
-    requirements = { "kf_ModUtils" },
-	icon = "mod_icon.png",
-	version = "2.0",
-	modApiVersion = "2.8.3",
+	icon = "img/mod_icon.png",
+	version = "2.0.0",
+	modApiVersion = "2.9.1",
 	gameVersion = "1.2.88",
     dependencies = {
         modApiExt = "1.17",
@@ -13,24 +11,66 @@ local mod = {
     }
 }
 
-function mod:init()
+function mod:init()	
+	require(self.scriptPath .. "images")
 	--require(self.scriptPath .. "achievements")
-	require(self.scriptPath .. "weapons")
+	require(self.scriptPath .. "palettes")
+
+	-- Weapons
+	--require(self.scriptPath .. "weapons")
+	require(self.scriptPath .. "weapons/fab500")
+	--require(self.scriptPath .. "weapons/fab5000")
+	--require(self.scriptPath .. "weapons/FMm6Gun")
+	require(self.scriptPath .. "weapons/m10t")
+
 	require(self.scriptPath .. "pawns")
+
+	-- Libs
+	--require(self.scriptPath .. "libs/detectDeployment") --doesn't exist anymore?
+	--require(self.scriptPath .. "libs/blockDeathByDeployment") --will uncomment later
+
+
+	-- FMW ----->
+	--modapi already defined
+	--self.FMW_hotkeyConfigTitle = "Mode Selection Hotkey" -- title of hotkey config in mod config
+	--self.FMW_hotkeyConfigDesc = "Hotkey used to open and close firing mode selection." -- description of hotkey config in mod config
+
+	--init FMW
+	--require(self.scriptPath .. "fmw/FMW"):init()
+	-- <----- FMW
+
+	-- New shop
+	--[[
+	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
+	modApi:addWeaponDrop("truelch_FAB500")
+	modApi:addWeaponDrop("truelch_FAB5000")
+	modApi:addWeaponDrop("truelch_FAB5000V3")
+	modApi:addWeaponDrop("truelch_M6Gun")
+	]]
+	
+
+	-- Custom main menu config
+	--require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
 end
 
 function mod:load(options, version)
+	-- Custom main menu config
+	--require(self.scriptPath .. "truelchSave/truelchSave"):load(self, options)
+
+	-- FMW
+	--require(self.scriptPath .. "fmw/FMW"):load()
+
 	modApi:addSquad(
 		{
-			id = "tatu_Advanced_Squad",
-			"Advanced Squad",				-- title
-			"tatu_PlasmodiaMech",			-- mech #1
-			"tatu_GastropodMech",			-- mech #2
-			"tatu_StarfishMech",			-- mech #3
+			id = "truelch_WotP",
+			"Weapons of the Past",
+			"truelch_HowitzerMech", -- KV2
+			"truelch_HeavyBomberMech", -- Pe8
+			"truelch_SupportTank", -- M22
 		},
-		"Advanced Squad",
-		"Our scientists were so preoccupied with whether they could, they didn't stop to think if they should.",
-		self.resourcePath .."img/icon.png"
+		"Weapons of the Past",
+		"A squad of almost relic-worthy mechs, consisting of Old-Earth World War 2 technology. Even though their old age, they still pack quite a punch.",
+		self.resourcePath .. "img/icon.png"
 	)
 end
 

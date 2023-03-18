@@ -2,14 +2,20 @@
 
 local mod = mod_loader.mods[modApi.currentMod]
 local scriptPath = mod.scriptPath
-local utils = require(scriptPath .."libs/utils")
+
+--Useless?
+--local utils = require(scriptPath .. "libs/utils")
 
 --Test
-local extDir = scriptPath .. "modApiExt/"
-local truelch_ww2_ModApiExt = require(extDir .. "modApiExt")
+--local extDir = scriptPath .. "modApiExt/"
+--local truelch_ww2_ModApiExt = require(extDir .. "modApiExt")
 
 --LApi
-local testLapi = require(scriptPath .. "LApi/LApi")
+--local testLapi = require(scriptPath .. "LApi/LApi")
+
+----------------------------------------------- IMAGES
+
+
 
 ----------------------------------------------- FUNCTIONS
 
@@ -28,6 +34,7 @@ local function isMission()
         and mission ~= Mission_Test
 end
 
+--Unnecessary?
 local function IsTipImage()
     return Board:GetSize() == Point(6,6)
 end
@@ -63,10 +70,10 @@ local forceUse = false --maybe I can access it if I put it here...
 
 local fab5000Names =
 {
-    "Brute_FAB5000",
-    "Brute_FAB5000_A",
-    "Brute_FAB5000_B", --doesn't exist yet, but we never now...
-    "Brute_FAB5000_AB", --doesn't exist yet, but we never now...
+    "truelch_FAB5000",
+    "truelch_FAB5000_A",
+    "truelch_FAB5000_B", --doesn't exist yet, but we never now...
+    "truelch_FAB5000_AB", --doesn't exist yet, but we never now...
 }
 
 local function isFAB5000(weapon)
@@ -181,12 +188,18 @@ modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
 
 
 
+--Custom
+function ForceUseFab5000(pawn, target, weaponIndex)
+    forceUse = true
+    pawn:FireWeapon(target, weaponIndex)
+    forceUse = false
+end
+
+
 --FAB-5000
-Brute_FAB5000 = Skill:new{
-	--New! (for the shop)
+truelch_FAB5000 = Skill:new{
 	Name = "FAB-5000",
 	Description = "Drops a bomb that deals 3 damage to everything in a cross-shaped area.\nSingle use.",
-	--
 	Class = "Brute",
 	Icon = "weapons/brute_fab5000.png",
 	Rarity = 3,
@@ -212,14 +225,14 @@ Brute_FAB5000 = Skill:new{
 	}
 }
 
-function ForceUseFab5000(pawn, target, weaponIndex)
-    forceUse = true
-    pawn:FireWeapon(target, weaponIndex)
-    forceUse = false
-end
+Weapon_Texts.truelch_FAB5000_Upgrade1 = "+2 Damage"
 
+truelch_FAB5000_A = Brute_FAB5000:new{
+	UpgradeDescription = "Deals 2 additional damage."
+	Damage = 5
+}
 
-function Brute_FAB5000:GetTargetArea(point)
+function truelch_FAB5000:GetTargetArea(point)
 	local ret = PointList()
 
 	--Allow to target self for the forced use
@@ -240,7 +253,7 @@ function Brute_FAB5000:GetTargetArea(point)
 	return ret
 end
 
-function Brute_FAB5000:GetSkillEffect(p1, p2)
+function truelch_FAB5000:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 
 	if forceUse then
@@ -294,7 +307,3 @@ function Brute_FAB5000:GetSkillEffect(p1, p2)
 	
 	return ret
 end
-
-Brute_FAB5000_A = Brute_FAB5000:new{
-	Damage = 5
-}

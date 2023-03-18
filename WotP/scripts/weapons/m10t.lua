@@ -1,15 +1,16 @@
+
+
 -- M10T Howitzer
-Prime_M10THowitzerArtillery = LineArtillery:new{
-	--New! (for the shop)
+truelch_M10THowitzerArtillery = LineArtillery:new{
 	Name = "M-10T Howitzer",
 	Description = "A powerful cannon that deals an amount of damage equals to half of target's remaining HP (rounded up) and ignore its armor.\nMax range: 3.",
-	--
 	Class = "Prime",
-	Damage = 2,
-	PowerCost = 1, --was 2 before AE
-	LaunchSound = "/weapons/modified_cannons",
-	ImpactSound = "/impact/generic/explosion",
 	Icon = "weapons/prime_m10thowitzer.png",
+	Rarity = 3,
+	Damage = 2,
+	PowerCost = 1,
+	LaunchSound = "/weapons/modified_cannons",
+	ImpactSound = "/impact/generic/explosion",	
 	UpShot = "effects/shot_artimech.png",
 	Explosion = "",
 	BounceAmount = 2,
@@ -18,8 +19,7 @@ Prime_M10THowitzerArtillery = LineArtillery:new{
 	--Custom
 	BonusDamage = 0,
 	MaxRange = 3,
-	Push = 1,
-	Rarity = 3,
+	Push = 1,	
 	--Custom height
 	ArtilleryHeight = 10,
 	--TipImage
@@ -32,7 +32,13 @@ Prime_M10THowitzerArtillery = LineArtillery:new{
 	}
 }
 
-function Prime_M10THowitzerArtillery:GetTargetArea(point)
+Weapon_Texts.truelch_M10THowitzerArtillery_Upgrade1 = "+1 Damage"
+
+truelch_M10THowitzerArtillery_A = Prime_M10THowitzerArtillery:new{
+	BonusDamage = 1,
+}
+
+function truelch_M10THowitzerArtillery:GetTargetArea(point)
 	local ret = PointList()
 	
 	for dir = DIR_START, DIR_END do
@@ -52,7 +58,7 @@ function Prime_M10THowitzerArtillery:GetTargetArea(point)
 	return ret
 end
 
-function Prime_M10THowitzerArtillery:GetSkillEffect(p1,p2)
+function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	local ret = SkillEffect()
 	local direction = GetDirection(p2 - p1)
 	
@@ -72,7 +78,7 @@ function Prime_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 		end
 	end
 
-	--Bonus damage (2nd upgrade)
+	--Bonus damage (upgrade)
 	totalDmg = totalDmg + self.BonusDamage
 
 	local damage = SpaceDamage(p2, totalDmg)
@@ -89,9 +95,3 @@ function Prime_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	
 	return ret
 end
-
-
-
-Prime_M10THowitzerArtillery_A = Prime_M10THowitzerArtillery:new{
-	BonusDamage = 1,
-}

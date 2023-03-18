@@ -1,9 +1,7 @@
 --FAB-500
-Brute_FAB500 = Skill:new{
-	--New! (for the shop)
+truelch_FAB500 = Skill:new{
 	Name = "FAB-500",
 	Description = "Fly over a target, dropping a powerful bomb that damages and pulls it.",
-	--
 	Class = "Brute",
 	Icon = "weapons/brute_fab500.png",
 	Rarity = 2,
@@ -14,10 +12,10 @@ Brute_FAB500 = Skill:new{
 	Damage = 2,
 	Damage2 = 2,
 	AnimDelay = 0.2,
-	PowerCost = 0, --was 1 before AE
+	PowerCost = 0,
 	DoubleAttack = 0, --does it attack again after stopping moving
 	Upgrades = 2,
-	UpgradeCost = { 2, 2 }, --UpgradeCost = { 1, 2 },
+	UpgradeCost = { 2, 2 },
 	LaunchSound = "/weapons/bomb_strafe",
 	BombSound = "/impact/generic/explosion",
 	TipImage = {
@@ -27,7 +25,45 @@ Brute_FAB500 = Skill:new{
 	}
 }
 
-function Brute_FAB500:GetTargetArea(point)
+Weapon_Texts.truelch_FAB500_Upgrade1 = "+1 Range"
+Weapon_Texts.truelch_FAB500_Upgrade2 = "+1 Range"
+
+truelch_FAB500_A = truelch_FAB500:new{
+	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)"
+	Range = 3, 
+	TipImage = {
+		Unit   = Point(2,3),
+		Enemy  = Point(2,2),
+		Enemy2 = Point(2,1),
+		Target = Point(2,0)
+	}
+}
+
+truelch_FAB500_B = truelch_FAB500:new{
+	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)"
+	Range = 3, 
+	TipImage = {
+		Unit   = Point(2,3),
+		Enemy  = Point(2,2),
+		Enemy2 = Point(2,1),
+		Target = Point(2,0)
+	}
+}
+
+truelch_FAB500_AB = truelch_FAB500:new{
+	Range = 4, 
+	Fire = 1,
+	AttackAnimation = "ExploRaining2",
+	TipImage = {
+		Unit   = Point(2,4),
+		Enemy  = Point(2,3),
+		Enemy2 = Point(2,2),
+		Enemy3 = Point(2,1),
+		Target = Point(2,0)
+	}
+}
+
+function truelch_FAB500:GetTargetArea(point)
 	local ret = PointList()
 	for i = DIR_START, DIR_END do
 		for k = self.MinMove, self.Range do
@@ -40,7 +76,7 @@ function Brute_FAB500:GetTargetArea(point)
 	return ret
 end
 
-function Brute_FAB500:GetSkillEffect(p1, p2)
+function truelch_FAB500:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	local dir = GetDirection(p2 - p1)
 	
@@ -87,36 +123,3 @@ function Brute_FAB500:GetSkillEffect(p1, p2)
 	
 	return ret
 end
-
-Brute_FAB500_A = Brute_FAB500:new{
-	Range = 3, 
-	TipImage = {
-		Unit   = Point(2,3),
-		Enemy  = Point(2,2),
-		Enemy2 = Point(2,1),
-		Target = Point(2,0)
-	}
-}
-
-Brute_FAB500_B = Brute_FAB500:new{
-	Range = 3, 
-	TipImage = {
-		Unit   = Point(2,3),
-		Enemy  = Point(2,2),
-		Enemy2 = Point(2,1),
-		Target = Point(2,0)
-	}
-}
-
-Brute_FAB500_AB = Brute_FAB500:new{
-	Range = 4, 
-	Fire = 1,
-	AttackAnimation = "ExploRaining2",
-	TipImage = {
-		Unit   = Point(2,4),
-		Enemy  = Point(2,3),
-		Enemy2 = Point(2,2),
-		Enemy3 = Point(2,1),
-		Target = Point(2,0)
-	}
-}

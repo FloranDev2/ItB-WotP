@@ -55,7 +55,7 @@ local function init(self)
 		PlateLight =		{ 173,  72,  62 }, --main highlight
 		PlateMid =			{ 122,  25,  24 }, --main light
 		PlateDark =			{  63,  23,  18 }, --main mid
-		PlateOutline =		{  31,  11,  9 }, --main dark
+		PlateOutline =		{  31,  11,   9 }, --main dark
 		BodyHighlight =		{  72,  76,  73 }, --metal light
 		BodyColor =			{  47,  51,  48 }, --metal mid
 		PlateShadow =		{  24,  25,  24 }, --metal dark 
