@@ -51,7 +51,7 @@ The Pe-8 heavy bomber can wreck havoc among the enemy with explosions & fire (no
 It carries big payload of 500 kilogram bombs, which deal considerable amount of damage, and which can be upgraded to be filled with additional napalm, setting struck tiles ablaze. It also carries one FAB-5000 5 ton bomb, which can vaporize anything in its splash zone, however must be used with care, otherwise it might cause unwanted collateral damage. Sadly, the Archive engineers haven’t found a way to reduce its destructive capabilities on allied machinery… yet.
 
 
-### Support Tank Mech (M22 Locust)
+### Support Mech (M22 Locust)
 
 M22 is a great utility mech, it can zip around the battlefield while supporting its team by using its very outdated, yet useful cannon able of shooting canister rounds, which can push the enemy, and smoke rounds, which can smoke up enemies to mess up their plans.
 Both of the shells can be upgraded to deal damage, while retaining their properties.

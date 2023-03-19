@@ -16,44 +16,40 @@ function mod:init()
 	require(self.scriptPath .. "images")
 	require(self.scriptPath .. "palettes")
 
+	-- Achievements
+	--require(self.scriptPath .. "achievements")
+	--require(self.scriptPath .. "globalAchievements")
+
+	-- Libs
+	--weaponArmed	
+	require(self.scriptPath .. "libs/artilleryArc")
+	require(self.scriptPath .. "libs/blockDeathByDeployment")
+
+	-- FMW ----->
+	--modapi already defined
+	self.FMW_hotkeyConfigTitle = "Mode Selection Hotkey" -- title of hotkey config in mod config
+	self.FMW_hotkeyConfigDesc = "Hotkey used to open and close firing mode selection." -- description of hotkey config in mod config
+
+	--init FMW
+	require(self.scriptPath .. "fmw/FMW"):init()
+	-- <----- FMW
+
 	-- Weapons
-	--require(self.scriptPath .. "weapons")
 	require(self.scriptPath .. "weapons/fab500")
-	--require(self.scriptPath .. "weapons/fab5000")
-	--require(self.scriptPath .. "weapons/FMm6Gun")
+	require(self.scriptPath .. "weapons/fab5000")
+	require(self.scriptPath .. "weapons/FMm6Gun")
 	require(self.scriptPath .. "weapons/m10t")
 
 	-- Pawns
-	--require(self.scriptPath .. "pawns")
 	require(self.scriptPath .. "mechs/kv2")
 	require(self.scriptPath .. "mechs/pe8")
 	require(self.scriptPath .. "mechs/m22")
 
-	-- Achievements
-	--require(self.scriptPath .. "achievements")
-
-	-- Libs
-	--require(self.scriptPath .. "libs/detectDeployment") --doesn't exist anymore?
-	--require(self.scriptPath .. "libs/blockDeathByDeployment") --will uncomment later
-
-	-- FMW ----->
-	--modapi already defined
-	--self.FMW_hotkeyConfigTitle = "Mode Selection Hotkey" -- title of hotkey config in mod config
-	--self.FMW_hotkeyConfigDesc = "Hotkey used to open and close firing mode selection." -- description of hotkey config in mod config
-
-	--init FMW
-	--require(self.scriptPath .. "fmw/FMW"):init()
-	-- <----- FMW
-
 	-- Shop
-	--[[
 	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
-	modApi:addWeaponDrop("truelch_FAB5000V3")
 	modApi:addWeaponDrop("truelch_M6Gun")
-	]]
-	
 
 	-- Custom main menu config
 	--require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
@@ -64,7 +60,7 @@ function mod:load(options, version)
 	--require(self.scriptPath .. "truelchSave/truelchSave"):load(self, options)
 
 	-- FMW
-	--require(self.scriptPath .. "fmw/FMW"):load()
+	require(self.scriptPath .. "fmw/FMW"):load()
 
 	modApi:addSquad(
 		{

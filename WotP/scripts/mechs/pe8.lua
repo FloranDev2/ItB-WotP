@@ -22,24 +22,22 @@ for _, file in ipairs(files) do
 end
 
 local a = ANIMS
-a.pe8 =         a.MechUnit:new{Image = "units/player/pe8.png",          PosX = -15, PosY = -9 }
-a.pe8a =        a.MechUnit:new{Image = "units/player/pe8_a.png",        PosX = -15, PosY = -9, NumFrames = 4 }
-a.pe8w =        a.MechUnit:new{Image = "units/player/pe8_w.png",        PosX = -15, PosY =  7 }
-a.pe8_broken =  a.MechUnit:new{Image = "units/player/pe8_broken.png",   PosX = -15, PosY = -9 }
-a.pe8w_broken = a.MechUnit:new{Image = "units/player/pe8_w_broken.png", PosX = -15, PosY =  7 }
+a.pe8 =         a.MechUnit:new{Image = "units/player/pe8.png",          PosX = -19, PosY = -7 }
+a.pe8a =        a.MechUnit:new{Image = "units/player/pe8_a.png",        PosX = -19, PosY = -7, NumFrames = 4 }
+a.pe8w =        a.MechUnit:new{Image = "units/player/pe8_w.png",        PosX = -19, PosY = -7 }
+a.pe8_broken =  a.MechUnit:new{Image = "units/player/pe8_broken.png",   PosX = -19, PosY =  3 }
+a.pe8w_broken = a.MechUnit:new{Image = "units/player/pe8_w_broken.png", PosX = -19, PosY = -2 }
 a.pe8_ns =      a.MechIcon:new{Image = "units/player/pe8_ns.png" }
 
 
-truelch_HeavyBomberMech = {
-	--Name = "Pe-8",
-	Name = "Heavy Bomber Mech",
+truelch_HeavyBomberMech = {	
+	Name = "Heavy Bomber Mech", --Name = "Pe-8",
 	Class = "Brute",
 	Health = 3,
 	MoveSpeed = 3,
-	Image = "PE8",
+	Image = "pe8",
 	ImageOffset = sovietGreen,
-	--SkillList = { "Brute_FAB500", "Brute_FAB5000" },
-	SkillList = { "Brute_FAB500" },
+	SkillList = { "truelch_FAB500", "truelch_FAB5000" },
 	SoundLocation = "mech/distance/artillery", --TODO
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

@@ -30,16 +30,14 @@ a.m22w_broken = a.MechUnit:new{Image = "units/player/m22_w_broken.png", PosX = -
 a.m22_ns =      a.MechIcon:new{Image = "units/player/m22_ns.png" }
 
 
-truelch_SupportMech = Pawn:new{
-	--Name = "M22 Locust",
-	Name = "Support Mech",
+truelch_SupportMech = Pawn:new{	
+	Name = "Support Mech", --Name = "M22 Locust",
 	Class = "Science",
 	Health = 2,
 	MoveSpeed = 4,
-	Image = "M22",
+	Image = "m22",
 	ImageOffset = sovietGreen,
-	--SkillList = { "truelch_M6Gun" },
-	SkillList = { },
+	SkillList = { "truelch_M6Gun" },
 	SoundLocation = "mech/distance/artillery", --TODO
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

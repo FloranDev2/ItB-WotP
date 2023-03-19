@@ -2,7 +2,7 @@ local mod = mod_loader.mods[modApi.currentMod]
 --local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
 --LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
-local utils = require(path .."libs/utils")
+--local utils = require(path .."libs/utils")
 --LOG("TRUELCH - utils: " .. tostring("utils"))
 
 local this = {}
@@ -49,7 +49,7 @@ local wotpAchvs =
 function this:checkAchievements()
 	--LOG("-------------------------------------------------------------------------- truelchSave.checkAchievements()")
 
-	local mod_id = "truelch_ww2"
+	local mod_id = "truelch_WotP"
 
 	local progress
 

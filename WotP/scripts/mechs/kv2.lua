@@ -30,15 +30,14 @@ a.kv2w_broken = a.MechUnit:new{Image = "units/player/kv2_w_broken.png", PosX = -
 a.kv2_ns =      a.MechIcon:new{Image = "units/player/kv2_ns.png" }
 
 
-truelch_HowitzerMech = Pawn:new{
-	--Name = "KV-2 'AT-ST'",
-	Name = "Howitzer Mech",
+truelch_HowitzerMech = Pawn:new{	
+	Name = "Howitzer Mech", --Name = "KV-2 'AT-ST'",
 	Class = "Prime",
 	Health = 4,
 	MoveSpeed = 2,
-	Image = "KV2",
+	Image = "kv2",
 	ImageOffset = sovietGreen,
-	SkillList = { "Prime_M10THowitzerArtillery" },
+	SkillList = { "truelch_M10THowitzerArtillery" },
 	SoundLocation = "mech/distance/artillery",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

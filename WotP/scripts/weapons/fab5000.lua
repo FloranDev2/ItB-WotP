@@ -42,25 +42,25 @@ end
 local function isGameData()
     return true
         and GAME ~= nil
-        and GAME.truelch_ww2 ~= nil
+        and GAME.truelch_WotP ~= nil
 end
 
 local function gameData()
-    if GAME.truelch_ww2 == nil then
-        GAME.truelch_ww2 = {}
+    if GAME.truelch_WotP == nil then
+        GAME.truelch_WotP = {}
     end
 
-    return GAME.truelch_ww2
+    return GAME.truelch_WotP
 end
 
 local function missionData()
     local mission = GetCurrentMission()
 
-    if mission.truelch_ww2 == nil then
-        mission.truelch_ww2 = {}
+    if mission.truelch_WotP == nil then
+        mission.truelch_WotP = {}
     end
 
-    return mission.truelch_ww2
+    return mission.truelch_WotP
 end
 
 
@@ -181,7 +181,8 @@ local function EVENT_onModsLoaded()
     modApi:addMissionStartHook(HOOK_onMissionStart)
     modApi:addMissionNextPhaseCreatedHook(HOOK_onMissionNextPhaseCreated)
     modApi:addNextTurnHook(HOOK_onNextTurnHook)
-    truelch_ww2_ModApiExt:addSkillEndHook(HOOK_onSkillEnd)
+    --truelch_ww2_ModApiExt:addSkillEndHook(HOOK_onSkillEnd)
+    modApiExt:addSkillEndHook(HOOK_onSkillEnd) --I hope that'll work
 end
 
 modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
@@ -227,9 +228,9 @@ truelch_FAB5000 = Skill:new{
 
 Weapon_Texts.truelch_FAB5000_Upgrade1 = "+2 Damage"
 
-truelch_FAB5000_A = Brute_FAB5000:new{
-	UpgradeDescription = "Deals 2 additional damage."
-	Damage = 5
+truelch_FAB5000_A = truelch_FAB5000:new{
+	UpgradeDescription = "Deals 2 additional damage.",
+	Damage = 5,
 }
 
 function truelch_FAB5000:GetTargetArea(point)

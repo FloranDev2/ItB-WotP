@@ -2,7 +2,7 @@ local this = {}
 local path = mod_loader.mods[modApi.currentMod].scriptPath
 local resources = mod_loader.mods[modApi.currentMod].resourcePath
 
-local fmw = require(path .."fmw/api") 
+local fmw = require(path .. "fmw/api") 
 
 --Icons
 modApi:appendAsset("img/shells/icon_standard_shell.png", resources .. "img/shells/icon_standard_shell.png")
@@ -123,17 +123,22 @@ truelch_M6Gun_A = truelch_M6Gun:new{
 }
 
 function truelch_M6Gun:GetTargetArea(point)
+	LOG("truelch_M6Gun:GetTargetArea")
 	local pl = PointList()
+	LOG("A")
 	local currentShell = _G[self:FM_GetMode(point)]
-
-	if self:FM_CurrentModeReady(point) then 
+	LOG("B")
+	if self:FM_CurrentModeReady(point) then
+		LOG("C")
 		local points = currentShell:targeting(point)
-		
+		LOG("D")
 		for _, p in ipairs(points) do
+			LOG("E: " .. p:GetString())
 			pl:push_back(p)
 		end
+		LOG("F")
 	end
-	 
+	LOG("G") 
 	return pl
 end
 

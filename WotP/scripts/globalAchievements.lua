@@ -1,13 +1,11 @@
 local mod = mod_loader.mods[modApi.currentMod]
-local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
+--local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Should not be using it anymore
 --LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
-local utils = require(path .."libs/utils")
+--local utils = require(path .."libs/utils") --Should not be using it anymore?
 --LOG("TRUELCH - utils: " .. tostring("utils"))
 
---require(path .. "inspect/inspect")
-
-local squad = "truelch_ww2"
+local squad = "truelch_WotP"
 local achievements = {
 	tankYou = modApi.achievements:add{
 		id = "tankYou",
@@ -58,6 +56,7 @@ local achievements = {
 	},
 }
 
+--Shouldn't use that anymore
 local function IsTipImage()
 	local isTipImage = (Board:GetSize() == Point(6,6))
 	return Board:GetSize() == Point(6,6)
@@ -95,36 +94,37 @@ end
 local function isGameData()
 	return true
 		and GAME ~= nil
-		and GAME.truelch_ww2 ~= nil
-		and GAME.truelch_ww2.achievementData ~= nil
+		and GAME.truelch_WotP ~= nil
+		and GAME.truelch_WotP.achievementData ~= nil
 end
 
 local function gameData()
-	if GAME.truelch_ww2 == nil then
-		GAME.truelch_ww2 = {}
+	if GAME.truelch_WotP == nil then
+		GAME.truelch_WotP = {}
 	end
 
-	if GAME.truelch_ww2.achievementData == nil then
-		GAME.truelch_ww2.achievementData = {}
+	if GAME.truelch_WotP.achievementData == nil then
+		GAME.truelch_WotP.achievementData = {}
 	end
 
-	return GAME.truelch_ww2.achievementData
+	return GAME.truelch_WotP.achievementData
 end
 
 local function missionData()
 	local mission = GetCurrentMission()
 
-	if mission.truelch_ww2 == nil then
-		mission.truelch_ww2 = {}
+	if mission.truelch_WotP == nil then
+		mission.truelch_WotP = {}
 	end
 
-	if mission.truelch_ww2.achievementData == nil then
-		mission.truelch_ww2.achievementData = {}
+	if mission.truelch_WotP.achievementData == nil then
+		mission.truelch_WotP.achievementData = {}
 	end
 
-	return mission.truelch_ww2.achievementData
+	return mission.truelch_WotP.achievementData
 end
 
+--Shouldn't use that
 local function isEnemyPawn(pawn)
 	if pawn:GetTeam() == TEAM_ENEMY then --should be enough to cover every enemy. I guess
 		return true
@@ -154,6 +154,7 @@ local INCOMPLETE = 0
 
 --Tank You! (tankYou)
 --Complete a game with a squad composed exclusively from tanks
+--[[
 local tankYouEligibleMechs =
 {
 	"M22",               --Weapons of the Past
@@ -163,6 +164,18 @@ local tankYouEligibleMechs =
 	"BulkMech",          --Arachnophiles
 	"lmn_TankMech",      --RF1995
 	"lmn_DevastatorMech" --Archive Armors
+}
+]]
+
+local tankYouEligibleMechs =
+{
+	"truelch_SupportMech", --Weapons of the Past
+	"TankMech",            --Rift Walkers
+	"MirrorMech",          --Frozen Titans
+	"UnstableTank",        --Hazardous Mechs
+	"BulkMech",            --Arachnophiles
+	"lmn_TankMech",        --RF1995
+	"lmn_DevastatorMech"   --Archive Armors
 }
 
 --TODO: in addition to that, check Tank = true
@@ -279,7 +292,8 @@ end)
 --Kill an enemy with 5 HP or more in a single shot with the KV-2
 
 local BIG_SHOTS_TARGET = 5
-local KV2_TYPE = "KV2"
+--local KV2_TYPE = "KV2"
+local KV2_TYPE = "truelch_HowitzerMech"
 
 function refreshBigShotsTable()
 	--LOG("TRUELCH --------------------------------------------- refreshBigShotsTable()")
@@ -405,7 +419,8 @@ end)
 --Kill 5 enemies in one attack with the Pe-8
 
 local GROUND_ZERO_TARGET = 5
-local PE8_TYPE = "PE8"
+--local PE8_TYPE = "PE8"
+local PE8_TYPE = "truelch_HeavyBomberMech"
 
 modApi.events.onMissionStart:subscribe(function()
 	local exit = false

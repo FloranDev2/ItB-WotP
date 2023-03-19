@@ -1,11 +1,11 @@
 local mod = mod_loader.mods[modApi.currentMod]
-local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
+--local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
 --LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
-local utils = require(path .."libs/utils")
+--local utils = require(path .."libs/utils") --useless now?
 --LOG("TRUELCH - utils: " .. tostring("utils"))
 
-local squad = "truelch_ww2"
+local squad = "truelch_WotP"
 local achievements = {
 	wwv = modApi.achievements:add{
 		id = "wwv",
@@ -32,6 +32,7 @@ local achievements = {
 	},
 }
 
+--Remove?
 local function IsTipImage()
 	local isTipImage = (Board:GetSize() == Point(6,6))
 	return Board:GetSize() == Point(6,6)
@@ -69,36 +70,37 @@ end
 local function isGameData()
 	return true
 		and GAME ~= nil
-		and GAME.truelch_ww2 ~= nil
-		and GAME.truelch_ww2.achievementData ~= nil
+		and GAME.truelch_WotP ~= nil
+		and GAME.truelch_WotP.achievementData ~= nil
 end
 
 local function gameData()
-	if GAME.truelch_ww2 == nil then
-		GAME.truelch_ww2 = {}
+	if GAME.truelch_WotP == nil then
+		GAME.truelch_WotP = {}
 	end
 
-	if GAME.truelch_ww2.achievementData == nil then
-		GAME.truelch_ww2.achievementData = {}
+	if GAME.truelch_WotP.achievementData == nil then
+		GAME.truelch_WotP.achievementData = {}
 	end
 
-	return GAME.truelch_ww2.achievementData
+	return GAME.truelch_WotP.achievementData
 end
 
 local function missionData()
 	local mission = GetCurrentMission()
 
-	if mission.truelch_ww2 == nil then
-		mission.truelch_ww2 = {}
+	if mission.truelch_WotP == nil then
+		mission.truelch_WotP = {}
 	end
 
-	if mission.truelch_ww2.achievementData == nil then
-		mission.truelch_ww2.achievementData = {}
+	if mission.truelch_WotP.achievementData == nil then
+		mission.truelch_WotP.achievementData = {}
 	end
 
-	return mission.truelch_ww2.achievementData
+	return mission.truelch_WotP.achievementData
 end
 
+--Unnecessary
 local function isEnemyPawn(pawn)
 	if pawn:GetTeam() == TEAM_ENEMY then --should be enough to cover every enemy. I guess
 		return true
@@ -299,9 +301,12 @@ end)
 --Complete a game where you M22 gets more kills than the KV-2.
 
 --new, using GetType() (man, I feel SO dumb to have missed that...)
-local KV2_TYPE = "KV2"
-local PE8_TYPE = "PE8"
-local M22_TYPE = "M22"
+--local KV2_TYPE = "KV2"
+--local PE8_TYPE = "PE8"
+--local M22_TYPE = "M22"
+local KV2_TYPE = "truelch_HowitzerMech"
+local PE8_TYPE = "truelch_HeavyBomberMech"
+local M22_TYPE = "truelch_SupportMech"
 
 local EVENT_PLAYER_TURN = 5
 
@@ -312,7 +317,8 @@ achievements.goodBoy.getTooltip = function(self)
 	local status = ""
 
 	if isMission() then
-		status = "\n\nKills:\nM22: " .. tostring(gameData().m22Kills) .. "\nKV-2: " .. tostring(gameData().kv2Kills) .. "\nPe-8: " .. tostring(gameData().pe8Kills)
+		--status = "\n\nKills:\nM22: " .. tostring(gameData().m22Kills) .. "\nKV-2: " .. tostring(gameData().kv2Kills) .. "\nPe-8: " .. tostring(gameData().pe8Kills)
+		status = "\n\nKills:\nSupport Mech: " .. tostring(gameData().m22Kills) .. "\nHowitzer Mech: " .. tostring(gameData().kv2Kills) .. "\nHeavy Bomber Mech: " .. tostring(gameData().pe8Kills)
 	end
 
 	result = result .. status 
