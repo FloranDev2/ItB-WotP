@@ -548,7 +548,13 @@ function this:load()
 			end
 		end)
 
+
 		modApiExt:addSkillStartHook(function(m, pawn, weapon, p1, p2)
+			--test --->
+			if type(weapon) == 'table' then
+	    		weapon = weapon.__Id
+			end
+			-- <--- test
 			if weapon == "Skill_Repair" then
 				weapon = aFMWF.repair
 			elseif weapon == "Move" then
