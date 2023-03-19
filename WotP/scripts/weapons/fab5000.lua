@@ -182,7 +182,7 @@ local function EVENT_onModsLoaded()
     modApi:addMissionNextPhaseCreatedHook(HOOK_onMissionNextPhaseCreated)
     modApi:addNextTurnHook(HOOK_onNextTurnHook)
     --truelch_ww2_ModApiExt:addSkillEndHook(HOOK_onSkillEnd)
-    modApiExt:addSkillEndHook(HOOK_onSkillEnd) --I hope that'll work
+    modapiext:addSkillEndHook(HOOK_onSkillEnd) --I hope that'll work
 end
 
 modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)

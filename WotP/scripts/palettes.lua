@@ -1,6 +1,3 @@
--- add color palette
---local scriptPath = mod_loader.mods[modApi.currentMod].scriptPath
-
 modApi:addPalette({
 		ID = "truelch_RedAlert",
 		Name = "Red Alert",
