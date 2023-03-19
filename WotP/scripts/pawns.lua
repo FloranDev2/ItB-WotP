@@ -1,8 +1,7 @@
---Still works?
-local sovietGreen = modApi:getPaletteImageOffset("SovietGreen")
-local sovietRed = modApi:getPaletteImageOffset("RedAlert")
+local sovietGreen = modApi:getPaletteImageOffset("truelch_SovietGreen")
+local sovietRed = modApi:getPaletteImageOffset("truelch_RedAlert")
 
--- KV2 = {
+-- KV2
 truelch_HowitzerMech = {
 	--Name = "KV-2 'AT-ST'",
 	Name = "Howitzer Mech",
@@ -20,8 +19,8 @@ truelch_HowitzerMech = {
 
 AddPawn("truelch_HowitzerMech")
 
---PE8 = {
-truelch_HeavyBomber = {
+-- PE8
+truelch_HeavyBomberMech = {
 	--Name = "Pe-8",
 	Name = "Heavy Bomber Mech",
 	Class = "Brute",
@@ -35,11 +34,12 @@ truelch_HeavyBomber = {
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,
 	Massive = true,
-	Flying = true,	
+	Flying = true,
 }
 
-AddPawn("truelch_HeavyBomber")
+AddPawn("truelch_HeavyBomberMech")
 
+-- M22
 truelch_SupportMech = {
 	--Name = "M22 Locust",
 	Name = "Support Mech",

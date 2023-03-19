@@ -12,8 +12,8 @@ local mod = {
 }
 
 function mod:init()	
+	-- Assets
 	require(self.scriptPath .. "images")
-	--require(self.scriptPath .. "achievements")
 	require(self.scriptPath .. "palettes")
 
 	-- Weapons
@@ -23,12 +23,18 @@ function mod:init()
 	--require(self.scriptPath .. "weapons/FMm6Gun")
 	require(self.scriptPath .. "weapons/m10t")
 
-	require(self.scriptPath .. "pawns")
+	-- Pawns
+	--require(self.scriptPath .. "pawns")
+	require(self.scriptPath .. "mechs/kv2")
+	require(self.scriptPath .. "mechs/pe8")
+	require(self.scriptPath .. "mechs/m22")
+
+	-- Achievements
+	--require(self.scriptPath .. "achievements")
 
 	-- Libs
 	--require(self.scriptPath .. "libs/detectDeployment") --doesn't exist anymore?
 	--require(self.scriptPath .. "libs/blockDeathByDeployment") --will uncomment later
-
 
 	-- FMW ----->
 	--modapi already defined
@@ -39,7 +45,7 @@ function mod:init()
 	--require(self.scriptPath .. "fmw/FMW"):init()
 	-- <----- FMW
 
-	-- New shop
+	-- Shop
 	--[[
 	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
 	modApi:addWeaponDrop("truelch_FAB500")
@@ -66,7 +72,7 @@ function mod:load(options, version)
 			"Weapons of the Past",
 			"truelch_HowitzerMech", -- KV2
 			"truelch_HeavyBomberMech", -- Pe8
-			"truelch_SupportTank", -- M22
+			"truelch_SupportMech", -- M22
 		},
 		"Weapons of the Past",
 		"A squad of almost relic-worthy mechs, consisting of Old-Earth World War 2 technology. Even though their old age, they still pack quite a punch.",

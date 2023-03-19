@@ -29,7 +29,7 @@ Weapon_Texts.truelch_FAB500_Upgrade1 = "+1 Range"
 Weapon_Texts.truelch_FAB500_Upgrade2 = "+1 Range"
 
 truelch_FAB500_A = truelch_FAB500:new{
-	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)"
+	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)",
 	Range = 3, 
 	TipImage = {
 		Unit   = Point(2,3),
@@ -40,7 +40,7 @@ truelch_FAB500_A = truelch_FAB500:new{
 }
 
 truelch_FAB500_B = truelch_FAB500:new{
-	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)"
+	UpgradeDescription = "Allows dropping payload on 1 more tile per strike. (Powering both upgrades add incendiary effect to the attack)",
 	Range = 3, 
 	TipImage = {
 		Unit   = Point(2,3),
@@ -93,11 +93,7 @@ function truelch_FAB500:GetSkillEffect(p1, p2)
 		ret:AddLeap(move, 0.25)
 	end
 		
-	--LOG("self.Range: " .. self.Range)
 	for k = 1, (self.Range-1) do
-
-		--LOG("k: " .. k)
-		
 		if p1 + DIR_VECTORS[dir]*k == p2 then
 			break
 		end
@@ -105,7 +101,7 @@ function truelch_FAB500:GetSkillEffect(p1, p2)
 		--damage
 		local pullDir = GetDirection(p1 - p2)
 		local damage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, self.Damage, pullDir) --has pull directly in the main damage
-		damage.iFire = self.Fire --new!		
+		damage.iFire = self.Fire		
 		damage.sAnimation = self.AttackAnimation
 		damage.sSound = self.BombSound
 		ret:AddDamage(damage)

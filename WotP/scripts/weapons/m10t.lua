@@ -34,7 +34,7 @@ truelch_M10THowitzerArtillery = LineArtillery:new{
 
 Weapon_Texts.truelch_M10THowitzerArtillery_Upgrade1 = "+1 Damage"
 
-truelch_M10THowitzerArtillery_A = Prime_M10THowitzerArtillery:new{
+truelch_M10THowitzerArtillery_A = truelch_M10THowitzerArtillery:new{
 	BonusDamage = 1,
 }
 
