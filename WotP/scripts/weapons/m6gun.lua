@@ -35,10 +35,10 @@ truelch_TC_M6Gun = TankDefault:new{
 	UpgradeCost = { 1 },
 
 	TipImage = {
-		Unit = Point(1, 3),
-		Enemy = Point(1, 1),
-		Target = Point(1, 1),
-		Second_Click = Point(1, 0),
+		Unit = Point(2, 3),
+		Enemy = Point(2, 1),
+		Target = Point(2, 1),
+		Second_Click = Point(2, 0),
 	}
 }
 
