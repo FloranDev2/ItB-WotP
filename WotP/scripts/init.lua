@@ -74,7 +74,7 @@ function mod:load(options, version)
 		},
 		"Weapons of the Past",
 		"A squad of almost relic-worthy mechs, consisting of Old-Earth World War 2 technology. Even though their old age, they still pack quite a punch.",
-		self.resourcePath .. "img/icon.png"
+		self.resourcePath .. "img/squad_icon.png"
 	)
 end
 
