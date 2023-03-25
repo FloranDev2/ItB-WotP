@@ -60,8 +60,14 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 ## Versions:
 
-### v2.0.0 (current)
-AE update!
+### v2.0.X - pre-release (current)
+
+#### 1:
+- Fixed mod and squad icons
+- FAB-5000 cooldown is working again, but mght fail with Conservative skill
+
+#### 0:
+Pre-release version
 Done:
 - Updated libraries
 - Changed weapon's reactor cost to fit with AE's balance changes:
@@ -70,14 +76,13 @@ Done:
   - FAB-5000 reactor cost reduced from 1 to 0
   - M6 Gun stays the same at 0 reactor cost!
 
-Bugs:
-- artilleryArc doesn't work anymore
-- FAB-5000 cooldown logic doesn't work anymore
-
 Still TODO:
-- Fix Big Shots achievement
-- Add a weapon in the shop (not on the squad load-out): Drop (allow to deploy a non-massive Mech anywhere on the map)
-- Improve Museum's achievement icon
+- 
+
+- Also:
+  - Fix Big Shots achievement
+  - Add a weapon in the shop (not on the squad load-out): Drop (allow to deploy a non-massive Mech anywhere on the map)
+  - Improve Museum's achievement icon
 
 
 ### v1.1.X

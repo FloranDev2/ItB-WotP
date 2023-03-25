@@ -2,7 +2,7 @@ local mod = {
 	id = "truelch_WotP",
 	name = "Weapons of the Past",
 	icon = "img/mod_icon.png",
-	version = "2.0.0",
+	version = "2.0.3",
 	modApiVersion = "2.9.1",
 	gameVersion = "1.2.88",
     dependencies = {
@@ -17,7 +17,7 @@ function mod:init()
 	require(self.scriptPath .. "palettes")
 
 	-- Achievements
-	--require(self.scriptPath .. "achievements")
+	require(self.scriptPath .. "achievements")
 	--require(self.scriptPath .. "globalAchievements")
 
 	-- Libs
