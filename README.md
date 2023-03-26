@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.0.0)
+# Weapons of the Past (v2.0.2)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -25,6 +25,7 @@ ALPHA (and Lemonymous) for helping me to set up FMW.
 NamesAreHard (and Lemonymous again!) for helping me on the non massive warning script and the shop.
 Protostar909, ,̶'̶,̶|̶'̶,̶'̶_̶  (loss), Machin and R30hedron for your feedbacks on the balance and design.
 R30hedron (again!) and Djinn for your feedback on the KV-2 sprite.
+Thx for JamesTripleQ for suggestions for the achievements.
 
 and of course kartoFlane for the modloader!!!
 
@@ -58,9 +59,39 @@ Both of the shells can be upgraded to deal damage, while retaining their propert
 Due to its small size, it can maneuver through smoke, but is prone to drowning. Use this mech wisely and with care, and it will serve you well.
 
 
+## TODO
+- Improve FAB-5000:
+  - Item to pick up to reload the FAB-5000 instead of waiting a mission
+  - Change the hacky logic with the memedit function: (https://discord.com/channels/417639520507527189/418142041189646336/1089284037950058576)
+      Pawn:GetWeaponLimitedRemaining(weaponIndex)
+      Pawn:GetWeaponLimitedUses(weaponIndex)
+      Pawn:SetWeaponLimitedRemaining(weaponIndex, remaining)
+      Pawn:SetWeaponLimitedUses(weaponIndex, uses)
+  - Also, check how Conservative interacts with the FAB-5000
+- Add tutorials:
+  - How the howitzer works
+  - How the FAB-5000 reload works
+  - How the M6 Gun works (especially if FMW works again)
+- Add options:
+  - White screen explosion effect for the FAB-5000 (disabled by default?)
+- Add train and armored train to the list of missions for "That belongs in a museum!"?
+
 ## Versions:
 
 ### v2.0.X - pre-release (current)
+
+#### 2:
+- Squad and global achievements now work again
+- "Tank You!" achievements has new eligible mechs:
+  - Magnum Mech (Vek Stompers)
+  - Spark Mech (Fire Storm)
+  - Catapult Mech (Magnetic Golems)
+  - Overload Mech (Nuclear Nightmare)
+- "That belongs in a museum!" has a new eligible mission: tosx' Battleship mission
+  - Also, this achievement has been slightly changed:
+    from: "Finish the 3 missions (air strike, tanks and artillery) without ally losses."
+    to: "Finish 2 of the missions (air strike, tanks, artillery, battleship) without ally losses." (I'm also considering adding both train missions)
+- Unlockable custom background now work again!
 
 #### 1:
 - Fixed mod and squad icons
@@ -75,14 +106,6 @@ Done:
   - FAB-500 reactor cost reduced from 1 to 0
   - FAB-5000 reactor cost reduced from 1 to 0
   - M6 Gun stays the same at 0 reactor cost!
-
-Still TODO:
-- 
-
-- Also:
-  - Fix Big Shots achievement
-  - Add a weapon in the shop (not on the squad load-out): Drop (allow to deploy a non-massive Mech anywhere on the map)
-  - Improve Museum's achievement icon
 
 
 ### v1.1.X

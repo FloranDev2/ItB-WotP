@@ -1,12 +1,6 @@
 ----------------------------------------------- IMPORTS
-
 local mod = mod_loader.mods[modApi.currentMod]
 local scriptPath = mod.scriptPath
-
---Useless?
---local utils = require(scriptPath .. "libs/utils")
-
-
 
 ----------------------------------------------- IMAGES
 
@@ -72,18 +66,18 @@ local fab5000Names =
 }
 
 local function isFAB5000(weapon)
-	LOG("Truelch - isFAB5000(weapon: " .. tostring(weapon) .. ")")
-	LOG("type: " .. tostring(type(weapon)))
+	--LOG("Truelch - isFAB5000(weapon: " .. tostring(weapon) .. ")")
+	--LOG("type: " .. tostring(type(weapon)))
 
 	if type(weapon) == 'table' then
     	weapon = weapon.__Id
-    	LOG("Truelch - converted table to id: " .. tostring(weapon))
+    	--LOG("Truelch - converted table to id: " .. tostring(weapon))
 	end
     
     for _, v in pairs(fab5000Names) do
-    	LOG("v: " .. tostring(v) .. ", weapon: " .. tostring(weapon))
+    	--LOG("v: " .. tostring(v) .. ", weapon: " .. tostring(weapon))
         if v == weapon then
-            LOG("Truelch - is FAB-5000!")
+            --LOG("Truelch - is FAB-5000!")
             return true
         end
     end
@@ -91,12 +85,12 @@ local function isFAB5000(weapon)
 end
 
 local function computeFAB5000()
-	LOG("Truelch - computeFAB5000()")
+	--LOG("Truelch - computeFAB5000()")
 
     gameData().currentMission = gameData().currentMission + 1
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
 
-    LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
+    --LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
 
     if fab5000HasBeenUsedPreviousMission then    
         --Disable the FAB-5000!
@@ -106,9 +100,9 @@ local function computeFAB5000()
             if pawn ~= nil then
                 local weapons = pawn:GetPoweredWeapons()
                 for j = 1, 2 do
-                	LOG("j: " .. tostring(j))
+                	--LOG("j: " .. tostring(j))
                     if isFAB5000(weapons[j]) then
-                    	LOG("is FAB-5000!")
+                    	--LOG("is FAB-5000!")
                         local fab5000 = _G[weapons[j]]
                         ForceUseFab5000(pawn, pawn:GetSpace(), j)
 
@@ -125,16 +119,16 @@ local function computeFAB5000()
 end
 
 local function HOOK_onNextTurnHook()
-	LOG("Truelch - HOOK_onNextTurnHook()")
-	LOG("Truelch - Currently it is turn of team: " .. tostring(Game:GetTeamTurn()))
-	LOG("Truelch - missionData().needToCheckFAB5000: " .. tostring(missionData().needToCheckFAB5000))
+	--LOG("Truelch - HOOK_onNextTurnHook()")
+	--LOG("Truelch - Currently it is turn of team: " .. tostring(Game:GetTeamTurn()))
+	--LOG("Truelch - missionData().needToCheckFAB5000: " .. tostring(missionData().needToCheckFAB5000))
 
 	if Game:GetTeamTurn() == TEAM_PLAYER and missionData().needToCheckFAB5000 == true then
 		missionData().needToCheckFAB5000 = false --test
 		for i = 0, 2 do			
 			local pawn = Board:GetPawn(i)
 			Board:GetPawn(i):SetPowered(true) --hope it won't interact badly with other stuff
-			LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is powered!")
+			--LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is powered!")
 		end
 	end
 
@@ -144,17 +138,17 @@ local function HOOK_onNextTurnHook()
 end
 
 local function HOOK_onMissionStart()
-	LOG("Truelch - HOOK_onMissionStart()")
+	--LOG("Truelch - HOOK_onMissionStart()")
     missionData().needToCheckFAB5000 = true
 end
 
 local function HOOK_onMissionNextPhaseCreated()
-	LOG("Truelch - HOOK_onMissionNextPhaseCreated()")
+	--LOG("Truelch - HOOK_onMissionNextPhaseCreated()")
     missionData().needToCheckFAB5000 = true
 end
 
 local HOOK_onSkillEnd = function(mission, pawn, weaponId, p1, p2)
-	LOG("Truelch - HOOK_onSkillEnd")
+	--LOG("Truelch - HOOK_onSkillEnd")
     local exit = false
         or not isGame()
         or mission == nil
@@ -167,10 +161,10 @@ local HOOK_onSkillEnd = function(mission, pawn, weaponId, p1, p2)
         return
     end
 
-    LOG("Truelch - proceed!")
+    --LOG("Truelch - proceed!")
 
     if isFAB5000(weaponId) and not forceUse then
-        LOG("Truelch - FAB-5000 has been used!")
+        --LOG("Truelch - FAB-5000 has been used!")
         gameData().lastFab5000Use = gameData().currentMission
     end
 end
@@ -263,7 +257,7 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 		ret:AddDamage(SpaceDamage(p1, 0))
 		local pawn = Board:GetPawn(p1)
 		pawn:SetPowered(false)
-		LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is UNpowered!")
+		--LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is UNpowered!")
 		return ret
 	end
 

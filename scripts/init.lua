@@ -18,7 +18,7 @@ function mod:init()
 
 	-- Achievements
 	require(self.scriptPath .. "achievements")
-	--require(self.scriptPath .. "globalAchievements")
+	require(self.scriptPath .. "globalAchievements")
 
 	-- Libs
 	--weaponArmed	
@@ -54,12 +54,12 @@ function mod:init()
 	modApi:addWeaponDrop("truelch_TC_M6Gun")
 
 	-- Custom main menu config
-	--require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
+	require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
 end
 
 function mod:load(options, version)
 	-- Custom main menu config
-	--require(self.scriptPath .. "truelchSave/truelchSave"):load(self, options)
+	require(self.scriptPath .. "truelchSave/truelchSave"):load(self, options)
 
 	-- FMW
 	require(self.scriptPath .. "fmw/FMW"):load()

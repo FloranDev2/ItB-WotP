@@ -1,77 +1,71 @@
 local mod = mod_loader.mods[modApi.currentMod]
---local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Should not be using it anymore
---LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
---local utils = require(path .."libs/utils") --Should not be using it anymore?
---LOG("TRUELCH - utils: " .. tostring("utils"))
-
 local squad = "truelch_WotP"
+
+-- Goals
+local VAPE_TARGET = 50
+local BIG_SHOTS_TARGET = 5
+local GROUND_ZERO_TARGET = 5
+local MUSEUM_TARGET = 2
+
 local achievements = {
 	tankYou = modApi.achievements:add{
 		id = "tankYou",
 		name = "Tank You!",
 		tooltip = "Complete a game with a squad composed exclusively from tanks" ..
 			"\n\nEligible tanks:" ..
-			"\nWeapons of the Past's M22" ..
+			"\nWotP's Support Mech" ..
 			"\nRift Walkers' Cannon Mech" ..
 			"\nFrozen Titans' Mirror Mech" ..
 			"\nHazardous Mechs' Unstable M." ..
-			"\nArachnophiles' BulkMech" ..
+			"\nArachnophiles' Bulk Mech" ..
 			"\nRF1995's Light Tank" ..
-			"\nArchive Armors' Devastator",
+			"\nArchive Armors' Devastator" ..
+			"\nVek Stompers' Magnum Mech" ..
+			"\nFire Storm's Spark Mech" ..
+			"\nMagnetic G. Catapult Mech" ..
+			"\nNuclear N. Overload Mech",
 		image = mod.resourcePath.."img/achievements/tankYou.png",
 		global = "Weapons of the Past",
 	},
 	vape = modApi.achievements:add{
 		id = "vape",
 		name = "Okay we get it, you vape",
-		tooltip = "Cancel 50 attacks with smoke in a single run",
+		tooltip = "Cancel " .. tostring(VAPE_TARGET) .. " attacks with smoke in a single run",
 		image = mod.resourcePath.."img/achievements/vape.png",
 		global = "Weapons of the Past",
 	},
 	bigShots = modApi.achievements:add{
 		id = "bigShots",
 		name = "Big Shots", --"Bunker Buster"
-		tooltip = "Kill an enemy with 5 HP or more in a single shot with the KV-2",
+		tooltip = "Kill an enemy with " .. tostring(BIG_SHOTS_TARGET) .. " HP or more in a single shot with the Howitzer Mech",
 		image = mod.resourcePath.."img/achievements/bigShots.png",
 		global = "Weapons of the Past",
 	},
 	groundZero = modApi.achievements:add{
 		id = "groundZero",
 		name = "Ground Zero",
-		tooltip = "Kill 5 enemies in one attack with the Pe-8",
+		tooltip = "Kill " .. tostring(GROUND_ZERO_TARGET) .. " enemies in one attack with the Heavy Bomber Mech",
 		image = mod.resourcePath.."img/achievements/groundZero.png",
 		global = "Weapons of the Past",
 	},
 	museum = modApi.achievements:add{
-		--Add battleship's mission from the mod?
 		id = "museum",
 		name = "That belongs in a museum!",
-		tooltip = "Finish these 3 missions without losing Archive's ally unit:" ..
+		tooltip = "Finish " .. tostring(MUSEUM_TARGET) .. " of these missions without losing Archive's ally unit:" ..
 			"\nProtect Artillery Support" ..
 			"\nProtect Tanks" ..
-			"\nA mission with a bombing run",
+			"\nA mission with a bombing run" ..
+			"\nDefend the Battleship (tosx mission pack)",
 		image = mod.resourcePath.."img/achievements/museum.png",
 		global = "Weapons of the Past",
 	},
 }
 
---Shouldn't use that anymore
-local function IsTipImage()
-	local isTipImage = (Board:GetSize() == Point(6,6))
-	return Board:GetSize() == Point(6,6)
-end
-
 local function isGame()
 	return true
 		and Game ~= nil
 		and GAME ~= nil
-end
-
-local function isSquad()
-	return true
-		and isGame()
-		and GAME.additionalSquadData.squad == squad
 end
 
 local function isMission()
@@ -87,8 +81,7 @@ local function isMissionBoard()
 	return true
 		and isMission()
 		and Board ~= nil
-		--and Board:IsTipImage() == false
-		and IsTipImage() == false
+		and Board:IsTipImage() == false
 end
 
 local function isGameData()
@@ -124,29 +117,6 @@ local function missionData()
 	return mission.truelch_WotP.achievementData
 end
 
---Shouldn't use that
-local function isEnemyPawn(pawn)
-	if pawn:GetTeam() == TEAM_ENEMY then --should be enough to cover every enemy. I guess
-		return true
-	elseif pawn:GetTeam() == TEAM_BOTS then
-		LOG("TRUELCH - WTF")
-		return true
-	elseif pawn:GetTeam() == TEAM_ENEMY_MAJOR then
-		LOG("TRUELCH - WTF")
-		return true
-	else
-		return false
-	end
-end
-
-
---Some constant variables
-local difficultyIndices = {
-	[DIFF_EASY] = "easy",
-	[DIFF_NORMAL] = "normal",
-	[DIFF_HARD] = "hard",
-	default = "hard",
-}
 
 local COMPLETE = 1
 local INCOMPLETE = 0
@@ -154,19 +124,6 @@ local INCOMPLETE = 0
 
 --Tank You! (tankYou)
 --Complete a game with a squad composed exclusively from tanks
---[[
-local tankYouEligibleMechs =
-{
-	"M22",               --Weapons of the Past
-	"TankMech",          --Rift Walkers
-	"MirrorMech",        --Frozen Titans
-	"UnstableTank",      --Hazardous Mechs
-	"BulkMech",          --Arachnophiles
-	"lmn_TankMech",      --RF1995
-	"lmn_DevastatorMech" --Archive Armors
-}
-]]
-
 local tankYouEligibleMechs =
 {
 	"truelch_SupportMech", --Weapons of the Past
@@ -175,26 +132,21 @@ local tankYouEligibleMechs =
 	"UnstableTank",        --Hazardous Mechs
 	"BulkMech",            --Arachnophiles
 	"lmn_TankMech",        --RF1995
-	"lmn_DevastatorMech"   --Archive Armors
+	"lmn_DevastatorMech",  --Archive Armors
+	"VS_MagnumMech",       --Vek Stompers
+	"tatu_Spark_Mech",     --Fire Storm
+	"tosx_CatapultMech",   --Magnetic Golems
+	"NAH_OverloadMech"     --Nuclear Nightmares
 }
 
 --TODO: in addition to that, check Tank = true
 function isEligibleMechForTankYouAchv(pawn)
-
-	--LOG("TRUELCH --------------------------------------------- isEligibleMechForTankYouAchv(pawn: " .. pawn:GetType() .. ")") --pawn's type is userdata
-	--LOG("pawn: " .. inspect(getmetatable((pawn))))
-	--LOG("TRUELCH --------------------------------------------- pawn.Tank: " .. tostring(pawn.Tank)) --pawn.Tank: nil
-	--LOG("TRUELCH --------------------------------------------- pawn['Tank']: " .. tostring(pawn["Tank"])) --pawn['Tank']: nil
-
 	if _G[pawn:GetType()].Tank == true then	--thx Lemonymous!!!
-		--LOG("TRUELCH ---------------------------------------------    -> Yes! (TONKS!!!!!!) :)")
 		return true
 	end
 
 	for _,v in pairs(tankYouEligibleMechs) do
-		--LOG("TRUELCH ---------------------------------------------  -> " .. v)
 		if v == pawn:GetType() then
-			--LOG("TRUELCH ---------------------------------------------    -> Yes! :)")
 			return true
 		end
 	end
@@ -218,21 +170,19 @@ function isWholeSquadIsEligibleForTankYouAchv()
 	return true
 end
 
---TMP!!!!!!!!!!!!!!!!!!
+
+--This should be more efficient
+--For some reason, we have nil pawn here
 --[[
-local EVENT_TURN_START = 14
-modApi.events.onMissionUpdate:subscribe(function()
-	local exit = false
-		or isMission() == false
-
-	if exit then
-		return
+function isWholeSquadIsEligibleForTankYouAchv()
+	for i = 0, 2 do
+		local mech = Board:GetPawn(i)
+		if not isEligibleMechForTankYouAchv(pawn) then
+			return false
+		end
 	end
-
-	if Game:GetEventCount(EVENT_TURN_START) > 0 and isWholeSquadIsEligibleForTankYouAchv() == true then
-		achievements.tankYou:addProgress{ complete = true }
-	end
-end)
+	return true
+end
 ]]
 
 --Note: no need to check isSquad, it's a global achievement
@@ -246,10 +196,7 @@ end)
 
 --Okay we get it, you vape (vape)
 --Cancel 50 attacks with smoke in a single run
-
 local EVENT_CANCEL_ATTACK_WITH_SMOKE = 42
-
-local VAPE_TARGET = 50
 
 local getTooltip = achievements.vape.getTooltip
 achievements.vape.getTooltip = function(self)
@@ -290,13 +237,9 @@ end)
 
 --Big Shots / Bunker Buster (bigShots)
 --Kill an enemy with 5 HP or more in a single shot with the KV-2
-
-local BIG_SHOTS_TARGET = 5
---local KV2_TYPE = "KV2"
 local KV2_TYPE = "truelch_HowitzerMech"
 
 function refreshBigShotsTable()
-	--LOG("TRUELCH --------------------------------------------- refreshBigShotsTable()")
 	missionData().bsCurrHpTable = {}
 	missionData().bsMaxHpTable = {}
 
@@ -308,19 +251,20 @@ function refreshBigShotsTable()
 				local pawnId = pawn:GetId()
 				local currHp = pawn:GetHealth()
 				local maxHp = pawn:GetMaxHealth()
+				
 				--[[
 				LOG("TRUELCH --------------------------------------------- pawn: " .. pawn:GetMechName() .. ", type: " .. pawn:GetType() ..
 					 ", pawnId: " .. tostring(pawnId) .. ", currHp: " .. tostring(currHp) .. ", maxHp: " .. tostring(maxHp))
-				 ]]
+				]]
+				
 				missionData().bsCurrHpTable[pawnId] = currHp
 				missionData().bsMaxHpTable[pawnId]  = maxHp
-				--table.insert(missionData().bsCurrHpTable, pawnId, currHp)
-				--table.insert(missionData().bsMaxHpTable, pawnId, maxHp)
-
+				
 				--[[
 				LOG("TRUELCH --------------------------------------------- After -> curr hp: " .. tostring(missionData().bsCurrHpTable[pawnId]) .. 
 					", maxHp: " .. tostring(maxHp))
 				]]
+				
 			end
 		end
 	end
@@ -331,7 +275,6 @@ function getRemainingHpBeforeAttack(pawn)
 	if missionData().bsCurrHpTable ~= nil and missionData().bsCurrHpTable[pawnId] ~= nil then
 		return missionData().bsCurrHpTable[pawnId]
 	else
-		--LOG("TRUELCH --------------------------------------------- Prevented error! (bsCurrHpTable)")
 		return -1
 	end
 end
@@ -341,14 +284,12 @@ function getMaxHpBeforeAttack(pawn)
 	if missionData().bsMaxHpTable ~= nil and missionData().bsMaxHpTable[pawnId] ~= nil then
 		return missionData().bsMaxHpTable[pawnId]
 	else
-		--LOG("TRUELCH --------------------------------------------- Prevented error! (bsMaxHpTable)")
 		return -1
 	end
 end
 
 modApi.events.onMissionStart:subscribe(function()
 	local exit = false
-		or isSquad() == false
 		or isMission() == false
 
 	if exit then
@@ -359,8 +300,7 @@ modApi.events.onMissionStart:subscribe(function()
 end)
 
 modApi.events.onModsLoaded:subscribe(function()	
-	modApiExt:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
-		--LOG("TRUELCH --------------------------------------------- skillStartHook")
+	modapiext:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
 		local exit = false
 			or isMission() == false
 
@@ -371,7 +311,6 @@ modApi.events.onModsLoaded:subscribe(function()
 		--
 		if (pawn:GetType() == KV2_TYPE) then
 			missionData().isKV2Attacking = true
-			--LOG("TRUELCH --------------------------------------------- [GLOBAL] KV-2 is going to shoot -> refresh table!")
 			refreshBigShotsTable() --here, to avoid refreshing too often
 		else
 			missionData().isKV2Attacking = false
@@ -381,10 +320,10 @@ modApi.events.onModsLoaded:subscribe(function()
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addPawnKilledHook(function(mission, pawn)
+	modapiext:addPawnKilledHook(function(mission, pawn)
 		local exit = false
 			or isMission() == false
-			--or isEnemyPawn(pawn) == false
+			--or pawn:IsEnemy() == false --I commented this before, but I can't remember why -> pawn can be nil for some reason
 			or missionData().isKV2Attacking == false
 
 		if exit then
@@ -417,14 +356,10 @@ end)
 
 --Ground Zero (groundZero)
 --Kill 5 enemies in one attack with the Pe-8
-
-local GROUND_ZERO_TARGET = 5
---local PE8_TYPE = "PE8"
 local PE8_TYPE = "truelch_HeavyBomberMech"
 
 modApi.events.onMissionStart:subscribe(function()
 	local exit = false
-		or isSquad() == false
 		or isMission() == false
 
 	if exit then
@@ -436,9 +371,8 @@ modApi.events.onMissionStart:subscribe(function()
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
+	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
 		local exit = false
-			or isSquad() == false
 			or isMission() == false
 
 		if exit then
@@ -457,9 +391,8 @@ modApi.events.onModsLoaded:subscribe(function()
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addPawnKilledHook(function(mission, pawn)
+	modapiext:addPawnKilledHook(function(mission, pawn)
 		local exit = false
-			or isSquad() == false
 			or isMission() == false
 
 		if exit then
@@ -467,11 +400,10 @@ modApi.events.onModsLoaded:subscribe(function()
 		end
 
 		if missionData().isPe8Attacking == nil then
-			--LOG("TRUELCH --------------------------------------------- Prevented error! (addPawnKilledHook for Pe-8)")
 			return
 		end
 
-		if isEnemyPawn(pawn) and missionData().isPe8Attacking then
+		if pawn:IsEnemy() and missionData().isPe8Attacking then
 			missionData().groundZeroPe8Kills = missionData().groundZeroPe8Kills + 1
 			if missionData().groundZeroPe8Kills >= GROUND_ZERO_TARGET then
 				achievements.groundZero:addProgress{ complete = true }
@@ -484,19 +416,20 @@ end)
 
 --That belongs in a museum (museum)
 --Finish these 3 missions without losing Archive's ally unit
-
-local AIRSTRIKE_MISSION_ID = "Mission_Airstrike"
-local TANKS_MISSION_ID = "Mission_Tanks"
-local ARTILLERY_MISSION_ID = "Mission_Artillery"
+local AIRSTRIKE_MISSION_ID  = "Mission_Airstrike"
+local TANKS_MISSION_ID      = "Mission_Tanks"
+local ARTILLERY_MISSION_ID  = "Mission_Artillery"
+local BATTLESHIP_MISSION_ID = "Mission_tosx_Shipping"
 
 local museumAllies =
 {
 	"ArchiveArtillery",
 	"Archive_Tank",
+	"tosx_mission_battleship", --tosx' battleship
 }
 
 function isMuseumPawn(pawn)
-		for _,v in pairs(museumAllies) do
+	for _,v in pairs(museumAllies) do
 		if v == pawn:GetType() then
 			return true
 		end
@@ -504,16 +437,16 @@ function isMuseumPawn(pawn)
 end
 
 modApi.events.onPostStartGame:subscribe(function()
-	gameData().museumAirstrike = false
-	gameData().museumArtillery = false
-	gameData().museumTanks = false
+	gameData().museumAirstrike   = false
+	gameData().museumArtillery   = false
+	gameData().museumTanks       = false
+	gameData().museumBattleship  = false
 	gameData().allAlliesSurvived = true
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addPawnKilledHook(function(mission, pawn)
+	modapiext:addPawnKilledHook(function(mission, pawn)
 		local exit = false
-			--or isSquad() == false --Global achievement -> not linked with the original squad!
 			or isMission() == false
 
 		if exit then
@@ -529,7 +462,6 @@ end)
 
 modApi.events.onMissionEnd:subscribe(function()
 	local exit = false
-		--or isSquad() == false --Global achievement -> not linked with the original squad!
 		or isMission() == false
 
 	if exit then
@@ -547,9 +479,31 @@ modApi.events.onMissionEnd:subscribe(function()
 	elseif mission["ID"] == ARTILLERY_MISSION_ID then
 		--LOG("TRUELCH --------------------------------------------- Artillery ok")
 		gameData().museumArtillery = true
+	elseif mission["ID"] == BATTLESHIP_MISSION_ID then
+		--LOG("TRUELCH --------------------------------------------- Battleship ok")
+		gameData().museumBattleship = true
 	end
 
-	if gameData().museumAirstrike == true and gameData().museumArtillery == true and gameData().museumTanks == true and gameData().allAlliesSurvived then
+	local amount = 0
+
+	if gameData().museumAirstrike == true then
+		amount = amount + 1
+	end
+
+	if gameData().museumArtillery == true then
+		amount = amount + 1
+	end
+
+	if gameData().museumTanks == true then
+		amount = amount + 1
+	end
+
+	if gameData().museumBattleship == true then
+		amount = amount + 1
+	end 
+
+	--if gameData().museumAirstrike == true and gameData().museumArtillery == true and gameData().museumTanks == true and gameData().allAlliesSurvived then
+	if amount >= MUSEUM_TARGET and gameData().allAlliesSurvived then
 		achievements.museum:addProgress{ complete = true }
 	end
 end)

@@ -1,9 +1,9 @@
 local mod = mod_loader.mods[modApi.currentMod]
---local modApiExt = LApi.library:fetch("modApiExt/modApiExt", nil, "ITB-ModUtils") --Oh it worked apparently
---LOG("TRUELCH - modApiExt: " .. tostring("modApiExt"))
 local path = mod.scriptPath
---local utils = require(path .."libs/utils") --useless now?
---LOG("TRUELCH - utils: " .. tostring("utils"))
+
+--Goals
+local IRON_HARVEST_TARGET = 6
+
 
 local squad = "truelch_WotP"
 local achievements = {
@@ -18,7 +18,7 @@ local achievements = {
 	ironHarvest = modApi.achievements:add{
 		id = "ironHarvest",
 		name = "Iron Harvest",
-		tooltip = "Kill 6 enemies in a single turn",
+		tooltip = "Kill " .. tostring(IRON_HARVEST_TARGET) .. " enemies in a single turn",
 		image = mod.resourcePath .. "img/achievements/ironHarvest.png",
 		squad = squad,
 	},
@@ -26,17 +26,12 @@ local achievements = {
 	goodBoy = modApi.achievements:add{
 		id = "goodBoy",
 		name = "Who's a good boiii?",
-		tooltip = "Complete a game where the M22 has the most kills",
+		tooltip = "Complete a game where the Support Mech has the most kills",
 		image = mod.resourcePath .. "img/achievements/goodBoy.png",
 		squad = squad,
 	},
 }
 
---Remove?
-local function IsTipImage()
-	local isTipImage = (Board:GetSize() == Point(6,6))
-	return Board:GetSize() == Point(6,6)
-end
 
 local function isGame()
 	return true
@@ -63,8 +58,7 @@ local function isMissionBoard()
 	return true
 		and isMission()
 		and Board ~= nil
-		--and Board:IsTipImage() == false
-		and IsTipImage() == false
+		and Board:IsTipImage() == false
 end
 
 local function isGameData()
@@ -100,30 +94,6 @@ local function missionData()
 	return mission.truelch_WotP.achievementData
 end
 
---Unnecessary
---[[
-local function isEnemyPawn(pawn)
-	if pawn:GetTeam() == TEAM_ENEMY then --should be enough to cover every enemy. I guess
-		return true
-	elseif pawn:GetTeam() == TEAM_BOTS then
-		LOG("TRUELCH - WTF")
-		return true
-	elseif pawn:GetTeam() == TEAM_ENEMY_MAJOR then
-		LOG("TRUELCH - WTF")
-		return true
-	else
-		return false
-	end
-end
-]]
-
---Some constant variables
-local difficultyIndices = {
-	[DIFF_EASY]   = "easy",
-	[DIFF_NORMAL] = "normal",
-	[DIFF_HARD]   = "hard",
-	default = "hard",
-}
 
 local COMPLETE = 1
 local INCOMPLETE = 0
@@ -186,9 +156,7 @@ end)
 
 --Iron Harvest (ironHarvest)
 --Kill 6 enemies in a single turn
-
 local EVENT_TURN_START = 14
-local IRON_HARVEST_TARGET = 6
 
 local getTooltip = achievements.ironHarvest.getTooltip
 achievements.ironHarvest.getTooltip = function(self)
@@ -215,10 +183,10 @@ local function resetIronHarvestKillCount()
 		return
 	end
 
-	--LOG("TRUELCH - resetIronHarvestKillCount()")
-	--LOG("TRUELCH - kills (before): " .. tostring(missionData().ironHarvestKills))
+	LOG("TRUELCH - resetIronHarvestKillCount()")
+	LOG("TRUELCH - kills (before): " .. tostring(missionData().ironHarvestKills))
 	missionData().ironHarvestKills = 0
-	--LOG("TRUELCH - kills (after): " .. tostring(missionData().ironHarvestKills))
+	LOG("TRUELCH - kills (after): " .. tostring(missionData().ironHarvestKills))
 end
 
 modApi.events.onMissionStart:subscribe(function()
@@ -231,7 +199,7 @@ modApi.events.onMissionStart:subscribe(function()
 	end
 
 	--test to see if it inits
-	--LOG("TRUELCH - onMissionStart")
+	LOG("TRUELCH - onMissionStart")
 
 	resetIronHarvestKillCount()
 end)
@@ -265,21 +233,21 @@ local function incrementIronHarvestKillCount()
 	local missionData = missionData()
 
 	if missionData.ironHarvestKills == nil then
-		--LOG("TRUELCH - Avoided mission missionData.ironHarvestKills initialization error!")
+		LOG("TRUELCH - Avoided mission missionData.ironHarvestKills initialization error!")
 		missionData.ironHarvestKills = 0
 	end
 
-	--LOG("TRUELCH - incrementIronHarvestKillCount()")
-	--LOG("TRUELCH - kills (before): " .. tostring(missionData.ironHarvestKills))
+	LOG("TRUELCH - incrementIronHarvestKillCount()")
+	LOG("TRUELCH - kills (before): " .. tostring(missionData.ironHarvestKills))
 	missionData.ironHarvestKills = missionData.ironHarvestKills + 1
-	--LOG("TRUELCH - kills (after): " .. tostring(missionData.ironHarvestKills))
+	LOG("TRUELCH - kills (after): " .. tostring(missionData.ironHarvestKills))
 	if missionData.ironHarvestKills >= IRON_HARVEST_TARGET then
 		achievements.ironHarvest:addProgress{ complete = true }
 	end
 end
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addPawnKilledHook(function(mission, pawn)
+	modapiext:addPawnKilledHook(function(mission, pawn)
 		local exit = false
 			or isSquad() == false
 			or isMission() == false
@@ -300,12 +268,7 @@ end)
 
 
 --Who's a good boiii? (goodBoy)
---Complete a game where you M22 gets more kills than the KV-2.
-
---new, using GetType() (man, I feel SO dumb to have missed that...)
---local KV2_TYPE = "KV2"
---local PE8_TYPE = "PE8"
---local M22_TYPE = "M22"
+--Complete a game where you Support Mech (M22) gets more kills than the other Mechs.
 local KV2_TYPE = "truelch_HowitzerMech"
 local PE8_TYPE = "truelch_HeavyBomberMech"
 local M22_TYPE = "truelch_SupportMech"
@@ -319,7 +282,6 @@ achievements.goodBoy.getTooltip = function(self)
 	local status = ""
 
 	if isMission() then
-		--status = "\n\nKills:\nM22: " .. tostring(gameData().m22Kills) .. "\nKV-2: " .. tostring(gameData().kv2Kills) .. "\nPe-8: " .. tostring(gameData().pe8Kills)
 		status = "\n\nKills:\nSupport Mech: " .. tostring(gameData().m22Kills) .. "\nHowitzer Mech: " .. tostring(gameData().kv2Kills) .. "\nHeavy Bomber Mech: " .. tostring(gameData().pe8Kills)
 	end
 
@@ -351,45 +313,32 @@ modApi.events.onMissionStart:subscribe(function()
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
-		LOG("TRUELCH - addSkillEndHook")
+	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
 		local exit = false
 			or isSquad() == false
 			or isMission() == false
 
 		if exit then
-			LOG(" -> addSkillEndHookNOT OK")
 			return
 		end
-
-		LOG(" -> addSkillEndHook OK")
 
 		missionData().lastAttPawnType = pawn:GetType()
 	end)
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
-	modApiExt:addPawnKilledHook(function(mission, pawn)
-		LOG("TRUELCH - addPawnKilledHook")
+	modapiext:addPawnKilledHook(function(mission, pawn)
 		local exit = false
 			or isSquad() == false
 			or isMission() == false
 			or isPlayerTurn() == false
 			or missionData().lastAttPawnType == nil			
-			--or not isEnemyPawn(pawn)
 			or not pawn:IsEnemy()
 
 		if exit then
-			LOG(" -> addPawnKilledHook NOT OK")
 			return
 		end
 
-		LOG(" -> addPawnKilledHook OK")
-
-		LOG("TRUELCH --------------------------------------------- [SQUAD] addPawnKilledHook type(pawn): " .. type(pawn) .. ")")
-
-		--if isEnemyPawn(pawn) then
-		--if pawn:IsEnemy() then --unnecessary, we already check that in the exit bool cond
 		if missionData().lastAttPawnType == KV2_TYPE then
 			gameData().kv2Kills = gameData().kv2Kills + 1
 		elseif missionData().lastAttPawnType == PE8_TYPE then
@@ -397,7 +346,6 @@ modApi.events.onModsLoaded:subscribe(function()
 		elseif missionData().lastAttPawnType == M22_TYPE then
 			gameData().m22Kills = gameData().m22Kills + 1
 		end
-		--end
 	end)
 end)
 
