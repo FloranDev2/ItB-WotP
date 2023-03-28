@@ -183,10 +183,10 @@ local function resetIronHarvestKillCount()
 		return
 	end
 
-	LOG("TRUELCH - resetIronHarvestKillCount()")
-	LOG("TRUELCH - kills (before): " .. tostring(missionData().ironHarvestKills))
+	--LOG("TRUELCH - resetIronHarvestKillCount()")
+	--LOG("TRUELCH - kills (before): " .. tostring(missionData().ironHarvestKills))
 	missionData().ironHarvestKills = 0
-	LOG("TRUELCH - kills (after): " .. tostring(missionData().ironHarvestKills))
+	--LOG("TRUELCH - kills (after): " .. tostring(missionData().ironHarvestKills))
 end
 
 modApi.events.onMissionStart:subscribe(function()
@@ -199,7 +199,7 @@ modApi.events.onMissionStart:subscribe(function()
 	end
 
 	--test to see if it inits
-	LOG("TRUELCH - onMissionStart")
+	--LOG("TRUELCH - onMissionStart")
 
 	resetIronHarvestKillCount()
 end)
@@ -233,14 +233,14 @@ local function incrementIronHarvestKillCount()
 	local missionData = missionData()
 
 	if missionData.ironHarvestKills == nil then
-		LOG("TRUELCH - Avoided mission missionData.ironHarvestKills initialization error!")
+		--LOG("TRUELCH - Avoided mission missionData.ironHarvestKills initialization error!")
 		missionData.ironHarvestKills = 0
 	end
 
-	LOG("TRUELCH - incrementIronHarvestKillCount()")
-	LOG("TRUELCH - kills (before): " .. tostring(missionData.ironHarvestKills))
+	--LOG("TRUELCH - incrementIronHarvestKillCount()")
+	--LOG("TRUELCH - kills (before): " .. tostring(missionData.ironHarvestKills))
 	missionData.ironHarvestKills = missionData.ironHarvestKills + 1
-	LOG("TRUELCH - kills (after): " .. tostring(missionData.ironHarvestKills))
+	--LOG("TRUELCH - kills (after): " .. tostring(missionData.ironHarvestKills))
 	if missionData.ironHarvestKills >= IRON_HARVEST_TARGET then
 		achievements.ironHarvest:addProgress{ complete = true }
 	end

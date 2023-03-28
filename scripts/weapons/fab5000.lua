@@ -5,6 +5,14 @@ local scriptPath = mod.scriptPath
 ----------------------------------------------- IMAGES
 
 
+--https://discord.com/channels/417639520507527189/418142041189646336/1089284037950058576
+--[[
+Pawn:GetWeaponLimitedRemaining(weaponIndex)
+Pawn:GetWeaponLimitedUses(weaponIndex)
+Pawn:SetWeaponLimitedRemaining(weaponIndex, remaining)
+Pawn:SetWeaponLimitedUses(weaponIndex, uses)
+]]
+
 
 ----------------------------------------------- FUNCTIONS
 
@@ -21,11 +29,6 @@ local function isMission()
         and isGame()
         and mission ~= nil
         and mission ~= Mission_Test
-end
-
---Unnecessary?
-local function IsTipImage()
-    return Board:GetSize() == Point(6,6)
 end
 
 local function isGameData()
@@ -54,8 +57,8 @@ end
 
 
 ----------------------------------------------- HOOKS & EVENTS
-
-local forceUse = false --maybe I can access it if I put it here...
+--old?
+--local forceUse = false --maybe I can access it if I put it here...
 
 local fab5000Names =
 {
@@ -103,14 +106,23 @@ local function computeFAB5000()
                 	--LOG("j: " .. tostring(j))
                     if isFAB5000(weapons[j]) then
                     	--LOG("is FAB-5000!")
-                        local fab5000 = _G[weapons[j]]
-                        ForceUseFab5000(pawn, pawn:GetSpace(), j)
+
+						LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+
+						--old
+                        --local fab5000 = _G[weapons[j]]
+                        --ForceUseFab5000(pawn, pawn:GetSpace(), j)
+
+                        --new
+                        pawn:SetWeaponLimitedRemaining(j, 0)
 
                         --Explanation bubble
                         local pop = VoicePopup()
                         pop.text = "Another FAB-5000 is under production, we won't be able to use it in this mission."
                         pop.pawn = pawn:GetId()
                         Game:AddVoicePopup(pop)
+
+                        LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
                     end
                 end
             end
@@ -119,10 +131,6 @@ local function computeFAB5000()
 end
 
 local function HOOK_onNextTurnHook()
-	--LOG("Truelch - HOOK_onNextTurnHook()")
-	--LOG("Truelch - Currently it is turn of team: " .. tostring(Game:GetTeamTurn()))
-	--LOG("Truelch - missionData().needToCheckFAB5000: " .. tostring(missionData().needToCheckFAB5000))
-
 	if Game:GetTeamTurn() == TEAM_PLAYER and missionData().needToCheckFAB5000 == true then
 		missionData().needToCheckFAB5000 = false --test
 		for i = 0, 2 do			
@@ -154,8 +162,7 @@ local HOOK_onSkillEnd = function(mission, pawn, weaponId, p1, p2)
         or mission == nil
         or mission == Mission_Test
         or Board == nil
-        --or Board:IsTipImage() --always return true since AE
-        or IsTipImage()
+        or Board:IsTipImage()
 
     if exit then
         return
@@ -186,11 +193,13 @@ modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
 
 
 --Custom
+--[[
 function ForceUseFab5000(pawn, target, weaponIndex)
     forceUse = true
     pawn:FireWeapon(target, weaponIndex)
     forceUse = false
 end
+]]
 
 
 --FAB-5000
@@ -233,10 +242,12 @@ function truelch_FAB5000:GetTargetArea(point)
 	local ret = PointList()
 
 	--Allow to target self for the forced use
+	--[[
 	if forceUse == true then
 		ret:push_back(point)
 		return ret
 	end
+	]]
 
 	--Normal behaviour
 	for i = DIR_START, DIR_END do
@@ -253,6 +264,7 @@ end
 function truelch_FAB5000:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 
+	--[[
 	if forceUse then
 		ret:AddDamage(SpaceDamage(p1, 0))
 		local pawn = Board:GetPawn(p1)
@@ -260,6 +272,7 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 		--LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is UNpowered!")
 		return ret
 	end
+	]]
 
 	--Normal use	
 	local dir = GetDirection(p2 - p1)
@@ -304,3 +317,6 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 	
 	return ret
 end
+
+-- Pickable item
+--https://github.com/itb-community/ITB-ModLoader/wiki/%5BVanilla%5D-Board#SetDangerous
