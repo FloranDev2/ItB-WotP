@@ -95,35 +95,34 @@ local function computeFAB5000()
 
     --LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
 
-    if fab5000HasBeenUsedPreviousMission then    
-        --Disable the FAB-5000!
-        for i = 0, 2 do
-        	LOG("i: " .. tostring(i))
-            local pawn = Board:GetPawn(i)
-            if pawn ~= nil then
-                local weapons = pawn:GetPoweredWeapons()
-                for j = 1, 2 do
-                	--LOG("j: " .. tostring(j))
-                    if isFAB5000(weapons[j]) then
-                    	--LOG("is FAB-5000!")
+    --I also need to max it to one if a pilot has conservative, so I do that all the time
+    --I just check inside if remaining = 0 or 1
+    for i = 0, 2 do
+    	LOG("i: " .. tostring(i))
+        local pawn = Board:GetPawn(i)
+        if pawn ~= nil then
+            local weapons = pawn:GetPoweredWeapons()
+            for j = 1, 2 do
+            	--LOG("j: " .. tostring(j))
+                if isFAB5000(weapons[j]) then
+                	--LOG("is FAB-5000!")
 
-						LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+					--LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 
-						--old
-                        --local fab5000 = _G[weapons[j]]
-                        --ForceUseFab5000(pawn, pawn:GetSpace(), j)
+					local remaining = 1 --max!
+					if fab5000HasBeenUsedPreviousMission then
+						remaining = 0
 
-                        --new
-                        pawn:SetWeaponLimitedRemaining(j, 0)
+	                    --Explanation bubble
+	                    local pop = VoicePopup()
+	                    pop.text = "Another FAB-5000 is under production, we won't be able to use it in this mission."
+	                    pop.pawn = pawn:GetId()
+	                    Game:AddVoicePopup(pop)
+					end
 
-                        --Explanation bubble
-                        local pop = VoicePopup()
-                        pop.text = "Another FAB-5000 is under production, we won't be able to use it in this mission."
-                        pop.pawn = pawn:GetId()
-                        Game:AddVoicePopup(pop)
+					pawn:SetWeaponLimitedRemaining(j, remaining)
 
-                        LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
-                    end
+                    --LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
                 end
             end
         end
@@ -146,12 +145,10 @@ local function HOOK_onNextTurnHook()
 end
 
 local function HOOK_onMissionStart()
-	--LOG("Truelch - HOOK_onMissionStart()")
     missionData().needToCheckFAB5000 = true
 end
 
 local function HOOK_onMissionNextPhaseCreated()
-	--LOG("Truelch - HOOK_onMissionNextPhaseCreated()")
     missionData().needToCheckFAB5000 = true
 end
 
@@ -167,8 +164,6 @@ local HOOK_onSkillEnd = function(mission, pawn, weaponId, p1, p2)
     if exit then
         return
     end
-
-    --LOG("Truelch - proceed!")
 
     if isFAB5000(weaponId) and not forceUse then
         --LOG("Truelch - FAB-5000 has been used!")
@@ -189,17 +184,6 @@ local function EVENT_onModsLoaded()
 end
 
 modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
-
-
-
---Custom
---[[
-function ForceUseFab5000(pawn, target, weaponIndex)
-    forceUse = true
-    pawn:FireWeapon(target, weaponIndex)
-    forceUse = false
-end
-]]
 
 
 --FAB-5000
