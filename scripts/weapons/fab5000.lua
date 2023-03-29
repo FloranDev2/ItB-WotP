@@ -14,6 +14,10 @@ Pawn:SetWeaponLimitedUses(weaponIndex, uses)
 ]]
 
 
+----------------------------------------------- ITEM
+
+
+
 ----------------------------------------------- FUNCTIONS
 
 local function isGame()
@@ -57,9 +61,6 @@ end
 
 
 ----------------------------------------------- HOOKS & EVENTS
---old?
---local forceUse = false --maybe I can access it if I put it here...
-
 local fab5000Names =
 {
     "truelch_FAB5000",
@@ -107,7 +108,7 @@ local function computeFAB5000()
                 if isFAB5000(weapons[j]) then
                 	--LOG("is FAB-5000!")
 
-					--LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+					LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 
 					local remaining = 1 --max!
 					if fab5000HasBeenUsedPreviousMission then
@@ -122,7 +123,7 @@ local function computeFAB5000()
 
 					pawn:SetWeaponLimitedRemaining(j, remaining)
 
-                    --LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+                    LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
                 end
             end
         end
@@ -225,14 +226,6 @@ truelch_FAB5000_A = truelch_FAB5000:new{
 function truelch_FAB5000:GetTargetArea(point)
 	local ret = PointList()
 
-	--Allow to target self for the forced use
-	--[[
-	if forceUse == true then
-		ret:push_back(point)
-		return ret
-	end
-	]]
-
 	--Normal behaviour
 	for i = DIR_START, DIR_END do
 		for k = self.MinMove, self.Range do
@@ -247,16 +240,6 @@ end
 
 function truelch_FAB5000:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
-
-	--[[
-	if forceUse then
-		ret:AddDamage(SpaceDamage(p1, 0))
-		local pawn = Board:GetPawn(p1)
-		pawn:SetPowered(false)
-		--LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is UNpowered!")
-		return ret
-	end
-	]]
 
 	--Normal use	
 	local dir = GetDirection(p2 - p1)
@@ -302,5 +285,4 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 	return ret
 end
 
--- Pickable item
---https://github.com/itb-community/ITB-ModLoader/wiki/%5BVanilla%5D-Board#SetDangerous
+

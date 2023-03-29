@@ -21,9 +21,9 @@ function mod:init()
 	require(self.scriptPath .. "globalAchievements")
 
 	-- Libs
-	--weaponArmed	
 	require(self.scriptPath .. "libs/artilleryArc")
 	require(self.scriptPath .. "libs/blockDeathByDeployment")
+	require(self.scriptPath .. "libs/boardEvents")
 
 	-- FMW ----->
 	--modapi already defined
@@ -35,6 +35,7 @@ function mod:init()
 	-- <----- FMW
 
 	-- Weapons
+	require(self.scriptPath .. "testItem") --test
 	require(self.scriptPath .. "weapons/fab500")
 	require(self.scriptPath .. "weapons/fab5000")
 	--require(self.scriptPath .. "weapons/FMm6Gun")
