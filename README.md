@@ -78,6 +78,19 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 ## Versions:
 
+### v2.1.0 - release!
+
+#### 0:
+- FAB-5000:
+  - Changed the FAB-5000 reload logic with a cleaner method
+  - Conservative doesn't allow you to have 2 FAB-5000 anymore!
+  - Fixed: the Mechs' having depleted FAB-5000 has no longer a glitch with the animation at the start of the game
+  - Now, when the FAB-5000 is in cooldown, there's a FAB-5000 pickable item, so the FAB-5000 can be used again!
+- FMW is back! Thx a lot ATLAS!!!
+  - Some minor changes on FMW
+- [TODO] Fixed "Ground Zero achievement": no longer cumulates kills over the course of the mission, is properly reset each turn now
+
+
 ### v2.0.X - pre-release (current)
 
 #### 2:
@@ -95,7 +108,7 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 #### 1:
 - Fixed mod and squad icons
-- FAB-5000 cooldown is working again, but mght fail with Conservative skill
+- FAB-5000 cooldown is working again, but might fail with Conservative skill
 
 #### 0:
 Pre-release version

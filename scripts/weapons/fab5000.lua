@@ -2,6 +2,13 @@
 local mod = mod_loader.mods[modApi.currentMod]
 local scriptPath = mod.scriptPath
 
+--Libs
+local tips = require(scriptPath .. "libs/tutorialTips")
+LOG("tips: " .. tostring(tips))
+
+--Example from nuclear nightmares
+--tips:Trigger("Energy", point)
+
 ----------------------------------------------- IMAGES
 
 
@@ -225,6 +232,12 @@ truelch_FAB5000_A = truelch_FAB5000:new{
 
 function truelch_FAB5000:GetTargetArea(point)
 	local ret = PointList()
+	local mission = GetCurrentMission()
+
+	--Tips
+	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+		tips:Trigger("FAB5000", point)
+	end
 
 	--Normal behaviour
 	for i = DIR_START, DIR_END do

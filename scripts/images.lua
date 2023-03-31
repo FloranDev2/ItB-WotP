@@ -10,5 +10,5 @@ modApi:appendAsset("img/weapons/science_canisterround.png", resourcePath .. "img
 modApi:appendAsset("img/effects/shotup_kv2_missile2.png",   resourcePath .. "img/effects/shotup_kv2_missile2.png")
 
 --Items
-modApi:appendAsset("img/combat/mine_small.png", resourcePath .. "img/combat/mine_small.png")
-	Location["combat/mine_small.png"] = Point(-20,0)
+modApi:appendAsset("img/combat/item_fab5000.png", resourcePath .. "img/combat/item_fab5000.png")
+	Location["combat/item_fab5000.png"] = Point(-15, 10)

@@ -123,22 +123,22 @@ truelch_M6Gun_A = truelch_M6Gun:new{
 }
 
 function truelch_M6Gun:GetTargetArea(point)
-	LOG("truelch_M6Gun:GetTargetArea")
+	--LOG("truelch_M6Gun:GetTargetArea")
 	local pl = PointList()
-	LOG("A")
+	--LOG("A")
 	local currentShell = _G[self:FM_GetMode(point)]
-	LOG("B")
+	--LOG("B")
 	if self:FM_CurrentModeReady(point) then
-		LOG("C")
+		--LOG("C")
 		local points = currentShell:targeting(point)
-		LOG("D")
+		--LOG("D")
 		for _, p in ipairs(points) do
-			LOG("E: " .. p:GetString())
+			--LOG("E: " .. p:GetString())
 			pl:push_back(p)
 		end
-		LOG("F")
+		--LOG("F")
 	end
-	LOG("G") 
+	--LOG("G") 
 	return pl
 end
 

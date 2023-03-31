@@ -38,7 +38,7 @@ function mod:init()
 	require(self.scriptPath .. "testItem") --test
 	require(self.scriptPath .. "weapons/fab500")
 	require(self.scriptPath .. "weapons/fab5000")
-	--require(self.scriptPath .. "weapons/FMm6Gun")
+	require(self.scriptPath .. "weapons/FMm6Gun")
 	require(self.scriptPath .. "weapons/m6gun")
 	require(self.scriptPath .. "weapons/m10t")
 
@@ -51,8 +51,11 @@ function mod:init()
 	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
-	--modApi:addWeaponDrop("truelch_M6Gun")
+	modApi:addWeaponDrop("truelch_M6Gun")
 	modApi:addWeaponDrop("truelch_TC_M6Gun")
+
+	--Tutorial tips
+	require(self.scriptPath .. "tips")
 
 	-- Custom main menu config
 	require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
