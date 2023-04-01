@@ -68,6 +68,8 @@ end
 
 
 ----------------------------------------------- HOOKS & EVENTS
+
+--[[
 local fab5000Names =
 {
     "truelch_FAB5000",
@@ -93,6 +95,30 @@ local function isFAB5000(weapon)
         end
     end
     return false
+end
+]]
+
+--123456789012345
+--truelch_FAB5000
+local function isFAB5000(weapon)
+	if type(weapon) == 'table' then
+    	weapon = weapon.__Id
+	end
+	LOG("TRUELCH - weapon: " .. tostring(weapon))
+	if weapon == nil then
+		LOG("TRUELCH - weapon is nil!")
+		return false
+	end
+	LOG("TRUELCH - length: " .. tostring(string.len(weapon)))
+	--[[if string.len(weapon) <= 15 then
+		return false
+	end]]
+    local sub = string.sub(weapon, 9, 15)
+    LOG("TRUELCH - sub: " .. sub)
+    if sub == "FAB5000" then
+    	return true
+    end
+	return false
 end
 
 local function computeFAB5000()
@@ -127,6 +153,10 @@ local function computeFAB5000()
 	                    pop.pawn = pawn:GetId()
 	                    Game:AddVoicePopup(pop)
 					end
+
+					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					remaining = 0 --TMP test: just setting it to 0 all the time and grab the item to see if reload works!
+					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 					pawn:SetWeaponLimitedRemaining(j, remaining)
 
@@ -297,5 +327,3 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 	
 	return ret
 end
-
-

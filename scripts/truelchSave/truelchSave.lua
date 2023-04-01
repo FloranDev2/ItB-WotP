@@ -119,7 +119,7 @@ function this:init(truelchMod)
 end
 
 function this:load(truelchMod, options)
-	LOG("-------------------------------------------------------------------------- [LOAD] truelchSave.load(options: " .. tostring(options) .. ")")
+	--LOG("-------------------------------------------------------------------------- [LOAD] truelchSave.load(options: " .. tostring(options) .. ")")
 
 	local enabled = false
 
