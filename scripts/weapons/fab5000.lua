@@ -104,17 +104,10 @@ local function isFAB5000(weapon)
 	if type(weapon) == 'table' then
     	weapon = weapon.__Id
 	end
-	LOG("TRUELCH - weapon: " .. tostring(weapon))
 	if weapon == nil then
-		LOG("TRUELCH - weapon is nil!")
 		return false
 	end
-	LOG("TRUELCH - length: " .. tostring(string.len(weapon)))
-	--[[if string.len(weapon) <= 15 then
-		return false
-	end]]
     local sub = string.sub(weapon, 9, 15)
-    LOG("TRUELCH - sub: " .. sub)
     if sub == "FAB5000" then
     	return true
     end
@@ -132,7 +125,7 @@ local function computeFAB5000()
     --I also need to max it to one if a pilot has conservative, so I do that all the time
     --I just check inside if remaining = 0 or 1
     for i = 0, 2 do
-    	LOG("i: " .. tostring(i))
+    	--LOG("i: " .. tostring(i))
         local pawn = Board:GetPawn(i)
         if pawn ~= nil then
             local weapons = pawn:GetPoweredWeapons()
@@ -141,7 +134,7 @@ local function computeFAB5000()
                 if isFAB5000(weapons[j]) then
                 	--LOG("is FAB-5000!")
 
-					LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+					--LOG("TRUELCH - BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 
 					local remaining = 1 --max!
 					if fab5000HasBeenUsedPreviousMission then
@@ -156,11 +149,12 @@ local function computeFAB5000()
 
 					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					remaining = 0 --TMP test: just setting it to 0 all the time and grab the item to see if reload works!
+					remaining = 1 --tmp2
 					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 					pawn:SetWeaponLimitedRemaining(j, remaining)
 
-                    LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+                    --LOG("TRUELCH - AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
                 end
             end
         end
@@ -265,9 +259,11 @@ function truelch_FAB5000:GetTargetArea(point)
 	local mission = GetCurrentMission()
 
 	--Tips
+	--[[
 	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
 		tips:Trigger("FAB5000", point)
 	end
+	]]
 
 	--Normal behaviour
 	for i = DIR_START, DIR_END do

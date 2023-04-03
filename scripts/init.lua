@@ -8,7 +8,8 @@ local mod = {
     dependencies = {
         modApiExt = "1.17",
 		memedit = "1.0.1",
-    }
+    },
+    metadata = metadata, --inspired from NamesAreHard's NN
 }
 
 function mod:init()	
@@ -79,6 +80,23 @@ function mod:load(options, version)
 		"Weapons of the Past",
 		"A squad of almost relic-worthy mechs, consisting of Old-Earth World War 2 technology. Even though their old age, they still pack quite a punch.",
 		self.resourcePath .. "img/squad_icon.png"
+	)
+
+	--Test reset tutorials
+	if options.resetTutorials and options.resetTutorials.enabled then
+		require(self.scriptPath .."libs/tutorialTips"):ResetAll()
+		options.resetTutorials.enabled = false
+	end
+end
+
+--function mod:metata()
+local function metadata()
+	LOG("TRUELCH - metadata")
+	modApi:addGenerationOption(
+		"resetTutorials",
+		"Reset Tutorial Tooltips",
+		"Check to reset all tutorial tooltips for this profile.",
+		{ enabled = false }
 	)
 end
 

@@ -248,6 +248,7 @@ end
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)
+		--LOG("TRUELCH - Achievements - Pawn Killed")
 		local exit = false
 			or isSquad() == false
 			or isMission() == false

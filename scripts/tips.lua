@@ -6,11 +6,13 @@ local tips = require(path .. "libs/tutorialTips")
 --Example from nuclear nightmares
 --tips:Trigger("Energy", point)
 
+--[[
 tips:Add{
 	id = "FAB5000",
 	title = "FAB-5000",
-	text = "The FAB-5000 is a BIG BOMB."
+	text = "The bomber is equipped with 2 bombs. The big one, the FAB-5000, needs to be reloaded during the next mission to be used again."
 }
+]]
 
 tips:Add{
 	id = "M10T",

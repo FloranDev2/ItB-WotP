@@ -5,7 +5,7 @@ local squad = "truelch_WotP"
 -- Goals
 local VAPE_TARGET = 50
 local BIG_SHOTS_TARGET = 5
-local GROUND_ZERO_TARGET = 5
+local GROUND_ZERO_TARGET = 2 --5
 local MUSEUM_TARGET = 2
 
 local achievements = {
@@ -368,10 +368,12 @@ modApi.events.onMissionStart:subscribe(function()
 
 	missionData().isPe8Attacking = false
 	missionData().groundZeroPe8Kills = 0
+	LOG("TRUELCH - Mission start -> Reset!")
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
+		LOG("TRUELCH - Skill End")
 		local exit = false
 			or isMission() == false
 
@@ -379,19 +381,25 @@ modApi.events.onModsLoaded:subscribe(function()
 			return
 		end
 
+		LOG(" ---> Skill end OK")
+		LOG("pawn:GetType(): " .. pawn:GetType() .. ", PE8_TYPE: " .. PE8_TYPE)
+
 		if pawn:GetType() == PE8_TYPE then
 			--Init
 			missionData().isPe8Attacking = true
+			LOG("TRUELCH - Skill ended -> Pe8 attacking!")
 		else
 			--Reset
 			missionData().isPe8Attacking = false
 			missionData().groundZeroPe8Kills = 0
+			LOG("TRUELCH - Skill ended -> Reset! (not Pe8 attacking)")
 		end
 	end)
 end)
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)
+		LOG("TRUELCH - Pawn Killed")
 		local exit = false
 			or isMission() == false
 
@@ -400,13 +408,21 @@ modApi.events.onModsLoaded:subscribe(function()
 		end
 
 		if missionData().isPe8Attacking == nil then
+			LOG(" ---> Return")
 			return
 		end
 
+		LOG(" ---> Mission data is ok")
+
+		LOG("pawn:IsEnemy(): " .. tostring(pawn:IsEnemy()))
+		LOG("missionData().isPe8Attacking: " .. tostring(missionData().isPe8Attacking))
+
 		if pawn:IsEnemy() and missionData().isPe8Attacking then
 			missionData().groundZeroPe8Kills = missionData().groundZeroPe8Kills + 1
+			LOG("TRUELCH - Pawn killed -> Pe8 kills: " .. tostring(missionData().groundZeroPe8Kills))
 			if missionData().groundZeroPe8Kills >= GROUND_ZERO_TARGET then
-				achievements.groundZero:addProgress{ complete = true }
+				--achievements.groundZero:addProgress{ complete = true } --TODO
+				Board:AddAlert(pawn:GetSpace(), "Ground Zero!")
 			end
 		end
 	end)

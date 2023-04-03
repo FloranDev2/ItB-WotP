@@ -49,17 +49,10 @@ local function isFAB5000(weapon)
 	if type(weapon) == 'table' then
     	weapon = weapon.__Id
 	end
-	LOG("TRUELCH - weapon: " .. tostring(weapon))
 	if weapon == nil then
-		LOG("TRUELCH - weapon is nil!")
 		return false
 	end
-	LOG("TRUELCH - length: " .. tostring(string.len(weapon)))
-	--[[if string.len(weapon) <= 15 then
-		return false
-	end]]
     local sub = string.sub(weapon, 9, 15)
-    LOG("TRUELCH - sub: " .. sub)
     if sub == "FAB5000" then
     	return true
     end
@@ -95,6 +88,7 @@ local function findSpawnPos()
 	local list = {}
 
 	--Loop to find valid points
+	--[[
 	for index, point in ipairs(Board) do
 		if isValidPos(point) then
 	    	table.insert(list, point)
@@ -102,6 +96,12 @@ local function findSpawnPos()
 	    else
 	    	--LOG(point:GetString() .. " is NOT valid! :(")
     	end
+	end
+	]]
+
+	--We don't want edge tiles, so we exclude 0 and 7
+	for j = 1, 6 do
+		
 	end
 
 	local length = #(list)
@@ -131,7 +131,7 @@ end
 modApi.events.onMissionStart:subscribe(function()
 	
 	--test to see if it inits
-	LOG("TRUELCH - onMissionStart - Spawn Item")
+	--LOG("TRUELCH - onMissionStart - Spawn Item")
 	--LOG("TRUELCH - TERRAIN_WATER: " .. tostring(TERRAIN_WATER) .. ", TERRAIN_HOLE: " .. tostring(TERRAIN_HOLE))
 	local p = findSpawnPos()
 
@@ -150,8 +150,8 @@ end)
 
 BoardEvents.onTerrainChanged:subscribe(function(p, terrain, terrain_prev)
 	local item = Board:GetItem(p)
-	LOG("TRUELCH - onTerrainChanged(p: " .. p:GetString())
-	LOG("item: " .. item)
+	--LOG("TRUELCH - onTerrainChanged(p: " .. p:GetString())
+	--LOG("item: " .. item)
 	if item == "truelch_Item_FAB5000" then
 		if terrain == TERRAIN_HOLE or terrain == TERRAIN_WATER then
 			Board:RemoveItem(p)
@@ -160,9 +160,9 @@ BoardEvents.onTerrainChanged:subscribe(function(p, terrain, terrain_prev)
 end)
 
 BoardEvents.onItemRemoved:subscribe(function(loc, removed_item)
-	LOG("TRUELCH - onItemRemoved")
-	LOG("TRUELCH - loc: " .. loc:GetString() .. ")")
-	LOG("TRUELCH - removed_item: " .. removed_item)
+	--LOG("TRUELCH - onItemRemoved")
+	--LOG("TRUELCH - loc: " .. loc:GetString() .. ")")
+	--LOG("TRUELCH - removed_item: " .. removed_item)
 	if removed_item == "truelch_Item_FAB5000"  then
 
 		local pawn = Board:GetPawn(loc)
@@ -186,7 +186,7 @@ BoardEvents.onItemRemoved:subscribe(function(loc, removed_item)
 end)
 
 local HOOK_PawnUndoMove = function(mission, pawn, undonePosition)
-	LOG(pawn:GetMechName() .. " move was undone! Was at: " .. undonePosition:GetString() .. ", returned to: " .. pawn:GetSpace():GetString())
+	--LOG(pawn:GetMechName() .. " move was undone! Was at: " .. undonePosition:GetString() .. ", returned to: " .. pawn:GetSpace():GetString())
 
 	--TODO: check if it's the mech that picked up the item
 	--If it's the case, undo the effect
