@@ -8,8 +8,8 @@ local mod = {
     dependencies = {
         modApiExt = "1.17",
 		memedit = "1.0.1",
-    },
-    metadata = metadata, --inspired from NamesAreHard's NN
+    }--,
+    --metadata = metadata, --inspired from NamesAreHard's NN
 }
 
 function mod:init()	
@@ -89,8 +89,8 @@ function mod:load(options, version)
 	end
 end
 
---function mod:metata()
-local function metadata()
+function mod:metata()
+--local function metadata()
 	LOG("TRUELCH - metadata")
 	modApi:addGenerationOption(
 		"resetTutorials",
