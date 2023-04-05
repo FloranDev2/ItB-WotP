@@ -5,7 +5,7 @@ local squad = "truelch_WotP"
 -- Goals
 local VAPE_TARGET = 50
 local BIG_SHOTS_TARGET = 5
-local GROUND_ZERO_TARGET = 2 --5
+local GROUND_ZERO_TARGET = 5
 local MUSEUM_TARGET = 2
 
 local achievements = {
@@ -205,7 +205,7 @@ achievements.vape.getTooltip = function(self)
 	local status = ""
 
 	if isMission() then
-		status = "\nVaped Vek:" .. tostring(gameData().vapeCount)
+		status = "\nVaped Vek: " .. tostring(gameData().vapeCount)
 	end
 
 	result = result .. status 
@@ -373,7 +373,33 @@ end)
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
-		LOG("TRUELCH - SKILL START HOOK")
+		--LOG("TRUELCH - SKILL START HOOK")
+
+		local exit = false
+			or isMission() == false
+
+		if exit then
+			return
+		end
+
+		if type(weaponId) == 'table' then
+    		weaponId = weaponId.__Id
+		end
+
+		--LOG("TRUELCH - SKILL START HOOK - pawn:GetType(): " .. pawn:GetType() .. ", weaponId: " .. weaponId)
+
+		if pawn:GetType() == PE8_TYPE then
+			--Init
+			missionData().isPe8Attacking = true
+			missionData().groundZeroPe8Kills = 0
+			--LOG("TRUELCH - Skill started -> Pe8 attacking!")
+		else
+			--Reset
+			missionData().isPe8Attacking = false
+			missionData().groundZeroPe8Kills = 0
+			--LOG("TRUELCH - Skill started -> Reset! (not Pe8 attacking)")
+		end
+
 	end)
 end)
 
@@ -392,7 +418,7 @@ modApi.events.onModsLoaded:subscribe(function()
 		end
 
 		--LOG(" ---> Skill end OK")
-		LOG("TRUELCH - SKILL END HOOK - pawn:GetType(): " .. pawn:GetType() .. ", weaponId: " .. weaponId)
+		--LOG("TRUELCH - SKILL END HOOK - pawn:GetType(): " .. pawn:GetType() .. ", weaponId: " .. weaponId)
 
 		if pawn:GetType() == PE8_TYPE then
 			--Init
@@ -409,7 +435,7 @@ end)
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)
-		LOG("TRUELCH - PAWN KILLED HOOK")
+		--LOG("TRUELCH - PAWN KILLED HOOK")
 		local exit = false
 			or isMission() == false
 
@@ -422,17 +448,12 @@ modApi.events.onModsLoaded:subscribe(function()
 			return
 		end
 
-		--LOG(" ---> Mission data is ok")
-
-		--LOG("pawn:IsEnemy(): " .. tostring(pawn:IsEnemy()))
-		--LOG("missionData().isPe8Attacking: " .. tostring(missionData().isPe8Attacking))
-
 		if pawn:IsEnemy() and missionData().isPe8Attacking then
 			missionData().groundZeroPe8Kills = missionData().groundZeroPe8Kills + 1
 			--LOG("TRUELCH - Pawn killed -> Pe8 kills: " .. tostring(missionData().groundZeroPe8Kills))
 			if missionData().groundZeroPe8Kills >= GROUND_ZERO_TARGET then
-				--achievements.groundZero:addProgress{ complete = true } --TODO
-				Board:AddAlert(pawn:GetSpace(), "Ground Zero!")
+				achievements.groundZero:addProgress{ complete = true } --TODO
+				--Board:AddAlert(pawn:GetSpace(), "Ground Zero!")
 			end
 		end
 	end)

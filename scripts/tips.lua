@@ -7,6 +7,25 @@ local tips = require(path .. "libs/tutorialTips")
 --tips:Trigger("Energy", point)
 
 --[[
+--Libs
+local tips = require(scriptPath .. "libs/tutorialTips")
+
+local mission = GetCurrentMission()
+if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+	tips:Trigger("FAB5000Item", point)
+end
+]]
+
+--TODO (useless maybe?)
+--[[
+tips:Add{
+	id = "M10T",
+	title = "M10T Howitzer",
+	text = "This howitzer is able to ignore armor and deals damage equal to the half of the remaining HP of the target (rounded up)."
+}
+]]
+
+--[[
 tips:Add{
 	id = "FAB5000",
 	title = "FAB-5000",
@@ -14,20 +33,17 @@ tips:Add{
 }
 ]]
 
+--Works
+--Is used in fab5000, not in testItem.lua
 tips:Add{
-	id = "M10T",
-	title = "M10T Howitzer",
-	text = "This howitzer is able to ignore armor and deals damage equal to the half of the remaining HP of the target (rounded up)."
+	id = "FAB5000Item",
+	title = "FAB-5000",
+	text = "Your Bomber can pick up the FAB-5000 to use it or any ally can retrieve it so it can be used in the next mission. If an enemy steps on it, it'll destroy it."
 }
 
+--Works
 tips:Add{
 	id = "M6GunFMW",
 	title = "M6 Gun",
 	text = "The M6 Gun can fire two types of shells: smoking and pushing shells. To change mode, click on the weapon and click on the shell buttons on the right of the weapon's panel."
-}
-
-tips:Add{
-	id = "M6GunFMW",
-	title = "M6 Gun",
-	text = "The M6 Gun can fire two types of shells: smoking and pushing shells. Click on the target, and then click behind it to push, or click again on the target to smoke. (you'll need to move the cursor from the target tile first)"
 }

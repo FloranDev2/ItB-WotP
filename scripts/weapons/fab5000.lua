@@ -4,7 +4,7 @@ local scriptPath = mod.scriptPath
 
 --Libs
 local tips = require(scriptPath .. "libs/tutorialTips")
-LOG("tips: " .. tostring(tips))
+--LOG("tips: " .. tostring(tips))
 
 --Example from nuclear nightmares
 --tips:Trigger("Energy", point)
@@ -69,35 +69,6 @@ end
 
 ----------------------------------------------- HOOKS & EVENTS
 
---[[
-local fab5000Names =
-{
-    "truelch_FAB5000",
-    "truelch_FAB5000_A",
-    "truelch_FAB5000_B", --doesn't exist yet, but we never now...
-    "truelch_FAB5000_AB", --doesn't exist yet, but we never now...
-}
-
-local function isFAB5000(weapon)
-	--LOG("Truelch - isFAB5000(weapon: " .. tostring(weapon) .. ")")
-	--LOG("type: " .. tostring(type(weapon)))
-
-	if type(weapon) == 'table' then
-    	weapon = weapon.__Id
-    	--LOG("Truelch - converted table to id: " .. tostring(weapon))
-	end
-    
-    for _, v in pairs(fab5000Names) do
-    	--LOG("v: " .. tostring(v) .. ", weapon: " .. tostring(weapon))
-        if v == weapon then
-            --LOG("Truelch - is FAB-5000!")
-            return true
-        end
-    end
-    return false
-end
-]]
-
 --123456789012345
 --truelch_FAB5000
 local function isFAB5000(weapon)
@@ -117,7 +88,7 @@ end
 local function computeFAB5000()
 	--LOG("Truelch - computeFAB5000()")
 
-    gameData().currentMission = gameData().currentMission + 1
+    --gameData().currentMission = gameData().currentMission + 1 --is incremented in testItem.lua at game start
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
 
     --LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
@@ -141,16 +112,19 @@ local function computeFAB5000()
 						remaining = 0
 
 	                    --Explanation bubble
-	                    local pop = VoicePopup()
-	                    pop.text = "Another FAB-5000 is under production, we won't be able to use it in this mission."
-	                    pop.pawn = pawn:GetId()
-	                    Game:AddVoicePopup(pop)
-					end
+	                    --Meh, is too repetitive now that we have it every mission
+	                    --Plus, I couldn't find how to adapt that depending on the pilot
+	                    --local pop = VoicePopup()
+	                    --pop.text = "Pick-up that FAB-5000 before the enemy!"
+	                    --pop.pawn = pawn:GetId()
+	                    --Game:AddVoicePopup(pop)
 
-					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					remaining = 0 --TMP test: just setting it to 0 all the time and grab the item to see if reload works!
-					remaining = 1 --tmp2
-					-- TMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	                    --Tutorial tip
+	                    local mission = GetCurrentMission()
+                    	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+							tips:Trigger("FAB5000Item", pawn:GetSpace())
+						end
+					end
 
 					pawn:SetWeaponLimitedRemaining(j, remaining)
 
@@ -164,11 +138,6 @@ end
 local function HOOK_onNextTurnHook()
 	if Game:GetTeamTurn() == TEAM_PLAYER and missionData().needToCheckFAB5000 == true then
 		missionData().needToCheckFAB5000 = false --test
-		for i = 0, 2 do			
-			local pawn = Board:GetPawn(i)
-			Board:GetPawn(i):SetPowered(true) --hope it won't interact badly with other stuff
-			--LOG("Truelch - pawn: " .. tostring(pawn:GetType()) .. " is powered!")
-		end
 	end
 
 	if Game:GetTeamTurn() == TEAM_ENEMY and missionData().needToCheckFAB5000 == true then
@@ -197,13 +166,14 @@ local HOOK_onSkillEnd = function(mission, pawn, weaponId, p1, p2)
         return
     end
 
-    if isFAB5000(weaponId) and not forceUse then
+    if isFAB5000(weaponId) then
         --LOG("Truelch - FAB-5000 has been used!")
         gameData().lastFab5000Use = gameData().currentMission
     end
 end
 
 modApi.events.onPostStartGame:subscribe(function()
+	--LOG("TRUELCH - onPostStartGame")
     gameData().lastFab5000Use = -10
     gameData().currentMission = 0
 end)
@@ -255,11 +225,11 @@ truelch_FAB5000_A = truelch_FAB5000:new{
 }
 
 function truelch_FAB5000:GetTargetArea(point)
-	local ret = PointList()
-	local mission = GetCurrentMission()
+	local ret = PointList()	
 
 	--Tips
 	--[[
+	local mission = GetCurrentMission()
 	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
 		tips:Trigger("FAB5000", point)
 	end

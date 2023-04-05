@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.0.2)
+# Weapons of the Past (v2.1.0 WIP)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -18,17 +18,10 @@ Art: Truelch with help and suggestions from tob260
 Thanks a lot for the Discord community that helps a lot with feedback!
 
 Special thanks to:
-Lemonymous for the huge amount of help, knowledge, debug, the documentation you provided in addition to the various libraries that I stol... I mean took from you ;)
-tosx for your help and mod expertise
-narD also for sharing your code and show casing the mod :)
-ALPHA (and Lemonymous) for helping me to set up FMW.
-NamesAreHard (and Lemonymous again!) for helping me on the non massive warning script and the shop.
+Lemonymous, ATLAS, NamesAreHard, Djinn, tosx and narD for code support.
 Protostar909, ,̶'̶,̶|̶'̶,̶'̶_̶  (loss), Machin and R30hedron for your feedbacks on the balance and design.
-R30hedron (again!) and Djinn for your feedback on the KV-2 sprite.
 Thx for JamesTripleQ for suggestions for the achievements.
-
-and of course kartoFlane for the modloader!!!
-
+And of course kartoFlane for the modloader!!!
 (I hope I forgot nobody!)
 
 
@@ -59,19 +52,8 @@ Both of the shells can be upgraded to deal damage, while retaining their propert
 Due to its small size, it can maneuver through smoke, but is prone to drowning. Use this mech wisely and with care, and it will serve you well.
 
 
+
 ## TODO
-- Improve FAB-5000:
-  - Item to pick up to reload the FAB-5000 instead of waiting a mission
-  - Change the hacky logic with the memedit function: (https://discord.com/channels/417639520507527189/418142041189646336/1089284037950058576)
-      Pawn:GetWeaponLimitedRemaining(weaponIndex)
-      Pawn:GetWeaponLimitedUses(weaponIndex)
-      Pawn:SetWeaponLimitedRemaining(weaponIndex, remaining)
-      Pawn:SetWeaponLimitedUses(weaponIndex, uses)
-  - Also, check how Conservative interacts with the FAB-5000
-- Add tutorials:
-  - How the howitzer works
-  - How the FAB-5000 reload works
-  - How the M6 Gun works (especially if FMW works again)
 - Add options:
   - White screen explosion effect for the FAB-5000 (disabled by default?)
 - Add train and armored train to the list of missions for "That belongs in a museum!"?
@@ -88,7 +70,8 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
   - Now, when the FAB-5000 is in cooldown, there's a FAB-5000 pickable item, so the FAB-5000 can be used again!
 - FMW is back! Thx a lot ATLAS!!!
   - Some minor changes on FMW
-- [TODO] Fixed "Ground Zero achievement": no longer cumulates kills over the course of the mission, is properly reset each turn now
+- Tutorial tips
+- Fixed "Ground Zero achievement"
 
 
 ### v2.0.X - pre-release (current)

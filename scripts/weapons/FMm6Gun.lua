@@ -4,6 +4,9 @@ local resources = mod_loader.mods[modApi.currentMod].resourcePath
 
 local fmw = require(path .. "fmw/api") 
 
+--Libs
+local tips = require(path .. "libs/tutorialTips")
+
 --Icons
 modApi:appendAsset("img/shells/icon_standard_shell.png", resources .. "img/shells/icon_standard_shell.png")
 modApi:appendAsset("img/shells/icon_smoke_shell.png",    resources .. "img/shells/icon_smoke_shell.png")
@@ -125,6 +128,13 @@ truelch_M6Gun_A = truelch_M6Gun:new{
 function truelch_M6Gun:GetTargetArea(point)
 	--LOG("truelch_M6Gun:GetTargetArea")
 	local pl = PointList()
+
+	--Tutorial tip
+	local mission = GetCurrentMission()
+	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+		tips:Trigger("M6GunFMW", point)
+	end
+
 	--LOG("A")
 	local currentShell = _G[self:FM_GetMode(point)]
 	--LOG("B")

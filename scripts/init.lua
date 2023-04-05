@@ -36,11 +36,10 @@ function mod:init()
 	-- <----- FMW
 
 	-- Weapons
-	require(self.scriptPath .. "testItem") --test
 	require(self.scriptPath .. "weapons/fab500")
 	require(self.scriptPath .. "weapons/fab5000")
 	require(self.scriptPath .. "weapons/FMm6Gun")
-	require(self.scriptPath .. "weapons/m6gun")
+	--require(self.scriptPath .. "weapons/m6gun")
 	require(self.scriptPath .. "weapons/m10t")
 
 	-- Pawns
@@ -53,10 +52,21 @@ function mod:init()
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
 	modApi:addWeaponDrop("truelch_M6Gun")
-	modApi:addWeaponDrop("truelch_TC_M6Gun")
+	--modApi:addWeaponDrop("truelch_TC_M6Gun")
+
+	--Item
+	require(self.scriptPath .. "itemFAB5000")
+	TILE_TOOLTIPS.Item_FAB5000_Text = {"FAB-5000's ammunition", "Pick it up to recharge the FAB-5000 or secure it for the next mission."}
 
 	--Tutorial tips
 	require(self.scriptPath .. "tips")
+	--Move it from metadata, it didn't work there
+	modApi:addGenerationOption(
+		"resetTutorials",
+		"Reset Tutorial Tooltips",
+		"Check to reset all tutorial tooltips for this profile.",
+		{ enabled = false }
+	)
 
 	-- Custom main menu config
 	require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
@@ -89,15 +99,19 @@ function mod:load(options, version)
 	end
 end
 
+--Doesn't work...
 function mod:metata()
---local function metadata()
 	LOG("TRUELCH - metadata")
+	--Moved that to init
+	--I've let the debug in case I see it, but it doesn't seem to work
+	--[[
 	modApi:addGenerationOption(
 		"resetTutorials",
 		"Reset Tutorial Tooltips",
 		"Check to reset all tutorial tooltips for this profile.",
 		{ enabled = false }
 	)
+	]]
 end
 
 return mod
