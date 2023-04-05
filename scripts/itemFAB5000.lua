@@ -91,18 +91,6 @@ end
 local function findSpawnPos()
 	local list = {}
 
-	--Loop to find valid points
-	--[[
-	for index, point in ipairs(Board) do
-		if isValidPos(point) then
-	    	table.insert(list, point)
-	    	--LOG(point:GetString() .. " is valid! YAY :)")
-	    else
-	    	--LOG(point:GetString() .. " is NOT valid! :(")
-    	end
-	end
-	]]
-
 	--We don't want edge tiles, so we exclude 0 and 7
 	for j = 1, 6 do
 		for i = 1, 6 do
@@ -127,12 +115,18 @@ end
 local function attemptReloadFAB5000(pawn)
 	--LOG("attemptReloadFAB5000: " .. pawn:GetType())
 	local weapons = pawn:GetPoweredWeapons()
+	local hasReloaded = false
 	for j = 1, 2 do
 	    if isFAB5000(weapons[j]) then
 			--LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 			pawn:SetWeaponLimitedRemaining(j, 1)
+			Board:AddAlert(pawn:GetSpace(), "FAB-5000 Reloaded")
 	        --LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+	        hasReloaded = true
 	    end
+	end
+	if hasReloaded == false then
+		Board:AddAlert(pawn:GetSpace(), "FAB-5000 Secured")
 	end
 end
 
@@ -142,8 +136,8 @@ local function fab5000Destroyed(point)
 end
 
 ----------------------------------------------- HOOKS & EVENTS
-modApi.events.onMissionStart:subscribe(function()
 
+modApi.events.onMissionStart:subscribe(function()
 	gameData().currentMission = gameData().currentMission + 1
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
 
@@ -155,6 +149,8 @@ modApi.events.onMissionStart:subscribe(function()
 			spawnItem.sItem = "truelch_Item_FAB5000"
 			Board:DamageSpace(spawnItem)
 			Board:SetDangerous(p) --test
+			Board:AddAlert(p, "FAB-5000")
+			fabPos = p
 		else
 			--LOG("TRUELCH - Nope")
 		end
@@ -164,8 +160,6 @@ end)
 
 BoardEvents.onTerrainChanged:subscribe(function(p, terrain, terrain_prev)
 	local item = Board:GetItem(p)
-	--LOG("TRUELCH - onTerrainChanged(p: " .. p:GetString())
-	--LOG("item: " .. item)
 	if item == "truelch_Item_FAB5000" then
 		if terrain == TERRAIN_HOLE or terrain == TERRAIN_WATER then
 			Board:RemoveItem(p)
@@ -186,18 +180,21 @@ BoardEvents.onItemRemoved:subscribe(function(loc, removed_item)
 	end
 end)
 
+--I need to do that only when starting from FAB-5000 item pos!!!
 local HOOK_PawnUndoMove = function(mission, pawn, undonePosition)
 	--LOG(pawn:GetMechName() .. " move was undone! Was at: " .. undonePosition:GetString() .. ", returned to: " .. pawn:GetSpace():GetString())
 
-	--TODO: check if it's the mech that picked up the item
-	--If it's the case, undo the effect
-	local weapons = pawn:GetPoweredWeapons()
-	for j = 1, 2 do
-	    if isFAB5000(weapons[j]) then
-			--LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
-			pawn:SetWeaponLimitedRemaining(j, 0)
-	        --LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
-	    end
+	local item = Board:GetItem(undonePosition)
+	if item == "truelch_Item_FAB5000" then
+		local weapons = pawn:GetPoweredWeapons()
+		--LOG("Undone FAB-5000 retrieve")
+		for j = 1, 2 do
+		    if isFAB5000(weapons[j]) then
+				--LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+				pawn:SetWeaponLimitedRemaining(j, 0)
+		        --LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+		    end
+		end
 	end
 end
 

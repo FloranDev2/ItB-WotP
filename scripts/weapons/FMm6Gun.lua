@@ -130,10 +130,13 @@ function truelch_M6Gun:GetTargetArea(point)
 	local pl = PointList()
 
 	--Tutorial tip
+	--I'm removing the tutorial tip just to see if it messes with the FMW and causes the error
+	
 	local mission = GetCurrentMission()
 	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
 		tips:Trigger("M6GunFMW", point)
 	end
+	
 
 	--LOG("A")
 	local currentShell = _G[self:FM_GetMode(point)]
