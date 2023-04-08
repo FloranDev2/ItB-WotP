@@ -1,6 +1,6 @@
----- FIRING MODE WEAPON FRAMEWORK V8.3  ----
-----  MUST BE INITIALIZED & LOADED      ----
----- modApiExt IS A REQUIRED DEPENDENCY ---- 
+---- FIRING MODE WEAPON FRAMEWORK V8.4  ----
+----    MUST BE INITIALIZED & LOADED    ----
+---- MODAPIEXT IS A REQUIRED DEPENDENCY ---- 
 
 local mod = mod_loader.mods[modApi.currentMod]
 local path = mod.scriptPath

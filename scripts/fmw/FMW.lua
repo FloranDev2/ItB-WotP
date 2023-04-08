@@ -5,7 +5,7 @@
 atlas_FiringModeWeaponFramework = atlas_FiringModeWeaponFramework or {vers, hkRegistry = {}, repair = {}, move = {}}
 local aFMWF = atlas_FiringModeWeaponFramework
 
-local this = {vers = "8.3"}
+local this = {vers = "8.4"}
 local mod = mod_loader.mods[modApi.currentMod]
 local path = mod.scriptPath
 local resources = mod.resourcePath
@@ -92,6 +92,7 @@ function this:load()
 			nextM.atlas_FMW = {Curr = {}, Limited = {}, Disabled = {}}
 			fm_ui:closeModePanel()
 			fm_ui:closeModeSwitchButton()
+            modApi:runLater(function() initializeFMStates(nextM) end)
 		end)
 
 		modApi:addMissionStartHook(function(m)
@@ -156,11 +157,6 @@ function this:load()
 			end
 
 			local wpn = _G[weapon]
-
-			if wpn == nil then
-				LOG("Return! weapon: " .. tostring(weapon))
-				return
-			end
 
 			if weapon == "Skill_Repair" then wpn = aFMWF.repair end
 			if weapon == "Move"         then wpn = aFMWF.move end
