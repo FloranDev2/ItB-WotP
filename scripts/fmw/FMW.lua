@@ -5,7 +5,7 @@
 atlas_FiringModeWeaponFramework = atlas_FiringModeWeaponFramework or {vers, hkRegistry = {}, repair = {}, move = {}}
 local aFMWF = atlas_FiringModeWeaponFramework
 
-local this = {vers = "8.4"}
+local this = {vers = "8.4.1"}
 local mod = mod_loader.mods[modApi.currentMod]
 local path = mod.scriptPath
 local resources = mod.resourcePath
@@ -41,7 +41,7 @@ local function initializeFMStates(m)
 
 			for _, i in pairs({1, 2, 50, 0}) do
 				local weapon = api:GetSkill(pId, i)
-
+                
 				if weapon then
 					weapon:FM_RegisterHK(pId)
 					m.atlas_FMW.Curr[pId][i] = weapon.aFM_ModeList[1]

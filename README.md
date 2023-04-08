@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.1.0 WIP)
+# Weapons of the Past (v2.1.1)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -60,7 +60,10 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 ## Versions:
 
-### v2.1.0 - release!
+### v2.1.X
+
+#### 1:
+- Imported updated FMW version (8.3 -> 8.4.1)
 
 #### 0:
 - FAB-5000:
@@ -68,10 +71,11 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
   - Conservative doesn't allow you to have 2 FAB-5000 anymore!
   - Fixed: the Mechs' having depleted FAB-5000 has no longer a glitch with the animation at the start of the game
   - Now, when the FAB-5000 is in cooldown, there's a FAB-5000 pickable item, so the FAB-5000 can be used again!
-- FMW is back! Thx a lot ATLAS!!!
+- FMW is back! Thx a lot ATLAS!!! (8.3)
   - Some minor changes on FMW
 - Tutorial tips
 - Fixed "Ground Zero achievement"
+- Improved Pe8 broken sprite and water broken sprite
 
 
 ### v2.0.X - pre-release (current)

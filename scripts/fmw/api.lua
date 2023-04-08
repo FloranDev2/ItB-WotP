@@ -1,4 +1,4 @@
----- FIRING MODE WEAPON FRAMEWORK V8.4  ----
+---- FIRING MODE WEAPON FRAMEWORK V8.4.1  ----
 ----    MUST BE INITIALIZED & LOADED    ----
 ---- MODAPIEXT IS A REQUIRED DEPENDENCY ---- 
 
@@ -21,6 +21,8 @@ aFM_WeaponTemplate = Skill:new{
 -- p: pawn space or id
 function this:HasSkill(p)
 	if Board and Board:GetPawn(p) then
+        local ret = false; 
+    
 		if Board:GetPawn(p):GetArmedWeaponId() == 50 and aFMWF.repair.aFM_ModeList[1] then
 			return true
 		end
@@ -30,13 +32,15 @@ function this:HasSkill(p)
 		end
 
 		local weapons = Board:GetPawn(p):GetPoweredWeaponTypes()
-
+        
 		for _, weapon in pairs(weapons) do
-			return _G[weapon] and _G[weapon].aFM_ModeList
+            if _G[weapon] and _G[weapon].aFM_ModeList then
+                ret = true
+            end
 		end
 	end
 
-	return false
+	return ret
 end
 
 -- checks if the skill at the specified index is an FM skill and returns its object
@@ -181,7 +185,7 @@ function aFM_WeaponTemplate:FM_GetMode(p)
 	end
 
 	local weaponIdx = this:GetSkillIdx(p, self)
-
+    
 	return m.atlas_FMW.Curr[pId][weaponIdx]
 end
 
