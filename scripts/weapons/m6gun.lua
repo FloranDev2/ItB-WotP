@@ -7,6 +7,9 @@ local fmw = require(path .. "fmw/api")
 --Libs
 local tips = require(path .. "libs/tutorialTips")
 
+--Test
+local mod = mod_loader.mods[modApi.currentMod]
+
 --Icons
 modApi:appendAsset("img/shells/icon_standard_shell.png", resources .. "img/shells/icon_standard_shell.png")
 modApi:appendAsset("img/shells/icon_smoke_shell.png",    resources .. "img/shells/icon_smoke_shell.png")
@@ -100,8 +103,9 @@ truelch_ShellSmoke = truelch_ShellStd:new{
 	ProjectileArt = "effects/shot_m22_smoke",
 }
 
-truelch_M6Gun = aFM_WeaponTemplate:new{
-	Name = "M6 Gun",
+--truelch_M6Gun
+truelch_FMW_M6Gun = aFM_WeaponTemplate:new{
+	Name = "M6 Gun (FMW)", --"M6 Gun"
 	Description = "Versatile non-damaging gun that shoots either smoke or push shells.\nTo switch shell, arm the weapon and click on the shell icon on the right.",
 	Class = "Science",
 	Upgrades = 1,
@@ -118,44 +122,32 @@ truelch_M6Gun = aFM_WeaponTemplate:new{
 	Damage = 0,
 	Rarity = 1,
 }
-Weapon_Texts.truelch_M6Gun_Upgrade1 = "+1 Damage"
+Weapon_Texts.truelch_FMW_M6Gun_Upgrade1 = "+1 Damage"
 
-truelch_M6Gun_A = truelch_M6Gun:new{
+truelch_FMW_M6Gun_A = truelch_FMW_M6Gun:new{
 	UpgradeDescription = "Both shells now deal 1 damage.",
 	Damage = 1,
 }
 
-function truelch_M6Gun:GetTargetArea(point)
-	--LOG("truelch_M6Gun:GetTargetArea")
+function truelch_FMW_M6Gun:GetTargetArea(point)
 	local pl = PointList()
-
-	--Tutorial tip
-	--I'm removing the tutorial tip just to see if it messes with the FMW and causes the error
 	
 	local mission = GetCurrentMission()
 	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
 		tips:Trigger("M6GunFMW", point)
-	end
-	
+	end	
 
-	--LOG("A")
 	local currentShell = _G[self:FM_GetMode(point)]
-	--LOG("B")
 	if self:FM_CurrentModeReady(point) then
-		--LOG("C")
 		local points = currentShell:targeting(point)
-		--LOG("D")
 		for _, p in ipairs(points) do
-			--LOG("E: " .. p:GetString())
 			pl:push_back(p)
 		end
-		--LOG("F")
 	end
-	--LOG("G") 
 	return pl
 end
 
-function truelch_M6Gun:GetSkillEffect(p1, p2)
+function truelch_FMW_M6Gun:GetSkillEffect(p1, p2)
 	local se = SkillEffect()
 	local currentShell = self:FM_GetMode(p1)
 	
@@ -166,4 +158,153 @@ function truelch_M6Gun:GetSkillEffect(p1, p2)
 	return se
 end
 
-return this 
+
+---------------------------------------------------------------
+
+
+truelch_TC_M6Gun = TankDefault:new{
+	Name = "M6 Gun (TC)", --"M6 Gun"
+	Class = "Science",
+	Description = "Versatile non-damaging gun that shoots either smoke or push shells.\nSecond click behind the target pushes it, otherwise, smokes it.",
+	Icon = "weapons/science_canisterround.png",
+	Rarity = 1,
+
+	LaunchSound = "/weapons/back_shot",
+	ImpactSound = "/impact/generic/explosion_large",
+	ProjectileArtSmoke = "effects/shot_m22_smoke",
+	ProjectileArtPush = "effects/shot_m22_push",
+	Explo = "explopush1_",
+
+	PowerCost = 0,
+	Damage = 0,
+
+	TwoClick = true,
+	ZoneTargeting = DIR,
+
+	Upgrades = 1,
+	UpgradeCost = { 1 },
+
+	TipImage = {
+		Unit = Point(2, 3),
+		Enemy = Point(2, 1),
+		Target = Point(2, 1),
+		Second_Click = Point(2, 0),
+	}
+}
+
+Weapon_Texts.truelch_TC_M6Gun_Upgrade1 = "+1 Damage"
+
+truelch_TC_M6Gun_A = truelch_TC_M6Gun:new{
+	UpgradeDescription = "Both shells now deal 1 damage.",
+	Damage = 1,
+}
+
+function truelch_TC_M6Gun:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local damage = SpaceDamage(p2, 0)
+	local direction = GetDirection(p2 - p1)
+	ret:AddDamage(damage)
+	return ret
+end
+
+function truelch_TC_M6Gun:GetSecondTargetArea(p1, p2)
+	local ret = PointList()
+	local direction = GetDirection(p2 - p1)
+
+	ret:push_back(p2)
+	if Board:IsValid(p2 + DIR_VECTORS[direction]) then
+		ret:push_back(p2 + DIR_VECTORS[direction])
+	end
+	
+	return ret
+end
+
+function truelch_TC_M6Gun:GetFinalEffect(p1, p2, p3)
+	local ret = SkillEffect()
+	local target = GetProjectileEnd(p1, p2, PATH_PROJECTILE)
+	local damage = SpaceDamage(target, self.Damage)
+
+	if p3 == p2 then
+		damage.iSmoke = 1
+		ret:AddProjectile(damage, self.ProjectileArtSmoke)
+	else
+		local dir = GetDirection(p2 - p1)
+		damage.iPush = dir
+		damage.sAnimation = self.Explo .. dir
+		ret:AddProjectile(damage, self.ProjectileArtPush)
+	end
+
+	return ret	
+end
+
+
+
+
+---------------------------------------------------------------
+
+
+truelch_M6Gun = TankDefault:new{
+	Name = "M6 Gun (Fake)",
+	Class = "Science",
+	Description = "Versatile non-damaging gun that shoots either smoke or push shells.\nSecond click behind the target pushes it, otherwise, smokes it.",
+	Icon = "weapons/science_canisterround.png",
+	Rarity = 1,
+	LaunchSound = "/weapons/back_shot",
+	ImpactSound = "/impact/generic/explosion_large",
+	ProjectileArtSmoke = "effects/shot_m22_smoke",
+	ProjectileArtPush = "effects/shot_m22_push",
+	Explo = "explopush1_",
+	PowerCost = 0,
+	Damage = 0,
+	ZoneTargeting = DIR,
+	Upgrades = 1,
+	UpgradeCost = { 1 },
+	TipImage = {
+		Unit = Point(2, 3),
+		Enemy = Point(2, 1),
+		Target = Point(2, 1),
+	}
+}
+
+Weapon_Texts.truelch_M6Gun_Upgrade1 = "+1 Damage"
+
+truelch_M6Gun_A = truelch_TC_M6Gun:new{
+	UpgradeDescription = "Both shells now deal 1 damage.",
+	Damage = 1,
+}
+
+function truelch_M6Gun:GetSkillEffect(p1, p2)
+	local ret = SkillEffect()
+	local damage = SpaceDamage(p2, 0)
+	local direction = GetDirection(p2 - p1)
+	ret:AddDamage(damage)
+	return ret
+end
+
+
+-- injects values from 'src' into 'dst'
+local function injectValues(dst, src)
+	assert(type(src) == 'table')
+	assert(type(dst) == 'table')
+
+	for i, v in pairs(src) do
+		dst[i] = v
+	end
+end
+
+modApi.events.onModLoaded:subscribe(function(id)
+	if id ~= mod.id then return end
+	local options = mod_loader.currentModContent[id].options
+	--1: FMW / 2: TC
+	--LOG("TRUELCH --------------------- value: " .. tostring(options["option_m6gun"].value))
+	if options["option_m6gun"].value == 1 then
+		injectValues(truelch_M6Gun,   truelch_FMW_M6Gun)
+		injectValues(truelch_M6Gun_A, truelch_FMW_M6Gun_A)
+
+	elseif options["option_m6gun"].value == 2 then
+		injectValues(truelch_M6Gun,   truelch_TC_M6Gun)
+		injectValues(truelch_M6Gun_A, truelch_TC_M6Gun_A)
+	end
+end)
+
+return this

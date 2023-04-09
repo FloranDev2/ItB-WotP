@@ -3,7 +3,6 @@ local mechPath = resourcePath .. "img/mechs/"
 
 local scriptPath = mod_loader.mods[modApi.currentMod].scriptPath
 local mod = modApi:getCurrentMod()
---local imageOffset = modApi:getPaletteImageOffset(mod.id)
 local sovietGreen = modApi:getPaletteImageOffset("truelch_SovietGreen")
 local sovietRed = modApi:getPaletteImageOffset("truelch_RedAlert")
 
@@ -37,8 +36,8 @@ truelch_SupportMech = Pawn:new{
 	MoveSpeed = 4,
 	Image = "m22",
 	ImageOffset = sovietGreen,
-	SkillList = { "truelch_M6Gun" }, --"truelch_M6Gun" --"truelch_TC_M6Gun"
-	SoundLocation = "/mech/brute/bulk_mech/", --TODO
+	SkillList = { "truelch_M6Gun" },
+	SoundLocation = "/mech/brute/bulk_mech/",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,
 	IgnoreSmoke = true,

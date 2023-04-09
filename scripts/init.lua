@@ -2,15 +2,25 @@ local mod = {
 	id = "truelch_WotP",
 	name = "Weapons of the Past",
 	icon = "img/mod_icon.png",
-	version = "2.0.3",
+	version = "2.1.2",
 	modApiVersion = "2.9.1",
 	gameVersion = "1.2.88",
     dependencies = {
         modApiExt = "1.17",
 		memedit = "1.0.1",
-    }--,
-    --metadata = metadata, --inspired from NamesAreHard's NN
+    }
 }
+
+--Doesn't work...
+function mod:metadata()
+	--Move it from metadata, it didn't work there
+	modApi:addGenerationOption(
+		"resetTutorials",
+		"Reset Tutorial Tooltips",
+		"Check to reset all tutorial tooltips for this profile.",
+		{ enabled = false }
+	)
+end
 
 function mod:init()	
 	-- Assets
@@ -35,24 +45,23 @@ function mod:init()
 	require(self.scriptPath .. "fmw/FMW"):init()
 	-- <----- FMW
 
-	-- Weapons
-	require(self.scriptPath .. "weapons/fab500")
-	require(self.scriptPath .. "weapons/fab5000")
-	require(self.scriptPath .. "weapons/FMm6Gun")
-	--require(self.scriptPath .. "weapons/m6gun")
-	require(self.scriptPath .. "weapons/m10t")
-
-	-- Pawns
+	-- Pawns (moved them before weapon so that M6 Gun can be injected)
 	require(self.scriptPath .. "mechs/kv2")
 	require(self.scriptPath .. "mechs/pe8")
 	require(self.scriptPath .. "mechs/m22")
+
+	-- Weapons
+	require(self.scriptPath .. "weapons/fab500")
+	require(self.scriptPath .. "weapons/fab5000")
+	require(self.scriptPath .. "weapons/m6gun")
+	require(self.scriptPath .. "weapons/m10t")
 
 	-- Shop
 	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
 	modApi:addWeaponDrop("truelch_M6Gun")
-	--modApi:addWeaponDrop("truelch_TC_M6Gun")
+	modApi:addWeaponDrop("truelch_TC_M6Gun")
 
 	--Item
 	require(self.scriptPath .. "itemFAB5000")
@@ -60,13 +69,20 @@ function mod:init()
 
 	--Tutorial tips
 	require(self.scriptPath .. "tips")
-	--Move it from metadata, it didn't work there
+
+	--[[
 	modApi:addGenerationOption(
 		"resetTutorials",
 		"Reset Tutorial Tooltips",
 		"Check to reset all tutorial tooltips for this profile.",
 		{ enabled = false }
 	)
+	]]
+
+	--I don't move that in metadata so it actually loads when I change the value without restarting the game
+	--M6 Gun: option between FMW and Two Clicks (in case FMW has other issues)
+	modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 3, strings = {"FMW", "TC"}})
+	
 
 	-- Custom main menu config
 	require(self.scriptPath .. "truelchSave/truelchSave"):init(self)
@@ -97,21 +113,6 @@ function mod:load(options, version)
 		require(self.scriptPath .."libs/tutorialTips"):ResetAll()
 		options.resetTutorials.enabled = false
 	end
-end
-
---Doesn't work...
-function mod:metata()
-	LOG("TRUELCH - metadata")
-	--Moved that to init
-	--I've let the debug in case I see it, but it doesn't seem to work
-	--[[
-	modApi:addGenerationOption(
-		"resetTutorials",
-		"Reset Tutorial Tooltips",
-		"Check to reset all tutorial tooltips for this profile.",
-		{ enabled = false }
-	)
-	]]
 end
 
 return mod

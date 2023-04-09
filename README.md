@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.1.1)
+# Weapons of the Past (v2.1.2)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -56,11 +56,18 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 ## TODO
 - Add options:
   - White screen explosion effect for the FAB-5000 (disabled by default?)
-- Add train and armored train to the list of missions for "That belongs in a museum!"?
+- Add train and armored train to the list of missions for "That belongs in a museum!"? (maybe only the regular train)
+
+
 
 ## Versions:
 
 ### v2.1.X
+
+#### 2:
+- Added an option to switch between M6 Gun's FMW and Two Click versions.
+- [TODO] Added an option to choose between old and new FAB-5000 reload logic
+- [TODO] Added a piercing armor weapon's mark for the M10T Howitzer
 
 #### 1:
 - Imported updated FMW version (8.3 -> 8.4.1)
