@@ -1,5 +1,3 @@
-
-
 -- M10T Howitzer
 truelch_M10THowitzerArtillery = LineArtillery:new{
 	Name = "M-10T Howitzer",
@@ -64,6 +62,8 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	
 	ret:AddBounce(p1, 1)
 
+	local damage = SpaceDamage(p2) --new
+
 	local totalDmg = self.Damage
 	local targetPawn = Board:GetPawn(p2)
 
@@ -75,13 +75,17 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 		--armor penetration
 		if targetPawn:IsArmor() then
 			totalDmg = totalDmg + 1
+			--damage.sImageMark = "combat/icons/icon_armor_degraded.png" --icon_armor_degraded --"combat/icons/icon_armor_piercing.png"
 		end
+
+		damage.sImageMark = "combat/icons/icon_armor_degraded.png" --icon_armor_degraded --"combat/icons/icon_armor_piercing.png"
 	end
 
 	--Bonus damage (upgrade)
 	totalDmg = totalDmg + self.BonusDamage
 
-	local damage = SpaceDamage(p2, totalDmg)
+	--local damage = SpaceDamage(p2, totalDmg) --old
+	damage.iDamage = totalDmg --new
 
 	if (self.Push == 1) then
 		damage.iPush = direction
