@@ -81,7 +81,7 @@ function mod:init()
 
 	--I don't move that in metadata so it actually loads when I change the value without restarting the game
 	--M6 Gun: option between FMW and Two Clicks (in case FMW has other issues)
-	modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 3, strings = {"FMW", "TC"}})
+	modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 1, strings = {"FMW", "TC"}})
 	
 
 	-- Custom main menu config

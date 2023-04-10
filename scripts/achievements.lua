@@ -33,6 +33,43 @@ local achievements = {
 }
 
 
+local wotpAchvs =
+{
+	"wwv",
+	"ironHarvest",
+	"goodBoy",
+	"tankYou",
+	"vape",
+	"bigShots",
+	"groundZero",
+	"museum"
+}
+
+local function checkCompletion()
+	--LOG("TRUELCH ----------------- Check completion")
+	local fullComplete = true
+
+	for _,v in pairs(wotpAchvs) do
+		--LOG("TRUELCH ----------------- achievement id: " .. v)
+		progress = modApi.achievements:getProgress(squad, v)
+		if progress == false then
+			fullComplete = false
+		end
+		--LOG("TRUELCH ----------------- progress: " .. tostring(progress))
+	end
+
+	if fullComplete then
+		--https://github.com/itb-community/ITB-ModLoader/wiki/toasts
+		--LOG("TRUELCH ----------------- Completed!")
+		modApi.toasts:add({
+			id = "customBg", --"customBg"
+			name = "Custom Background unlocked!", --"Custom Background unlocked!"
+			tooltip = "You can enable the custom background in the mod configuration and restart the game!", --"You can enable the custom background in the mod configuration and restart the game!"
+			image = mod.resourcePath .. "img/achievements/customBg.png"})
+	end
+end
+
+
 local function isGame()
 	return true
 		and Game ~= nil
@@ -150,7 +187,7 @@ modApi.events.onGameVictory:subscribe(function(difficulty, islandsSecured, squad
 	end
 	
 	achievements.wwv:addProgress{ complete = true }
-	
+	checkCompletion()
 end)
 
 
@@ -243,12 +280,13 @@ local function incrementIronHarvestKillCount()
 	--LOG("TRUELCH - kills (after): " .. tostring(missionData.ironHarvestKills))
 	if missionData.ironHarvestKills >= IRON_HARVEST_TARGET then
 		achievements.ironHarvest:addProgress{ complete = true }
+		checkCompletion()
 	end
 end
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)
-		--LOG("TRUELCH - Achievements - Pawn Killed")
+		LOG("TRUELCH - Achievements - Pawn Killed")
 		local exit = false
 			or isSquad() == false
 			or isMission() == false
@@ -257,9 +295,8 @@ modApi.events.onModsLoaded:subscribe(function()
 			return
 		end
 
-		--LOG(save_table(mission))
+		--LOG("TRUELCH - Mission: " .. save_table(mission))
 
-		--if isEnemyPawn(pawn) then
 		if pawn:IsEnemy() then
 			incrementIronHarvestKillCount()
 		end
@@ -360,6 +397,7 @@ modApi.events.onGameVictory:subscribe(function(difficulty, islandsSecured, squad
 
 	if gameData().m22Kills > gameData().kv2Kills and gameData().m22Kills > gameData().pe8Kills then
 		achievements.goodBoy:addProgress{ complete = true }
+		checkCompletion()
 	end
 end)
 

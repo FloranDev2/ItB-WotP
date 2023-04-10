@@ -6,7 +6,7 @@ local squad = "truelch_WotP"
 local VAPE_TARGET = 50
 local BIG_SHOTS_TARGET = 5
 local GROUND_ZERO_TARGET = 5
-local MUSEUM_TARGET = 2
+local MUSEUM_TARGET = 3
 
 local achievements = {
 	tankYou = modApi.achievements:add{
@@ -61,6 +61,45 @@ local achievements = {
 		global = "Weapons of the Past",
 	},
 }
+
+
+local wotpAchvs =
+{
+	"wwv",
+	"ironHarvest",
+	"goodBoy",
+	"tankYou",
+	"vape",
+	"bigShots",
+	"groundZero",
+	"museum"
+}
+
+local function checkCompletion()
+	--LOG("TRUELCH ----------------- Check completion")
+	local fullComplete = true
+
+	for _,v in pairs(wotpAchvs) do
+		--LOG("TRUELCH ----------------- achievement id: " .. v)
+		progress = modApi.achievements:getProgress(squad, v)
+		if progress == false then
+			fullComplete = false
+		end
+		--LOG("TRUELCH ----------------- progress: " .. tostring(progress))
+	end
+
+	if fullComplete then
+		--https://github.com/itb-community/ITB-ModLoader/wiki/toasts
+		--LOG("TRUELCH ----------------- Completed!")
+		modApi.toasts:add({
+			id = "customBg", --"customBg"
+			name = "Custom Background unlocked!", --"Custom Background unlocked!"
+			tooltip = "You can enable the custom background in the mod configuration and restart the game!", --"You can enable the custom background in the mod configuration and restart the game!"
+			image = mod.resourcePath .. "img/achievements/customBg.png"})
+	end
+end
+
+
 
 local function isGame()
 	return true
@@ -189,6 +228,7 @@ end
 modApi.events.onGameVictory:subscribe(function(difficulty, islandsSecured, squad_id)
 	if isWholeSquadIsEligibleForTankYouAchv() == true then
 		achievements.tankYou:addProgress{ complete = true }
+		checkCompletion()
 	end
 end)
 
@@ -229,6 +269,7 @@ modApi.events.onMissionUpdate:subscribe(function(mission)
 		gameData().vapeCount = gameData().vapeCount + 1
 		if gameData().vapeCount >= VAPE_TARGET then
 			achievements.vape:addProgress{ complete = true }
+			checkCompletion()
 		end
 	end
 end)
@@ -347,6 +388,7 @@ modApi.events.onModsLoaded:subscribe(function()
 
 		if hpBeforeDeath >= BIG_SHOTS_TARGET and hpBeforeDeath == hpMax then
 			achievements.bigShots:addProgress{ complete = true }
+			checkCompletion()
 		end
 		
 	end)
@@ -453,6 +495,7 @@ modApi.events.onModsLoaded:subscribe(function()
 			--LOG("TRUELCH - Pawn killed -> Pe8 kills: " .. tostring(missionData().groundZeroPe8Kills))
 			if missionData().groundZeroPe8Kills >= GROUND_ZERO_TARGET then
 				achievements.groundZero:addProgress{ complete = true } --TODO
+				checkCompletion()
 				--Board:AddAlert(pawn:GetSpace(), "Ground Zero!")
 			end
 		end
@@ -552,5 +595,6 @@ modApi.events.onMissionEnd:subscribe(function()
 	--if gameData().museumAirstrike == true and gameData().museumArtillery == true and gameData().museumTanks == true and gameData().allAlliesSurvived then
 	if amount >= MUSEUM_TARGET and gameData().allAlliesSurvived then
 		achievements.museum:addProgress{ complete = true }
+		checkCompletion()
 	end
 end)

@@ -105,7 +105,7 @@ truelch_ShellSmoke = truelch_ShellStd:new{
 
 --truelch_M6Gun
 truelch_FMW_M6Gun = aFM_WeaponTemplate:new{
-	Name = "M6 Gun (FMW)", --"M6 Gun"
+	Name = "M6 Gun", --"M6 Gun"
 	Description = "Versatile non-damaging gun that shoots either smoke or push shells.\nTo switch shell, arm the weapon and click on the shell icon on the right.",
 	Class = "Science",
 	Upgrades = 1,
@@ -163,7 +163,7 @@ end
 
 
 truelch_TC_M6Gun = TankDefault:new{
-	Name = "M6 Gun (TC)", --"M6 Gun"
+	Name = "M6 Gun", --"M6 Gun"
 	Class = "Science",
 	Description = "Versatile non-damaging gun that shoots either smoke or push shells.\nSecond click behind the target pushes it, otherwise, smokes it.",
 	Icon = "weapons/science_canisterround.png",
@@ -296,7 +296,7 @@ modApi.events.onModLoaded:subscribe(function(id)
 	if id ~= mod.id then return end
 	local options = mod_loader.currentModContent[id].options
 	--1: FMW / 2: TC
-	--LOG("TRUELCH --------------------- value: " .. tostring(options["option_m6gun"].value))
+	LOG("TRUELCH --------------------- value: " .. tostring(options["option_m6gun"].value))
 	if options["option_m6gun"].value == 1 then
 		injectValues(truelch_M6Gun,   truelch_FMW_M6Gun)
 		injectValues(truelch_M6Gun_A, truelch_FMW_M6Gun_A)
