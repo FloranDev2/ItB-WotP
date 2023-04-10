@@ -296,6 +296,7 @@ modApi.events.onModLoaded:subscribe(function(id)
 	if id ~= mod.id then return end
 	local options = mod_loader.currentModContent[id].options
 	--1: FMW / 2: TC
+	--[[
 	LOG("TRUELCH --------------------- value: " .. tostring(options["option_m6gun"].value))
 	if options["option_m6gun"].value == 1 then
 		injectValues(truelch_M6Gun,   truelch_FMW_M6Gun)
@@ -305,6 +306,7 @@ modApi.events.onModLoaded:subscribe(function(id)
 		injectValues(truelch_M6Gun,   truelch_TC_M6Gun)
 		injectValues(truelch_M6Gun_A, truelch_TC_M6Gun_A)
 	end
+	]]
 end)
 
 return this

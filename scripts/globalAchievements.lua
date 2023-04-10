@@ -445,6 +445,7 @@ modApi.events.onModsLoaded:subscribe(function()
 	end)
 end)
 
+--[[
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
 		--LOG("TRUELCH - Skill End")
@@ -474,6 +475,7 @@ modApi.events.onModsLoaded:subscribe(function()
 		end
 	end)
 end)
+]]
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)

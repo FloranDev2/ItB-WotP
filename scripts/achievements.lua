@@ -360,6 +360,11 @@ modApi.events.onModsLoaded:subscribe(function()
 			return
 		end
 
+		if type(weaponId) == 'table' then
+    		weaponId = weaponId.__Id
+		end
+
+		LOG("TRUELCH ----------------- SkillEndHook -> pawn: " .. tostring(pawn:GetType()) .. ", weaponId: " .. tostring(weaponId))
 		missionData().lastAttPawnType = pawn:GetType()
 	end)
 end)
@@ -379,10 +384,13 @@ modApi.events.onModsLoaded:subscribe(function()
 
 		if missionData().lastAttPawnType == KV2_TYPE then
 			gameData().kv2Kills = gameData().kv2Kills + 1
+			LOG("TRUELCH ----------------- PawnKilledHook KV-2 kills: " .. tostring(gameData().kv2Kills))
 		elseif missionData().lastAttPawnType == PE8_TYPE then
 			gameData().pe8Kills = gameData().pe8Kills + 1
+			LOG("TRUELCH ----------------- PawnKilledHook Pe-8 kills: " .. tostring(gameData().pe8Kills))
 		elseif missionData().lastAttPawnType == M22_TYPE then
 			gameData().m22Kills = gameData().m22Kills + 1
+			LOG("TRUELCH ----------------- PawnKilledHook M22 kills: " .. tostring(gameData().m22Kills))
 		end
 	end)
 end)
