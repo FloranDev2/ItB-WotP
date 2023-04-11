@@ -65,9 +65,10 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 ### v2.1.X
 
 #### 2:
-- Added an option to switch between M6 Gun's FMW and Two Click versions.
-- [TODO] Added an option to choose between old and new FAB-5000 reload logic
-- [TODO] Added a piercing armor weapon's mark for the M10T Howitzer
+- Fixed "Who's a good boiii?" and "Ground Zero" kill detection (especially for the Pe8)
+- Added an option to choose between old and new FAB-5000 reload logic (+ tutorial tips for old version)
+- Added a piercing armor weapon's mark for the M10T Howitzer (+ option to disable it)
+- Added an option to switch between M6 Gun's FMW and Two Click versions. (disabled due to a bug)
 
 #### 1:
 - Imported updated FMW version (8.3 -> 8.4.1)
