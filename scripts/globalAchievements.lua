@@ -210,20 +210,6 @@ function isWholeSquadIsEligibleForTankYouAchv()
 end
 
 
---This should be more efficient
---For some reason, we have nil pawn here
---[[
-function isWholeSquadIsEligibleForTankYouAchv()
-	for i = 0, 2 do
-		local mech = Board:GetPawn(i)
-		if not isEligibleMechForTankYouAchv(pawn) then
-			return false
-		end
-	end
-	return true
-end
-]]
-
 --Note: no need to check isSquad, it's a global achievement
 modApi.events.onGameVictory:subscribe(function(difficulty, islandsSecured, squad_id)
 	if isWholeSquadIsEligibleForTankYouAchv() == true then
@@ -413,10 +399,24 @@ modApi.events.onMissionStart:subscribe(function()
 	--LOG("TRUELCH - Mission start -> Reset!")
 end)
 
+local EVENT_TURN_START = 14
+modApi.events.onMissionUpdate:subscribe(function()
+	local exit = false
+		or isMission() == false
+
+	if exit then
+		return
+	end
+
+	if Game:GetEventCount(EVENT_TURN_START) > 0 then
+		--Reset
+		missionData().isPe8Attacking = false
+		missionData().groundZeroPe8Kills = 0
+	end
+end)
+
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
-		--LOG("TRUELCH - SKILL START HOOK")
-
 		local exit = false
 			or isMission() == false
 
@@ -428,54 +428,18 @@ modApi.events.onModsLoaded:subscribe(function()
     		weaponId = weaponId.__Id
 		end
 
-		--LOG("TRUELCH - SKILL START HOOK - pawn:GetType(): " .. pawn:GetType() .. ", weaponId: " .. weaponId)
-
-		if pawn:GetType() == PE8_TYPE then
+		if pawn:GetType() == PE8_TYPE and weaponId ~= "Move" and weaponId ~= nil then
 			--Init
 			missionData().isPe8Attacking = true
 			missionData().groundZeroPe8Kills = 0
-			--LOG("TRUELCH - Skill started -> Pe8 attacking!")
 		else
 			--Reset
 			missionData().isPe8Attacking = false
 			missionData().groundZeroPe8Kills = 0
-			--LOG("TRUELCH - Skill started -> Reset! (not Pe8 attacking)")
 		end
 
 	end)
 end)
-
---[[
-modApi.events.onModsLoaded:subscribe(function()
-	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
-		--LOG("TRUELCH - Skill End")
-		local exit = false
-			or isMission() == false
-
-		if exit then
-			return
-		end
-
-		if type(weaponId) == 'table' then
-    		weaponId = weaponId.__Id
-		end
-
-		--LOG(" ---> Skill end OK")
-		--LOG("TRUELCH - SKILL END HOOK - pawn:GetType(): " .. pawn:GetType() .. ", weaponId: " .. weaponId)
-
-		if pawn:GetType() == PE8_TYPE then
-			--Init
-			missionData().isPe8Attacking = true
-			--LOG("TRUELCH - Skill ended -> Pe8 attacking!")
-		else
-			--Reset
-			missionData().isPe8Attacking = false
-			missionData().groundZeroPe8Kills = 0
-			--LOG("TRUELCH - Skill ended -> Reset! (not Pe8 attacking)")
-		end
-	end)
-end)
-]]
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)

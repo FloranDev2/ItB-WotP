@@ -15,4 +15,4 @@ modApi:appendAsset("img/combat/item_fab5000.png", resourcePath .. "img/combat/it
 
 --Image Mark
 modApi:appendAsset("img/combat/icons/icon_armor_piercing.png", resourcePath .. "img/combat/icons/icon_armor_piercing.png")
-	Location["combat/icons/icon_armor_piercing.png"] = Point(-10, 4)
+	Location["combat/icons/icon_armor_piercing.png"] = Point(6, 10)

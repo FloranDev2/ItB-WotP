@@ -70,19 +70,28 @@ function mod:init()
 	--Tutorial tips
 	require(self.scriptPath .. "tips")
 
-	--[[
-	modApi:addGenerationOption(
-		"resetTutorials",
-		"Reset Tutorial Tooltips",
-		"Check to reset all tutorial tooltips for this profile.",
-		{ enabled = false }
-	)
-	]]
-
+	-- --- MOD OPTIONS ---
 	--I don't move that in metadata so it actually loads when I change the value without restarting the game
 	--M6 Gun: option between FMW and Two Clicks (in case FMW has other issues)
-	modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 2, strings = {"FMW", "TC"}})
-	
+	--modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 2, strings = {"FMW", "TC"}})
+
+	--KV-2's Howitzer option (also putting it here so it got reloaded once changed)
+	modApi:addGenerationOption("option_piercingIcon",
+		"Show armor piercing icon?",
+		"Enable to see the armor piercing icon for the Howitzer.",
+		{enabled = true}
+	)
+
+	--FAB-5000 reload mechanic
+	modApi:addGenerationOption("option_fab5000Reload",
+		"FAB-5000 reload version",
+		"Mission cooldown: you need to wait a mission to be able to use the FAB-5000 again.\n\nPick-up item: you can retrieve the FAB-5000 to use it, but enemies can also destroy it!",
+		{
+			values = {1,2},
+			value = 2,
+			strings = { "Mission cooldown", "Pick-up item" }
+		}
+	)
 
 	-- Custom main menu config
 	require(self.scriptPath .. "truelchSave/truelchSave"):init(self)

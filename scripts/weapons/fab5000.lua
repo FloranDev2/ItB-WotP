@@ -4,25 +4,15 @@ local scriptPath = mod.scriptPath
 
 --Libs
 local tips = require(scriptPath .. "libs/tutorialTips")
---LOG("tips: " .. tostring(tips))
 
---Example from nuclear nightmares
---tips:Trigger("Energy", point)
-
------------------------------------------------ IMAGES
-
-
---https://discord.com/channels/417639520507527189/418142041189646336/1089284037950058576
---[[
-Pawn:GetWeaponLimitedRemaining(weaponIndex)
-Pawn:GetWeaponLimitedUses(weaponIndex)
-Pawn:SetWeaponLimitedRemaining(weaponIndex, remaining)
-Pawn:SetWeaponLimitedUses(weaponIndex, uses)
-]]
-
-
------------------------------------------------ ITEM
-
+----------------------------------------------- MOD OPTION
+local fab5000ReloadVersion --1: old / 2: new
+modApi.events.onModLoaded:subscribe(function(id)
+	if id ~= mod.id then return end
+	local options = mod_loader.currentModContent[id].options
+	fab5000ReloadVersion = options["option_fab5000Reload"].value
+	--LOG("----- fab5000ReloadVersion: " .. tostring(fab5000ReloadVersion) .. ", type: " .. tostring(type(fab5000ReloadVersion)))
+end)
 
 
 ----------------------------------------------- FUNCTIONS
@@ -91,7 +81,7 @@ local function computeFAB5000()
     --gameData().currentMission = gameData().currentMission + 1 --is incremented in testItem.lua at game start
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
 
-    --LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
+    LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
 
     --I also need to max it to one if a pilot has conservative, so I do that all the time
     --I just check inside if remaining = 0 or 1
@@ -111,19 +101,27 @@ local function computeFAB5000()
 					if fab5000HasBeenUsedPreviousMission then
 						remaining = 0
 
-	                    --Explanation bubble
-	                    --Meh, is too repetitive now that we have it every mission
-	                    --Plus, I couldn't find how to adapt that depending on the pilot
-	                    --local pop = VoicePopup()
-	                    --pop.text = "Pick-up that FAB-5000 before the enemy!"
-	                    --pop.pawn = pawn:GetId()
-	                    --Game:AddVoicePopup(pop)
+						local mission = GetCurrentMission()
+						if fab5000ReloadVersion == 1 then --old
+		                    --Explanation bubble
+		                    local pop = VoicePopup()
+		                    --pop.text = "Pick-up that FAB-5000 before the enemy!"
+		                    pop.text = "Another FAB-5000 is in production. We won't be able to use it in this mission."
+		                    pop.pawn = pawn:GetId()
+		                    Game:AddVoicePopup(pop)
 
-	                    --Tutorial tip
-	                    local mission = GetCurrentMission()
-                    	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
-							tips:Trigger("FAB5000Item", pawn:GetSpace())
-						end
+		                    --Tutorial tip	                    
+	                    	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+								tips:Trigger("FAB5000OldReload", pawn:GetSpace())
+							end
+		                else
+							--Tutorial tip	                    
+	                    	if mission and not Board:IsTipImage() and not IsTestMechScenario() then
+								tips:Trigger("FAB5000Item", pawn:GetSpace())
+							end
+	                	end
+
+	                    
 					end
 
 					pawn:SetWeaponLimitedRemaining(j, remaining)

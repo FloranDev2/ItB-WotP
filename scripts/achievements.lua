@@ -286,7 +286,7 @@ end
 
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addPawnKilledHook(function(mission, pawn)
-		LOG("TRUELCH - Achievements - Pawn Killed")
+		--LOG("------ Achievements - Pawn Killed")
 		local exit = false
 			or isSquad() == false
 			or isMission() == false
@@ -350,6 +350,8 @@ modApi.events.onMissionStart:subscribe(function()
 	missionData().lastAttPawnType = ""
 end)
 
+--This doesn't work
+--[[
 modApi.events.onModsLoaded:subscribe(function()
 	modapiext:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)
 		local exit = false
@@ -364,8 +366,32 @@ modApi.events.onModsLoaded:subscribe(function()
     		weaponId = weaponId.__Id
 		end
 
-		LOG("TRUELCH ----------------- SkillEndHook -> pawn: " .. tostring(pawn:GetType()) .. ", weaponId: " .. tostring(weaponId))
+		LOG("------ SkillEndHook -> pawn: " .. tostring(pawn:GetType()) .. ", weaponId: " .. tostring(weaponId))
 		missionData().lastAttPawnType = pawn:GetType()
+	end)
+end)
+]]
+
+modApi.events.onModsLoaded:subscribe(function()
+	modapiext:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
+		local exit = false
+			or isSquad() == false
+			or isMission() == false
+
+		if exit then
+			return
+		end
+
+		if type(weaponId) == 'table' then
+    		weaponId = weaponId.__Id
+		end
+
+		--LOG("------ SkillStartHook -> pawn: " .. tostring(pawn:GetType()) .. ", weaponId: " .. tostring(weaponId))
+		if weaponId ~= "Move" and weaponId ~= nil then
+			missionData().lastAttPawnType = pawn:GetType()
+		else
+			--LOG("--------- Not a weapon!")
+		end
 	end)
 end)
 
@@ -384,13 +410,13 @@ modApi.events.onModsLoaded:subscribe(function()
 
 		if missionData().lastAttPawnType == KV2_TYPE then
 			gameData().kv2Kills = gameData().kv2Kills + 1
-			LOG("TRUELCH ----------------- PawnKilledHook KV-2 kills: " .. tostring(gameData().kv2Kills))
+			--LOG("TRUELCH ----------------- PawnKilledHook KV-2 kills: " .. tostring(gameData().kv2Kills))
 		elseif missionData().lastAttPawnType == PE8_TYPE then
 			gameData().pe8Kills = gameData().pe8Kills + 1
-			LOG("TRUELCH ----------------- PawnKilledHook Pe-8 kills: " .. tostring(gameData().pe8Kills))
+			--LOG("TRUELCH ----------------- PawnKilledHook Pe-8 kills: " .. tostring(gameData().pe8Kills))
 		elseif missionData().lastAttPawnType == M22_TYPE then
 			gameData().m22Kills = gameData().m22Kills + 1
-			LOG("TRUELCH ----------------- PawnKilledHook M22 kills: " .. tostring(gameData().m22Kills))
+			--LOG("TRUELCH ----------------- PawnKilledHook M22 kills: " .. tostring(gameData().m22Kills))
 		end
 	end)
 end)

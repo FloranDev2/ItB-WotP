@@ -1,3 +1,14 @@
+local mod = mod_loader.mods[modApi.currentMod]
+local showIcon
+
+modApi.events.onModLoaded:subscribe(function(id)
+	if id ~= mod.id then return end
+	local options = mod_loader.currentModContent[id].options
+	showIcon = options["option_piercingIcon"].enabled
+	--LOG("---------------- showIcon: " .. tostring(showIcon) .. ", type: " .. tostring(type(showIcon)))
+end)
+
+
 -- M10T Howitzer
 truelch_M10THowitzerArtillery = LineArtillery:new{
 	Name = "M-10T Howitzer",
@@ -17,7 +28,7 @@ truelch_M10THowitzerArtillery = LineArtillery:new{
 	--Custom
 	BonusDamage = 0,
 	MaxRange = 3,
-	Push = 1,	
+	Push = 1,
 	--Custom height
 	ArtilleryHeight = 10,
 	--TipImage
@@ -62,7 +73,7 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	
 	ret:AddBounce(p1, 1)
 
-	local damage = SpaceDamage(p2) --new
+	local damage = SpaceDamage(p2)
 
 	local totalDmg = self.Damage
 	local targetPawn = Board:GetPawn(p2)
@@ -75,17 +86,17 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 		--armor penetration
 		if targetPawn:IsArmor() then
 			totalDmg = totalDmg + 1
-			--damage.sImageMark = "combat/icons/icon_armor_degraded.png" --icon_armor_degraded --"combat/icons/icon_armor_piercing.png"
-		end
 
-		damage.sImageMark = "combat/icons/icon_armor_degraded.png" --icon_armor_degraded --"combat/icons/icon_armor_piercing.png"
+			if showIcon == true then
+				damage.sImageMark = "combat/icons/icon_armor_piercing.png"
+			end
+		end
 	end
 
 	--Bonus damage (upgrade)
 	totalDmg = totalDmg + self.BonusDamage
 
-	--local damage = SpaceDamage(p2, totalDmg) --old
-	damage.iDamage = totalDmg --new
+	damage.iDamage = totalDmg
 
 	if (self.Push == 1) then
 		damage.iPush = direction
@@ -99,3 +110,4 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	
 	return ret
 end
+

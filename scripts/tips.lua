@@ -34,11 +34,17 @@ tips:Add{
 ]]
 
 --Works
---Is used in fab5000, not in testItem.lua
+--Is used in fab5000, not in itemFAB5000.lua
 tips:Add{
 	id = "FAB5000Item",
 	title = "FAB-5000",
 	text = "Your Bomber can pick up the FAB-5000 to use it or any ally can retrieve it so it can be used in the next mission. If an enemy steps on it, it'll destroy it."
+}
+
+tips:Add{
+	id = "FAB5000OldReload",
+	title = "FAB-5000",
+	text = "When you use the FAB-5000 in a mission, you can't use it in the following one."
 }
 
 --Works

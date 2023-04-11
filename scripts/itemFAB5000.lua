@@ -2,6 +2,16 @@
 --https://github.com/itb-community/ITB-ModLoader/wiki/%5BVanilla%5D-Board#SetDangerous
 
 
+----------------------------------------------- MOD OPTION
+local mod = mod_loader.mods[modApi.currentMod]
+local fab5000ReloadVersion --1: old / 2: new
+modApi.events.onModLoaded:subscribe(function(id)
+	if id ~= mod.id then return end
+	local options = mod_loader.currentModContent[id].options
+	fab5000ReloadVersion = options["option_fab5000Reload"].value
+	--LOG("----- fab5000ReloadVersion: " .. tostring(fab5000ReloadVersion) .. ", type: " .. tostring(type(fab5000ReloadVersion)))
+end)
+
 ----------------------------------------------- FUNCTIONS
 
 local function isGame()
@@ -138,8 +148,16 @@ end
 ----------------------------------------------- HOOKS & EVENTS
 
 modApi.events.onMissionStart:subscribe(function()
+	--Need to do that before, even if we need to ignore the rest (return)
 	gameData().currentMission = gameData().currentMission + 1
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
+
+	--LOG("---- onMissionStart -> fab5000ReloadVersion: " .. tostring(fab5000ReloadVersion) .. ", type: " .. tostring(type(fab5000ReloadVersion)))
+	if fab5000ReloadVersion == 1 then
+		--LOG("------------------------ Return!")
+		return
+	end
+	--LOG("------------------------ Continue!")
 
     if fab5000HasBeenUsedPreviousMission then
     	--(Try to) create a FAB-5000 item!
