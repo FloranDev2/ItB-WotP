@@ -103,6 +103,7 @@ function truelch_FAB500:GetSkillEffect(p1, p2)
 		local damage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, self.Damage, pullDir) --has pull directly in the main damage
 		damage.iFire = self.Fire		
 		damage.sAnimation = self.AttackAnimation
+		--damage.sAnimation = "aa_bombdrop"
 		damage.sSound = self.BombSound
 		ret:AddDamage(damage)
 

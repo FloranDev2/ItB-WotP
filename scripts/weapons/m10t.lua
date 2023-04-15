@@ -44,6 +44,7 @@ truelch_M10THowitzerArtillery = LineArtillery:new{
 Weapon_Texts.truelch_M10THowitzerArtillery_Upgrade1 = "+1 Damage"
 
 truelch_M10THowitzerArtillery_A = truelch_M10THowitzerArtillery:new{
+	UpgradeDescription = "Deals 1 additional damage.",
 	BonusDamage = 1,
 }
 

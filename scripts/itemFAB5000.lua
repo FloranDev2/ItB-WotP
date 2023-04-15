@@ -130,18 +130,18 @@ local function attemptReloadFAB5000(pawn)
 	    if isFAB5000(weapons[j]) then
 			--LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 			pawn:SetWeaponLimitedRemaining(j, 1)
-			Board:AddAlert(pawn:GetSpace(), "FAB-5000 Reloaded")
+			Board:AddAlert(pawn:GetSpace(), "FAB-5000 RELOADED")
 	        --LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 	        hasReloaded = true
 	    end
 	end
 	if hasReloaded == false then
-		Board:AddAlert(pawn:GetSpace(), "FAB-5000 Secured")
+		Board:AddAlert(pawn:GetSpace(), "FAB-5000 SECURED")
 	end
 end
 
 local function fab5000Destroyed(point)
-	Board:AddAlert(point, "FAB-5000 destroyed!")
+	Board:AddAlert(point, "FAB-5000 DESTROYED")
 	gameData().lastFab5000Use = gameData().currentMission --same as if it has been used
 end
 

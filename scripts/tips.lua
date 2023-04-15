@@ -51,5 +51,5 @@ tips:Add{
 tips:Add{
 	id = "M6GunFMW",
 	title = "M6 Gun",
-	text = "The M6 Gun can fire two types of shells: smoking and pushing shells. To change mode, click on the weapon and click on the shell buttons on the right of the weapon's panel."
+	text = "The M6 Gun can fire two types of shells: smoke and push shells. To change mode, click on the weapon and click on the shell buttons on the right of the weapon's panel."
 }

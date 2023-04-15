@@ -16,3 +16,15 @@ modApi:appendAsset("img/combat/item_fab5000.png", resourcePath .. "img/combat/it
 --Image Mark
 modApi:appendAsset("img/combat/icons/icon_armor_piercing.png", resourcePath .. "img/combat/icons/icon_armor_piercing.png")
 	Location["combat/icons/icon_armor_piercing.png"] = Point(6, 10)
+
+--[[
+modApi:createAnimations{
+	aa_bombdrop = {
+		Image = "effects/aa_explo_bomb.png",
+		NumFrames = 10,
+		Time = 0.032, --multiple of 0.008
+		PosX = -18,
+		PosY = -12
+	},
+}
+]]
