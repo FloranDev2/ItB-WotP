@@ -26,7 +26,7 @@ a.pe8 =         a.MechUnit:new{Image = "units/player/pe8.png",          PosX = -
 a.pe8a =        a.MechUnit:new{Image = "units/player/pe8_a.png",        PosX = -19, PosY = -7, NumFrames = 4 }
 a.pe8w =        a.MechUnit:new{Image = "units/player/pe8_w.png",        PosX = -19, PosY = -7 }
 a.pe8_broken =  a.MechUnit:new{Image = "units/player/pe8_broken.png",   PosX = -19, PosY =  3 }
-a.pe8w_broken = a.MechUnit:new{Image = "units/player/pe8_w_broken.png", PosX = -19, PosY = -2 }
+a.pe8w_broken = a.MechUnit:new{Image = "units/player/pe8_w_broken.png", PosX = -19, PosY = 15 } --PosX = -19, PosY = -2
 a.pe8_ns =      a.MechIcon:new{Image = "units/player/pe8_ns.png" }
 
 

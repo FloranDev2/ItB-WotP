@@ -5,7 +5,7 @@ truelch_FAB500 = Skill:new{
 	Class = "Brute",
 	Icon = "weapons/brute_fab500.png",
 	Rarity = 2,
-	AttackAnimation = "ExploRaining1",
+	AttackAnimation = "truelch_anim_fab500",
 	Sound = "/general/combat/stun_explode",
 	MinMove = 2,
 	Range = 2,
@@ -53,7 +53,7 @@ truelch_FAB500_B = truelch_FAB500:new{
 truelch_FAB500_AB = truelch_FAB500:new{
 	Range = 4, 
 	Fire = 1,
-	AttackAnimation = "ExploRaining2",
+	--AttackAnimation = "ExploRaining2", --I need to do a new anim
 	TipImage = {
 		Unit   = Point(2,4),
 		Enemy  = Point(2,3),
@@ -103,7 +103,6 @@ function truelch_FAB500:GetSkillEffect(p1, p2)
 		local damage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, self.Damage, pullDir) --has pull directly in the main damage
 		damage.iFire = self.Fire		
 		damage.sAnimation = self.AttackAnimation
-		--damage.sAnimation = "aa_bombdrop"
 		damage.sSound = self.BombSound
 		ret:AddDamage(damage)
 

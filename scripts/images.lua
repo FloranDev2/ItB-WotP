@@ -17,14 +17,14 @@ modApi:appendAsset("img/combat/item_fab5000.png", resourcePath .. "img/combat/it
 modApi:appendAsset("img/combat/icons/icon_armor_piercing.png", resourcePath .. "img/combat/icons/icon_armor_piercing.png")
 	Location["combat/icons/icon_armor_piercing.png"] = Point(6, 10)
 
---[[
-modApi:createAnimations{
-	aa_bombdrop = {
-		Image = "effects/aa_explo_bomb.png",
-		NumFrames = 10,
-		Time = 0.032, --multiple of 0.008
-		PosX = -18,
-		PosY = -12
-	},
+--FAB-500 anim
+modApi:appendAsset("img/combat/icons/truelch_anim_fab500.png", resourcePath.."img/combat/icons/truelch_anim_fab500.png")
+	Location["combat/icons/truelch_anim_fab500.png"] = Point(-20, -40)
+
+ANIMS.truelch_anim_fab500 = Animation:new{
+	Image = "combat/icons/truelch_anim_fab500.png",
+	PosX = -20,
+	PosY = -40,
+	Time = 0.04,
+	NumFrames = 16,
 }
-]]
