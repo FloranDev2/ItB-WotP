@@ -18,11 +18,42 @@ modApi:appendAsset("img/combat/icons/icon_armor_piercing.png", resourcePath .. "
 	Location["combat/icons/icon_armor_piercing.png"] = Point(6, 10)
 
 --FAB-500 anim
+--[[
 modApi:appendAsset("img/combat/icons/truelch_anim_fab500.png", resourcePath.."img/combat/icons/truelch_anim_fab500.png")
 	Location["combat/icons/truelch_anim_fab500.png"] = Point(-20, -40)
+]]
 
-ANIMS.truelch_anim_fab500 = Animation:new{
-	Image = "combat/icons/truelch_anim_fab500.png",
+for i = 1, 2 do
+modApi:appendAsset("img/combat/icons/truelch_anim_fab500_"..tostring(i)..".png", resourcePath.."img/combat/icons/truelch_anim_fab500_"..tostring(i)..".png")
+	Location["combat/icons/truelch_anim_fab500_"..tostring(i)..".png"] = Point(-20, -40)
+end
+
+ANIMS.truelch_anim_fab500_0 = Animation:new{
+	Image = "combat/icons/truelch_anim_fab500_1.png",
+	PosX = -20,
+	PosY = -40,
+	Time = 0.04,
+	NumFrames = 16,
+}
+
+ANIMS.truelch_anim_fab500_1 = Animation:new{
+	Image = "combat/icons/truelch_anim_fab500_1.png",
+	PosX = -20,
+	PosY = -40,
+	Time = 0.04,
+	NumFrames = 16,
+}
+
+ANIMS.truelch_anim_fab500_2 = Animation:new{
+	Image = "combat/icons/truelch_anim_fab500_2.png",
+	PosX = -20,
+	PosY = -40,
+	Time = 0.04,
+	NumFrames = 16,
+}
+
+ANIMS.truelch_anim_fab500_3 = Animation:new{
+	Image = "combat/icons/truelch_anim_fab500_2.png",
 	PosX = -20,
 	PosY = -40,
 	Time = 0.04,

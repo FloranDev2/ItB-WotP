@@ -5,7 +5,7 @@ truelch_FAB500 = Skill:new{
 	Class = "Brute",
 	Icon = "weapons/brute_fab500.png",
 	Rarity = 2,
-	AttackAnimation = "truelch_anim_fab500_",
+	AttackAnimation = "truelch_anim_fab500",
 	Sound = "/general/combat/stun_explode",
 	MinMove = 2,
 	Range = 2,
@@ -99,20 +99,17 @@ function truelch_FAB500:GetSkillEffect(p1, p2)
 		end
 
 		--damage
-		local animSpaceDamage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, 0)
-		animSpaceDamage.sAnimation = self.AttackAnimation..tostring(dir)
-		ret:AddDamage(animSpaceDamage)
-
-		ret:AddDelay(0.2)
-
 		local pullDir = GetDirection(p1 - p2)
 		local damage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, self.Damage, pullDir) --has pull directly in the main damage
-		damage.iFire = self.Fire
+		damage.iFire = self.Fire		
+		damage.sAnimation = self.AttackAnimation
 		damage.sSound = self.BombSound
 		ret:AddDamage(damage)
 
 		--bounce
 		ret:AddBounce(p1 + DIR_VECTORS[dir]*k,3)
+
+		ret:AddDelay(0.2)
 	end
 	
 	if self.DoubleAttack == 1 then
