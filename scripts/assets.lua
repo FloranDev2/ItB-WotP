@@ -59,3 +59,27 @@ ANIMS.truelch_anim_fab500_3 = Animation:new{
 	Time = 0.04,
 	NumFrames = 16,
 }
+
+--Nuke fade effect
+modApi:appendAsset("img/combat/icons/truelch_nuke_fade_effect.png", resourcePath.."img/combat/icons/truelch_nuke_fade_effect.png")
+	Location["combat/icons/truelch_nuke_fade_effect.png"] = Point(-320, -180)
+
+ANIMS.truelch_nuke_fade_effect = Animation:new{
+	Image = "combat/icons/truelch_nuke_fade_effect.png",
+	PosX = -320,
+	PosY = -180,
+	Time = 0.36,
+	NumFrames = 6,
+}
+
+--FAB-5000
+modApi:appendAsset("img/combat/icons/truelch_fab5000.png", resourcePath.."img/combat/icons/truelch_fab5000.png")
+	Location["combat/icons/truelch_fab5000.png"] = Point(-25, -75)
+
+ANIMS.truelch_fab5000 = Animation:new{
+	Image = "combat/icons/truelch_fab5000.png",
+	PosX = -25,
+	PosY = -75,
+	Time = 0.08,
+	NumFrames = 10,
+}

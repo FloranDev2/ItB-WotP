@@ -64,6 +64,12 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 ### v2.1.X
 
+#### 3:
+- Added FAB-500 animation
+- Fixed Pe8 broken and water broken sprites
+- Fixed M10T Howitzer's upgrade description
+- Polished FAB-5000 reload mechanic, can choose with the old version and tutorials adapts depending on the version
+
 #### 2:
 - Fixed "Who's a good boiii?" and "Ground Zero" kill detection (especially for the Pe8)
 - Added an option to choose between old and new FAB-5000 reload logic (+ tutorial tips for old version)

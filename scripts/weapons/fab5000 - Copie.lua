@@ -261,8 +261,6 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 
 	ret:AddLeap(move, 0.25)
 
-	ret:AddDelay(0.25)
-
 	--FAB-5000 bomb anim
 	local bombSD = SpaceDamage(p1 + DIR_VECTORS[dir]*2, 0) --mid
 	bombSD.sAnimation = "truelch_fab5000"
@@ -296,12 +294,9 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 		end
 	end
 
-	ret:AddDelay(0.25)
-
-
 	--Nuke effect
 	local nukeEffectSD = SpaceDamage(Point(4,4), 0)
-	nukeEffectSD.sAnimation = "truelch_nuke_fade_effect"
+	nukeEffectSD.sAnimation = "truelch_nuke_effect"
 	ret:AddDamage(nukeEffectSD)
 	
 	return ret
