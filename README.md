@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.1.2)
+# Weapons of the Past (v2.1.3)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -65,7 +65,7 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 ### v2.1.X
 
 #### 3:
-- Added FAB-500 animation
+- Added FAB-500 and FAB-5000 (nuke!) animations
 - Fixed Pe8 broken and water broken sprites
 - Fixed M10T Howitzer's upgrade description
 - Polished FAB-5000 reload mechanic, can choose with the old version and tutorials adapts depending on the version

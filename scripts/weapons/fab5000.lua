@@ -211,6 +211,8 @@ truelch_FAB5000 = Skill:new{
 		Enemy  = Point(2,3),
 		Enemy2 = Point(1,2),
 		Enemy3 = Point(2,1),
+		Friendly1 = Point(2,2),
+		Building = Point(3,2),
 		Target = Point(2,0),
 	}
 }
@@ -268,41 +270,47 @@ function truelch_FAB5000:GetSkillEffect(p1, p2)
 	bombSD.sAnimation = "truelch_fab5000"
 	ret:AddDamage(bombSD)
 
-	ret:AddDelay(0.25)
+	ret:AddDelay(0.5)
 		
+	--Damage was here
+
+	--Nuke effect
+	local nukeEffectSD = SpaceDamage(Point(4,4), 0)
+	--nukeEffectSD.sAnimation = "truelch_nuke_fade_effect"
+	nukeEffectSD.sSound = self.BombSound --test
+	ret:AddDamage(nukeEffectSD)
+
+	ret:AddBoardShake(1) --thx Hedera!
+
+	--Blast effect
+	for i = 0, 3 do
+		local point = p1 + DIR_VECTORS[dir]*2 + DIR_VECTORS[i]
+		local blast = SpaceDamage(point, 0)
+		blast.sAnimation = "explopush2_" .. i
+		ret:AddDamage(blast)
+	end
+
+	ret:AddDelay(0.25)
+
+	--Real damage
 	for k = 1, (self.Range-1) do
 		if p1 + DIR_VECTORS[dir]*k == p2 then
 			break
 		end
-		
+
 		local damage = SpaceDamage(p1 + DIR_VECTORS[dir]*k, self.Damage)
-
-		--damage.sAnimation = self.AttackAnimation
-		damage.sSound = self.BombSound
-
 		ret:AddDamage(damage)		
 		ret:AddBounce(p1 + DIR_VECTORS[dir]*k,3)
 
 		if k == 2 then --cross shape
 			local damage2 = SpaceDamage(p1 + DIR_VECTORS[dir]*k + DIR_VECTORS[(dir - 1)%4], self.Damage)
-			--damage2.sAnimation = self.AttackAnimation
 			ret:AddDamage(damage2)
 			ret:AddBounce(p1 + DIR_VECTORS[dir]*k + DIR_VECTORS[(dir - 1)%4],3)
-
 			local damage3 = SpaceDamage(p1 + DIR_VECTORS[dir]*k + DIR_VECTORS[(dir + 1)%4], self.Damage)
-			--damage3.sAnimation = self.AttackAnimation
 			ret:AddDamage(damage3)
 			ret:AddBounce(p1 + DIR_VECTORS[dir]*k + DIR_VECTORS[(dir + 1)%4],3)
 		end
 	end
-
-	ret:AddDelay(0.25)
-
-
-	--Nuke effect
-	local nukeEffectSD = SpaceDamage(Point(4,4), 0)
-	nukeEffectSD.sAnimation = "truelch_nuke_fade_effect"
-	ret:AddDamage(nukeEffectSD)
 	
 	return ret
 end
