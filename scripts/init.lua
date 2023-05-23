@@ -61,7 +61,6 @@ function mod:init()
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
 	modApi:addWeaponDrop("truelch_M6Gun")
-	--modApi:addWeaponDrop("truelch_TC_M6Gun")
 
 	--Item
 	require(self.scriptPath .. "itemFAB5000")
