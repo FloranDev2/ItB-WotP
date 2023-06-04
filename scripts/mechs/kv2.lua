@@ -22,34 +22,12 @@ for _, file in ipairs(files) do
 end
 
 local a = ANIMS
-a.cryo_hulk =         a.MechUnit:new{Image = "units/player/kv2.png",          PosX = -15, PosY = -9 }
-a.cryo_hulka =        a.MechUnit:new{Image = "units/player/kv2_a.png",        PosX = -15, PosY = -9, NumFrames = 4 }
-a.cryo_hulkw =        a.MechUnit:new{Image = "units/player/kv2_w.png",        PosX = -15, PosY =  7 }
-a.cryo_hulk_broken =  a.MechUnit:new{Image = "units/player/kv2_broken.png",   PosX = -15, PosY = -9 }
-a.cryo_hulkw_broken = a.MechUnit:new{Image = "units/player/kv2_w_broken.png", PosX = -15, PosY =  7 }
-a.cryo_hulk_ns =      a.MechIcon:new{Image = "units/player/kv2_ns.png" }
-
-local files = {
-	"cryo_hulk.png",
-	"cryo_hulk_a.png",
-	"cryo_hulk_w.png",
-	"cryo_hulk_w_broken.png",
-	"cryo_hulk_broken.png",
-	"cryo_hulk_ns.png",
-	"cryo_hulk_h.png"
-}
-
-for _, file in ipairs(files) do
-	modApi:appendAsset("img/units/player/" .. file, mechPath .. file)
-end
-
-local a = ANIMS
-a.cryo_hulk =         a.MechUnit:new{Image = "units/player/cryo_hulk.png",          PosX = -20, PosY = -10 }
-a.cryo_hulka =        a.MechUnit:new{Image = "units/player/cryo_hulk_a.png",        PosX = -20, PosY = -10, NumFrames = 4 }
-a.cryo_hulkw =        a.MechUnit:new{Image = "units/player/cryo_hulk_w.png",        PosX = -20, PosY = 0 }
-a.cryo_hulk_broken =  a.MechUnit:new{Image = "units/player/cryo_hulk_broken.png",   PosX = -20, PosY = -10 }
-a.cryo_hulkw_broken = a.MechUnit:new{Image = "units/player/cryo_hulk_w_broken.png", PosX = -20, PosY = 0 }
-a.cryo_hulk_ns =      a.MechIcon:new{Image = "units/player/cryo_hulk_ns.png" }
+a.kv2 =         a.MechUnit:new{Image = "units/player/kv2.png",          PosX = -15, PosY = -9 }
+a.kv2a =        a.MechUnit:new{Image = "units/player/kv2_a.png",        PosX = -15, PosY = -9, NumFrames = 4 }
+a.kv2w =        a.MechUnit:new{Image = "units/player/kv2_w.png",        PosX = -15, PosY =  7 }
+a.kv2_broken =  a.MechUnit:new{Image = "units/player/kv2_broken.png",   PosX = -15, PosY = -9 }
+a.kv2w_broken = a.MechUnit:new{Image = "units/player/kv2_w_broken.png", PosX = -15, PosY =  7 }
+a.kv2_ns =      a.MechIcon:new{Image = "units/player/kv2_ns.png" }
 
 
 truelch_HowitzerMech = Pawn:new{	
@@ -57,7 +35,7 @@ truelch_HowitzerMech = Pawn:new{
 	Class = "Prime",
 	Health = 4,
 	MoveSpeed = 2,
-	Image = "cryo_hulk", --"kv2"
+	Image = "kv2",
 	ImageOffset = sovietGreen,
 	SkillList = { "truelch_M10THowitzerArtillery" },
 	SoundLocation = "/mech/prime/smoke_mech/", --"mech/distance/artillery"
