@@ -71,67 +71,40 @@ end
 function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	local ret = SkillEffect()
 	local direction = GetDirection(p2 - p1)
-
-	LOG("A")
 	
 	ret:AddBounce(p1, 1)
 
-	LOG("B")
-
 	local damage = SpaceDamage(p2)
-
-	LOG("C")
 
 	local totalDmg = self.Damage
 	local targetPawn = Board:GetPawn(p2)
-
-	LOG("D")
 
 	if targetPawn ~= nil then
 		--damage = 50% HP target
 		local targetHp = targetPawn:GetHealth()
 
-		LOG("D1")
-
 		totalDmg = math.ceil(0.5 * targetHp)
-
-		LOG("D2")
 
 		--armor penetration
 		if targetPawn:IsArmor() then
-			LOG("D2A")
 			totalDmg = totalDmg + 1
-
-			LOG("D2B")
 
 			if showIcon == true then
 				damage.sImageMark = "combat/icons/icon_armor_piercing.png"
 			end
-			LOG("D2C")
 		end
 	end
-
-	LOG("E")
 
 	--Bonus damage (upgrade)
 	totalDmg = totalDmg + self.BonusDamage
 
-	LOG("F")
-
 	damage.iDamage = totalDmg
 
-	LOG("G")
-
 	if (self.Push == 1) then
-		LOG("G1")
 		damage.iPush = direction
-		LOG("G2")
 		--damage.sAnimation = "explopush2_" .. direction
 		damage.sAnimation = self.Explosion .. direction
-		LOG("G3")
 	end
-
-	LOG("H")
 
 	--local damage = SpaceDamage(p2, self.Damage)
 	--ret:AddArtillery(damage,"effects/shotdown_rock.png")
@@ -140,12 +113,8 @@ function truelch_M10THowitzerArtillery:GetSkillEffect(p1,p2)
 	--ret:AddArtillery(p1, damage, self.UpShot)
 	ret:AddArtillery(damage, self.UpShot)
 
-	LOG("I")
-
 	--bounce
 	ret:AddBounce(p2, self.BounceAmount)
-
-	LOG("J")
 	
 	return ret
 end
