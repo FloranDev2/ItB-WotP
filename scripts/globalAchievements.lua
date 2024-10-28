@@ -326,6 +326,36 @@ modApi.events.onMissionStart:subscribe(function()
 	missionData().isKV2Attacking = false
 end)
 
+--[[
+local HOOK_NextTurn = function(mission)
+	LOG("TRUELCH ------------ Currently it is turn of team: " .. Game:GetTeamTurn())
+end
+
+modApi:addNextTurnHook(HOOK_NextTurn)
+]]
+
+local EVENT_TURN_START = 14
+local EVENT_ENEMY_TURN = 4
+local Truelch_CheckFlag = false
+modApi.events.onMissionUpdate:subscribe(function()
+	local exit = false
+		or isMission() == false
+
+	if exit then
+		return
+	end
+
+	if Game:GetEventCount(EVENT_TURN_START) > 0 and Truelch_CheckFlag == false then
+		Truelch_CheckFlag = true
+	end
+
+	if Game:GetEventCount(EVENT_ENEMY_TURN) > 0 and Truelch_CheckFlag == true then
+		--LOG("TRUELCH -------- HERE! Reset kv2 attack flag")
+		Truelch_CheckFlag = false --and also the flag to not trigger it every frame during enemy turn
+		missionData().isKV2Attacking = false --hope we don't have nil value
+	end
+end)
+
 modApi.events.onModsLoaded:subscribe(function()	
 	modapiext:addSkillStartHook(function(mission, pawn, weaponId, p1, p2)
 		local exit = false
@@ -335,12 +365,16 @@ modApi.events.onModsLoaded:subscribe(function()
 			return
 		end
 
+		--LOG("TRUELCH --------------------------------------------- SkillStartHook")
+
 		--
 		if (pawn:GetType() == KV2_TYPE) then
 			missionData().isKV2Attacking = true
+			--LOG("TRUELCH --------------------------------------------- is KV2 attacking: true")
 			refreshBigShotsTable() --here, to avoid refreshing too often
 		else
 			missionData().isKV2Attacking = false
+			--LOG("TRUELCH --------------------------------------------- is KV2 attacking: false")
 		end
 
 	end)
@@ -399,7 +433,7 @@ modApi.events.onMissionStart:subscribe(function()
 	--LOG("TRUELCH - Mission start -> Reset!")
 end)
 
-local EVENT_TURN_START = 14
+--local EVENT_TURN_START = 14 --moved above
 modApi.events.onMissionUpdate:subscribe(function()
 	local exit = false
 		or isMission() == false
