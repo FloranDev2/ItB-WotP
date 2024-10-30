@@ -60,7 +60,7 @@ function mod:init()
 	modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
 	modApi:addWeaponDrop("truelch_FAB500")
 	modApi:addWeaponDrop("truelch_FAB5000")
-	modApi:addWeaponDrop("truelch_M6Gun")
+	modApi:addWeaponDrop("truelch_FMW_M6Gun") --modApi:addWeaponDrop("truelch_M6Gun")
 
 	--Item
 	require(self.scriptPath .. "itemFAB5000")
@@ -70,10 +70,6 @@ function mod:init()
 	require(self.scriptPath .. "tips")
 
 	-- --- MOD OPTIONS ---
-	--I don't move that in metadata so it actually loads when I change the value without restarting the game
-	--M6 Gun: option between FMW and Two Clicks (in case FMW has other issues)
-	--modApi:addGenerationOption("option_m6gun", "M6 Gun", "Change M6 Gun version.", {values = {1,2}, value = 2, strings = {"FMW", "TC"}})
-
 	--KV-2's Howitzer option (also putting it here so it got reloaded once changed)
 	modApi:addGenerationOption("option_piercingIcon",
 		"Show armor piercing icon?",
