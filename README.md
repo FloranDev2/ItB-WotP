@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.1.3)
+# Weapons of the Past (v2.1.4)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -14,7 +14,7 @@ Art: Truelch with help and suggestions from tob260
 
 
 
-## Credits:
+## Credits
 Thanks a lot for the Discord community that helps a lot with feedback!
 
 Special thanks to:
@@ -26,7 +26,7 @@ And of course kartoFlane for the modloader!!!
 
 
 
-## Description:
+## Description
 
 ### Howitzer Mech (KV-2 'AT-ST')
 
@@ -60,9 +60,14 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 
 
 
-## Versions:
+## Versions
 
 ### v2.1.X
+
+#### 4:
+- Fixed issue where Big Shots achievement could be triggered by environment kill if the last Mech used was the Howitzer Mech
+- Cleaning stuff (removing remaining code referring to the cryo mech (was working on the sprites for another modders' mod))
+- Removed fake M6 Gun and all code related to it, causing the shop to sell this weapon
 
 #### 3:
 - Added FAB-500 and FAB-5000 (nuke!) animations
