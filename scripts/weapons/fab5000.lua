@@ -81,7 +81,7 @@ local function computeFAB5000()
     --gameData().currentMission = gameData().currentMission + 1 --is incremented in testItem.lua at game start
     local fab5000HasBeenUsedPreviousMission = gameData().currentMission - 1 == gameData().lastFab5000Use
 
-    LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
+    --LOG("Truelch - fab5000HasBeenUsedPreviousMission: " .. tostring(fab5000HasBeenUsedPreviousMission))
 
     --I also need to max it to one if a pilot has conservative, so I do that all the time
     --I just check inside if remaining = 0 or 1
