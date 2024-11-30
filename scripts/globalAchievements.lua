@@ -462,7 +462,7 @@ modApi.events.onModsLoaded:subscribe(function()
     		weaponId = weaponId.__Id
 		end
 
-		if pawn:GetType() == PE8_TYPE and weaponId ~= "Move" and weaponId ~= nil then
+		if pawn ~= nil and pawn:GetType() == PE8_TYPE and weaponId ~= "Move" and weaponId ~= nil then
 			--Init
 			missionData().isPe8Attacking = true
 			missionData().groundZeroPe8Kills = 0

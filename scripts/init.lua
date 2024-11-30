@@ -5,6 +5,7 @@ local mod = {
 	version = "2.1.4",
 	modApiVersion = "2.9.1",
 	gameVersion = "1.2.88",
+	--submodFolders = {"itb_truelch_mark/"},
     dependencies = {
         modApiExt = "1.17",
 		memedit = "1.0.1",
