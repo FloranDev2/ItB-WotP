@@ -123,15 +123,19 @@ local function findSpawnPos()
 end
 
 local function attemptReloadFAB5000(pawn)
-	--LOG("attemptReloadFAB5000: " .. pawn:GetType())
+	if pawn == nil then
+		LOG("attemptReloadFAB5000 -> pawn is nil!")
+	end
+	
+	LOG("attemptReloadFAB5000: "..pawn:GetType())
 	local weapons = pawn:GetPoweredWeapons()
 	local hasReloaded = false
 	for j = 1, 2 do
 	    if isFAB5000(weapons[j]) then
-			--LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+			LOG("TRUELCH - RELOAD BEFORE charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 			pawn:SetWeaponLimitedRemaining(j, 1)
 			Board:AddAlert(pawn:GetSpace(), "FAB-5000 RELOADED")
-	        --LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
+	        LOG("TRUELCH - RELOAD AFTER charges: " .. tostring(pawn:GetWeaponLimitedRemaining(j)))
 	        hasReloaded = true
 	    end
 	end
