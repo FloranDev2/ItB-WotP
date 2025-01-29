@@ -1,4 +1,4 @@
-# Weapons of the Past (v2.1.4)
+# Weapons of the Past (v2.1.5)
 
 IMPORTANT NOTE: this squad is now compatible with the Advanced Edition! :)
 
@@ -63,6 +63,13 @@ Due to its small size, it can maneuver through smoke, but is prone to drowning. 
 ## Versions
 
 ### v2.1.X
+
+#### 5:
+Compatibility with Hell Breachers / fixes:
+- Safety check in globalAchievements
+- Safety check in itemFAB5000
+Cleaning:
+- Removed Cryo Mech sprites
 
 #### 4:
 - Fixed issue where Big Shots achievement could be triggered by environment kill if the last Mech used was the Howitzer Mech
